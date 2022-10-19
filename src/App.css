@@ -1,17 +1,9 @@
 .App {
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif, Geneva, Tahoma, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -24,15 +16,85 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+.banner {
+  font-weight: 900;
+  min-height: 2vh;
+  font-size: calc(30px + 5vmin);
+  /* border: 4px solid rgb(0, 0, 0); */
+  /* border-radius: 12px; */
+  margin: 2% 2%;
+  /* padding: 10px 10px; */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.banner:hover {
+  background-color: rgba(215, 213, 213, 0.316);
+  color: black;
+}
+
+.ad {
+  /* font-size: calc(60px + 6vmin); */
+  margin: 2% auto;
+  overflow: hidden;
+  border: 2px solid black;
+  border-radius: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+
+.ad_descrip {
+  font-size: 12px;
+  text-align:justify;
+}
+
+.img_wrapper{
+  display: flex;
+  justify-content: center;
+  width: 200px;
+}
+
+img{
+width: 12rem;
+}
+
+.ad p{
+  margin: 2rem;
+  border: 2px solid black;
+  padding: 2rem;
+}
+
+
+button{
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  padding: 20px;
+}
+
+.yes{
+  color: black;
+  border: 2px solid black;
+  padding: 2px 20px;
+  border-radius: 20px;
+  background-color: gold ;
+}
+
+.no{
+  color: black;
+  border: 2px solid black;
+  padding: 2px 20px;
+  border-radius: 20px;
+  background-color: red;
+}
+
+.vote_wrapper{
+  display: flex; 
+  justify-content: center;
+  flex-direction: column;
 }
