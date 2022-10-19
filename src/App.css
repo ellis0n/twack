@@ -1,9 +1,11 @@
-.App {
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+.App,
+html {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif, Geneva, Tahoma, sans-serif;
+  background-color: #fde9ea;
 }
-
-
 
 .App-header {
   background-color: #282c34;
@@ -16,57 +18,60 @@
   color: white;
 }
 
-
-
 .banner {
   font-weight: 900;
   min-height: 2vh;
   font-size: calc(30px + 5vmin);
-  /* border: 4px solid rgb(0, 0, 0); */
-  /* border-radius: 12px; */
-  margin: 2% 2%;
-  /* padding: 10px 10px; */
+  font-family: "Fredoka One", cursive;
+  color: #588061;
+  margin: 2% 20%;
+  padding: 10px 10px;
+  background-color: #e7b5ac6e;
+  border-radius: 12px;
 }
 
 .banner:hover {
-  background-color: rgba(215, 213, 213, 0.316);
-  color: black;
+  color: #869f77;
+}
+
+.wrapper {
+  margin: auto 12%;
 }
 
 .ad {
-  /* font-size: calc(60px + 6vmin); */
   margin: 2% auto;
   overflow: hidden;
-  border: 2px solid black;
+  background-color: #e7b5ac;
   border-radius: 1rem;
   width: 100%;
   height: auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.ad a {
+  color: inherit;
+  text-decoration: none;
 }
 
-
-.ad_descrip {
-  font-size: 12px;
-  text-align:justify;
+.ad h1 {
+  color: #282c34ef;
+  font-size: calc(6px + 2vmin);
 }
 
-.img_wrapper{
-  display: flex;
-  justify-content: center;
-  width: 200px;
+.ad h1:hover {
+  color: #282c3498;
 }
 
-img{
-width: 12rem;
+img {
+  width: 12rem;
 }
 
-.ad p{
+.ad p {
   margin: 2rem;
   border: 2px solid black;
   padding: 2rem;
 }
 
-
-button{
+button {
   background: none;
   color: inherit;
   border: none;
@@ -77,24 +82,35 @@ button{
   padding: 20px;
 }
 
-.yes{
+.deal {
   color: black;
-  border: 2px solid black;
   padding: 2px 20px;
   border-radius: 20px;
-  background-color: gold ;
+  background-color: #e7b5ac;
 }
 
-.no{
+.nodeal {
   color: black;
-  border: 2px solid black;
   padding: 2px 20px;
   border-radius: 20px;
-  background-color: red;
+  background-color: #588061;
 }
 
-.vote_wrapper{
-  display: flex; 
+.vote_wrapper {
+  display: flex;
   justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
+}
+
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: -1%;
+  left: 0px;
+}
+.footer img {
+  height: auto;
+  width: 100%;
+  filter: sepia(30%);
+  max-height: 120px + 1vmin;
 }

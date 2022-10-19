@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useState } from "react";
 
 const Vote = (props) => {
-  return (
-    <div className = "vote_wrapper"><button value={props.value} className={props.value}>Vote</button></div>
-  )
-}
+  const [userVote, setUserVote] = useState(null);
 
-export default Vote
+  const handleVote = (e) => {
+    let vote = "";
+    vote = e.target.value;
+    if (vote === "deal") {
+      console.log("DEAL");
+      setUserVote("yes");
+    } else if (vote === "nodeal") {
+      console.log("NODEAL");
+      setUserVote("no");
+    }
+    return userVote;
+  };
+
+  return (
+    <div className="wrapper">
+      <div className="vote">
+        <button
+          value={props.value}
+          className={props.value}
+          onClick={handleVote}
+        >
+          {props.value.toUpperCase()}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Vote;
