@@ -62,21 +62,21 @@ html {
   color: #282c3498;
 }
 
-.ad h2{color: white}
-
-.img-wrapper{
-border: 4px  solid rgba(0, 0, 0, 0.003);
-border-radius: 12px;
-background-color: rgba(0, 0, 0, 0.078);
-display: flex;
-flex-direction: column;
-align-items: center;
-max-height: 200ch;
-overflow: hidden;
-height: auto;
-margin: 0 12%;
+.ad h2 {
+  color: white;
 }
-img {
+
+.img-wrapper {
+  border: 4px solid rgba(0, 0, 0, 0.003);
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.078);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 200ch;
+  overflow: hidden;
+  height: auto;
+  margin: 0 12%;
 }
 
 .ad p {
@@ -100,7 +100,7 @@ button {
   color: black;
   padding: 2px 20px;
   border-radius: 20px;
-  background-color: #e7b5ac;
+  background-color: #588067;
 }
 
 .nodeal {

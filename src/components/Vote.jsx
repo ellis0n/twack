@@ -24,7 +24,7 @@ const Vote = (props) => {
           className={props.value}
           onClick={handleVote}
         >
-          {props.value.toUpperCase()}
+          {props.text.toUpperCase()}
         </button>
       </div>
     </div>

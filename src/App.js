@@ -1,17 +1,17 @@
 import "./App.css";
-import Ad from "./components/Ad";
+// import Ad from "./components/Ad";
 import Banner from "./components/Banner";
-import Vote from "./components/Vote";
+// import Vote from "./components/Vote";
 import Footer from "./components/Footer";
 import NewAd from "./components/NewAd";
+import Scrape from "./components/Scrape";
 
 function App() {
   return (
     <div className="App">
       <Banner />
-      <NewAd/>
-      <Vote value="deal" />
-      <Vote value="nodeal" />
+      <Scrape />
+      <NewAd />
       <Footer />
     </div>
   );
