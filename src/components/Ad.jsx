@@ -36,7 +36,7 @@ const Ad = () => {
             <a href={item.url}>
               <h1>{item.title}</h1>
             </a>
-            <img alt={item.desc} src={item.img}></img>
+            <div className="img-wrapper"><img alt={item.desc} src={item.img}></img></div>
             <h2>${item.price}</h2>
           </div>
         ))}
