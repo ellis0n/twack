@@ -3,14 +3,16 @@ import "./App.css";
 import Banner from "./components/Banner";
 // import Vote from "./components/Vote";
 import Footer from "./components/Footer";
+import Login from "./components/Login";
 import NewAd from "./components/NewAd";
-import Scrape from "./components/Scrape";
+import Delete from "./components/Delete";
 
 function App() {
   return (
     <div className="App">
       <Banner />
-      <Scrape />
+      <Login/>
+      <Delete />
       <NewAd />
       <Footer />
     </div>

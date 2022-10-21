@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Scrape = () => {
+const Delete = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -33,11 +33,11 @@ const Scrape = () => {
     <div className="wrapper">
       {err && <h2>{err}</h2>}
       <button method="PUT" onClick={handleClick}>
-        Scrape
+        Delete
       </button>
       {isLoading && <h2>Loading...</h2>}
     </div>
   );
 };
 
-export default Scrape;
+export default Delete;
