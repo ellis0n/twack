@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <Banner />
-      <Login/>
+      <Login />
       <Delete />
       <NewAd />
       <Footer />

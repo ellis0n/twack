@@ -32,9 +32,11 @@ const Delete = () => {
   return (
     <div className="wrapper">
       {err && <h2>{err}</h2>}
-      <button method="PUT" onClick={handleClick}>
+      <form method ="delete">
+        <button onClick={handleClick}>
         Delete
-      </button>
+        </button>
+      </form>
       {isLoading && <h2>Loading...</h2>}
     </div>
   );
