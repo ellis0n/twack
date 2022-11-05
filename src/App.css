@@ -93,27 +93,25 @@ button {
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  padding: 20px;
 }
 
 .yes {
+  padding: 100%;
   color: black;
-  padding: 2px 20px;
-  border-radius: 20px;
   background-color: #588061;
 }
 
 .no {
+  padding: 100%;
   color: black;
-  padding: 2px 20px;
-  border-radius: 20px;
-  background-color: #ec4d0f;
+  background-color: #f55e5e;
 }
 
 .vote_wrapper {
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.451);
+  border-top: 3px solid black;
 }
 
 .footer {
