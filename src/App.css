@@ -96,18 +96,18 @@ button {
   padding: 20px;
 }
 
-.deal {
-  color: black;
-  padding: 2px 20px;
-  border-radius: 20px;
-  background-color: #588067;
-}
-
-.nodeal {
+.yes {
   color: black;
   padding: 2px 20px;
   border-radius: 20px;
   background-color: #588061;
+}
+
+.no {
+  color: black;
+  padding: 2px 20px;
+  border-radius: 20px;
+  background-color: #ec4d0f;
 }
 
 .vote_wrapper {

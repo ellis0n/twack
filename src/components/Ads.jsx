@@ -1,19 +1,18 @@
 import React from 'react'
 import Vote from './Vote'
 
-const Ads = (props) => {
-    console.log(props) 
+const Ads = ({id, url, title, alt, src, price}) => {
   return (
-        <div className="ad" key={props.id}>
-            <a href={props.url}>
-                <h1>{props.title}</h1>
+        <div className="ad" key={id}>
+            <a href={url}>
+                <h1>{title}</h1>
             </a>
             <div className="img-wrapper">
-                <img alt={props.alt} src={props.src}></img>
+                <img alt={alt} src={src}></img>
             </div>
-            <h2>${props.price}</h2>
-            <Vote value="deal" text="YES" />
-            <Vote value="nodeal" text="NO" />
+            <h2>${price}</h2>
+            <Vote value="yes" text="yes" />
+            <Vote value="no" text="no" />
         </div>
     )}
 
