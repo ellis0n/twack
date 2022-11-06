@@ -1,7 +1,7 @@
 import React from 'react'
 import Vote from './Vote'
 
-const Ads = ({id, url, title, alt, src, price}) => {
+const Ads = ({id, url, title, alt, src, price, desc}) => {
   return (
         <div className="ad" key={id}>
             <a href={url}>
@@ -11,8 +11,11 @@ const Ads = ({id, url, title, alt, src, price}) => {
                 <img alt={alt} src={src}></img>
             </div>
             <h2>${price}</h2>
-            <Vote value="yes" text="yes" />
-            <Vote value="no" text="no" />
+            <p>{desc}</p>
+            <div className="vote_wrapper">
+                <Vote value="yes" text="yes" />
+                <Vote value="no" text="no" />
+            </div>
         </div>
     )}
 
