@@ -38,7 +38,7 @@ const Scrape = () => {
 
   return (
     <div className="wrapper">
-      <form action ="/ads" method = "get" onSubmit={handleClick}>
+      <form action ="/ads" method = "post" onSubmit={handleClick}>
         <fieldset>
           <label>Province: </label>
             <select multiple = {false} value={params} name="location" id="location" onChange = {handleLocation}>
@@ -95,9 +95,6 @@ const Scrape = () => {
             <input value="submit"  type="submit"></input>
         </fieldset>
       </form>
-      {/* <button method="get" onClick={handleClick}>
-        Fetch data
-      </button>  */}
       { running ? 
         <Ads 
           id = {ad[0].id} 
@@ -108,7 +105,7 @@ const Scrape = () => {
           price ={ad[0].price}
           desc = {ad[0].desc}/>
         :
-        <div className = "ad"><h1>Click fetch to get started.</h1></div>}
+        <div className = "ad"><h1>Set your province and category to get started.</h1></div>}
     </div>
   );
 };

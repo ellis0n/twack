@@ -1,30 +1,45 @@
 import React, { useState } from "react";
 
 const Vote = (props) => {
-  const [userVote, setUserVote] = useState(null);
+  const [state, setState] = useState({"vote": null});
 
-  const handleVote = (e) => {
-    let vote = "";
-    vote = e.target.value;
-    if (vote === "deal") {
-      console.log("DEAL");
-      setUserVote("yes");
-    } else if (vote === "nodeal") {
-      console.log("NODEAL");
-      setUserVote("no");
+  const handleClick = async(e) => {
+    await handleState(e);
+    console.log(state)
+    try{
+      let stateStr = JSON.stringify(state)
+      console.log(stateStr)
+      await fetch("http://localhost:3500/user", {
+        method: "POST",
+        headers: { Accept: "application/json", 'Content-Type': 'application/json' },
+        body: stateStr,
+        })
+        .then(response=>response.json())
+        .then(response=>{
+          response = JSON.parse(response)
+        })
     }
-    return userVote;
+      catch (err) {
+        throw err
+      }
   };
+
+const handleState = async(e)=>{
+  setState({"vote": e.target.value})
+}
+
+
+
 
   return (
     <div className="wrapper">
       <div className="vote">
         <button
+          type = "button"
           value={props.value}
           className={props.value}
-          onClick={handleVote}
-        >
-          {props.text.toUpperCase()}
+          onClick= {handleClick}>
+          <div className = "vote_label">{props.value.toUpperCase()}</div>
         </button>
       </div>
     </div>
