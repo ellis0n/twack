@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 const Vote = (props) => {
-  const [state, setState] = useState({"vote": null});
+  const [state, setState] = useState({"vote": ""});
 
   const handleClick = async(e) => {
-    await handleState(e);
+    handleState(e);
     console.log(state)
     try{
       let stateStr = JSON.stringify(state)
-      console.log(stateStr)
       await fetch("http://localhost:3500/user", {
         method: "POST",
         headers: { Accept: "application/json", 'Content-Type': 'application/json' },
@@ -24,12 +23,9 @@ const Vote = (props) => {
       }
   };
 
-const handleState = async(e)=>{
-  setState({"vote": e.target.value})
-}
-
-
-
+  const handleState = (e)=>{
+    setState({"vote": e.target.value})
+  }
 
   return (
     <div className="wrapper">
