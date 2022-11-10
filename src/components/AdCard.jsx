@@ -25,7 +25,6 @@ const AdCard = () => {
       })
       .then(response => response.json())
       .then(response => {
-        console.log(response)
         response = JSON.parse(response)
         setAds(response)
         setRunning(true)
@@ -98,16 +97,17 @@ const AdCard = () => {
         </fieldset>
       </form>
       { running ? 
-      ads.map(ad=>
+      ads.map((ad, index)=>
         <Ads 
-          key = {ad.id}
+          key = {index}
           id = {ad.id} 
           url = {ad.url}
           title = {ad.title} 
           alt = {ad.desc} 
           src = {ad.img} 
           price ={ad.price}
-          desc = {ad.desc}/>)
+          desc = {ad.desc}
+          length = {ads.length}/>)
         :
         <div className = "ad"><h1>Set your province and category to get started.</h1></div>}
     </div>

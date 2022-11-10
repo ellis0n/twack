@@ -1,9 +1,10 @@
 import React from 'react'
 import Vote from './Vote'
 
-const Ads = ({id, url, title, alt, src, price, desc}) => {
+const Ads = ({id, url, title, alt, src, price, desc, index, length}) => {
+    
   return (
-        <div className="ad" key={id}>
+        <div className="ad" key={id} hidden = {false}>
             <a href={url}>
                 <h1>{title}</h1>
             </a>
