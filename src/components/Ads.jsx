@@ -13,7 +13,7 @@ const Ads = ({id, url, title, alt, src, price, desc}) => {
             <h2>${price}</h2>
             <p>{desc}</p>
             <div className="vote_wrapper">
-                <Vote value="yes" />
+                <Vote value="yes" id={id}/>
                 <Vote value="no"  />
             </div>
         </div>

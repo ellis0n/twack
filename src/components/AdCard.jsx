@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import Ads from "./Ads";
-const Scrape = () => {
+const AdCard = () => {
 
-  const [ad, setAd] = useState([]);
+  const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
   const [params, setParams] = useState({"location": 9008, "category":17});
 
@@ -25,8 +25,9 @@ const Scrape = () => {
       })
       .then(response => response.json())
       .then(response => {
+        console.log(response)
         response = JSON.parse(response)
-        setAd(response)
+        setAds(response)
         setRunning(true)
       });
     }
@@ -38,11 +39,12 @@ const Scrape = () => {
 
   return (
     <div className="wrapper">
+      {/* TO DO: Create component for form */}
       <form action ="/ads" method = "post" onSubmit={handleClick}>
         <fieldset>
           <label>Province: </label>
             <select multiple = {false} value={params} name="location" id="location" onChange = {handleLocation}>
-              <option value= {9008}>Newfoundland & Labradaor</option>
+              <option value= {9008}>Newfoundland & Labrador</option>
               <option value={9002}>Nova Scotia</option>
               <option value={9007}>British Columbia</option>
               <option value={9003}>Alberta</option>
@@ -96,18 +98,20 @@ const Scrape = () => {
         </fieldset>
       </form>
       { running ? 
+      ads.map(ad=>
         <Ads 
-          id = {ad[0].id} 
-          url = {ad[0].url}
-          title = {ad[0].title} 
-          alt = {ad[0].desc} 
-          src = {ad[0].img} 
-          price ={ad[0].price}
-          desc = {ad[0].desc}/>
+          key = {ad.id}
+          id = {ad.id} 
+          url = {ad.url}
+          title = {ad.title} 
+          alt = {ad.desc} 
+          src = {ad.img} 
+          price ={ad.price}
+          desc = {ad.desc}/>)
         :
         <div className = "ad"><h1>Set your province and category to get started.</h1></div>}
     </div>
   );
 };
 
-export default Scrape;
+export default AdCard;
