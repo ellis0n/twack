@@ -14,7 +14,7 @@ const AdCard = () => {
   //  Handles wait for scraping
   const [running, setRunning] = useState(false);
   //  User parameters TODO: Set user favorites instead of hard coded 
-  const [params, setParams] = useState({"location": 9008, "category":17});
+  const [params, setParams] = useState({"location": 0, "category":0});
 
   //  Handles changes to the requested scrape
   const handleLocation = (e)=>{
