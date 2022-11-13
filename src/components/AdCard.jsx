@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Ads from "./Ads";
+import ParamBox from "./ParamBox";
 
 
 //  Card for holding each individual ad and its child voting options
@@ -9,7 +10,7 @@ const AdCard = () => {
   //  Manages scraped ad 
   const [ads, setAds] = useState([]);
   //  Manages user votes
-  const [votes, setVotes] = useState([])
+  const [votes, setVotes] = useState([]) // TODO: Add datetime here or at server?
   //  Handles wait for scraping
   const [running, setRunning] = useState(false);
   //  User parameters TODO: Set user favorites instead of hard coded 
@@ -23,119 +24,81 @@ const AdCard = () => {
     setParams({'location': params.location, "category": e.target.value})
   }
 
-  //  Makes request to scrape new ads
-  const handleClick = async (e) => {
-    //  Accept user parameters
+  const scrapeAds = async()=>{try{
     const currentParams = JSON.stringify(params)
-    e.preventDefault();
-    try{
-      //  Call for new ads
-      await fetch("http://localhost:3500/ads", {
-      method: "POST",
-      headers: { Accept: "application/json", 'Content-Type': 'application/json' },
-      body: currentParams
-      })
-      .then(response => response.json())
-      .then(response => {
-        response = JSON.parse(response)
-        //  Set ad state to response and turn run state on
-        setAds(response)
-        setRunning(true)
-      });
-    }
-    catch (err) {
-      throw err
-    }
-  };
+    await fetch("http://localhost:3500/ads", {
+    method: "POST",
+    headers: { Accept: "application/json", 'Content-Type': 'application/json' },
+    body: currentParams
+    })
+    .then(response => response.json())
+    .then(response => {
+      response = JSON.parse(response)
+      //  Set ad state to response and turn run state on
+      setAds(response)
+      setRunning(true)
+    });
+  }
+  catch (err) {
+    throw err
+  }
+  }
 
-  //  Handles voting state and requests to server to save 
-  const handleVote = async(e) => {
+  const voteAds = async(e)=>{
     const vote = { "id": e.target.id, "vote": e.target.value}
     e.preventDefault();
     setVotes([...votes, vote])
-    // console.log(votes)
     setAds(ads.filter(ad=> ad.id !== vote.id))
+    // If the scraped ad array is empty:
     if (ads.length === 1){
       try{
-        let final = [votes, vote]
-        console.log(final)
-        let data = JSON.stringify(final)
+        let data = "";
+        data = votes;
+        data.push(vote);
+        let jsonData = JSON.stringify(data);
+        setAds([]);
+        setVotes([]);
+        scrapeAds();
         await fetch("http://localhost:3500/user", {
           method: "POST",
           headers: { Accept: "application/json", 'Content-Type': 'application/json' },
-          body: data,
+          body: jsonData,
           })
           .then(response=>response.json())
           .then(response=>{
             response = JSON.parse(response)
           })
+          
       }
         catch (err) {
           throw err
         }
+
       }
-  };
-  console.log(ads.length)
+        
+  }
+  //  Makes request to scrape new ads
+  const handleClick = async (e) => {
+    //  Accept user parameters
+    e.preventDefault();
+    switch(e.target.name){
+    case "voteAds":
+      voteAds(e)
+    break;
+
+    case "scrapeAds": 
+      scrapeAds();
+    break;
+
+    default:
+      console.log(e.target)
+    };
+  }
 
   return (
     <div className="wrapper">
-      <form action ="/ads" method = "post" onSubmit={handleClick}>
-        <fieldset>
-          <label>Province: </label>
-            <select multiple = {false} value={params} name="location" id="location" onChange = {handleLocation}>
-              <option value= {9008}>Newfoundland & Labrador</option>
-              <option value={9002}>Nova Scotia</option>
-              <option value={9007}>British Columbia</option>
-              <option value={9003}>Alberta</option>
-              <option value={9004}>Ontario</option>
-              <option value={9011}>Prince Edward Island</option>
-              <option value={9001}>Quebec</option>
-              <option value={9010}>Territories</option>
-              <option value={9009}>Saskatchewan</option>
-              <option value={9005}>New Brunswick</option>
-              <option value={9006}>Manitoba</option>
-            </select>
-            <br/>
-            <br/>
-            <label>Category: </label>
-            <select multiple = {false} name={params} id="category" onChange={handleCategory}>
-              <option value={12}>Arts & Collectibles</option>
-              <option value={767}>Audio Equipment</option>
-              <option value={253}>Baby & Family</option>
-              <option value={644}>Bikes</option>
-              <option value={109}>Books</option>
-              <option value={29659003}>Business & Industrial</option>
-              <option value={103}>Cameras</option>
-              <option value={104}>CDs, DVDs & Blu-Ray</option>
-              <option value={274}>Clothing</option>
-              <option value={16}>Computers</option>
-              <option value={128}>Computer Accessories</option>
-              <option value={17220001}>Free Stuff</option>
-              <option value={235}>Furniture</option>
-              <option value={638}>Garage Sales</option>
-              <option value={140}>Health & Special Needs</option>
-              <option value={139}>Hobbies & Crafts</option>
-              <option value={107}>Home Appliances</option>
-              <option value={717}>Home Indoor</option>
-              <option value={19}>Home Outdoor & Garden</option>
-              <option value={727}>Home Renos</option>
-              <option value={133}>Jewelry & Watches</option>
-              <option value={17}>Music Gear</option>
-              <option value={132}>Phones</option>
-              <option value={111}>Sporting Goods</option>
-              <option value={110}>Tools</option>
-              <option value={108}>Toys & Games</option>
-              <option value={15093001}>TV & Video</option>
-              <option value={141}>Video Games</option>
-              <option value={26}>Other</option>
-              
-            </select>
-            <br/>
+      <ParamBox handleClick ={handleClick} params={params} handleCategory={handleCategory} handleLocation={handleLocation} name = "scrapeAds"/>
 
-            <br/>
-            <input value="submit"  type="submit"></input>
-        </fieldset>
-      </form>
       { running ? 
       ads.map((ad, index)=>
       <div key = {index} style={{display: index === 0 ? 'block' : 'none' }}>
@@ -156,17 +119,20 @@ const AdCard = () => {
               type = "button"
               value="yes"
               className="yes"
-              onClick= {handleVote}>
+              name="voteAds"
+              onClick= {handleClick}>
               Yes
             </button>
             <button
               id = {ad.id}
               type = "button"
               value="no"
+              name="voteAds"
               className="no"
-              onClick= {handleVote}>
+              onClick= {handleClick}>
               No
             </button>
+
           </div>
       </div>)
         :
@@ -174,5 +140,6 @@ const AdCard = () => {
     </div>
   );
 };
+
 
 export default AdCard;

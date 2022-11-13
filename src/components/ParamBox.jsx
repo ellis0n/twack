@@ -1,15 +1,15 @@
 import React from 'react'
 
-const ParamBox = () => {
+const ParamBox = (props) => {
 
   //TODO: pass through parameters for onChange and value and integrate into application
     
   return (
      <div className="wrapper">
-    <form action ="/ads" method = "post" onSubmit={handleClick}>
+    <form action ="/ads" method = "post" onSubmit={props.handleClick} name = "scrapeAds">
       <fieldset>
         <label>Province: </label>
-          <select multiple = {false} value={params} name="location" id="location" onChange = {handleLocation}>
+          <select multiple = {false} value={props.params} name="location" id="location" onChange = {props.handleLocation}>
             <option value= {9008}>Newfoundland & Labradaor</option>
             <option value={9002}>Nova Scotia</option>
             <option value={9007}>British Columbia</option>
@@ -25,7 +25,7 @@ const ParamBox = () => {
           <br/>
           <br/>
           <label>Category: </label>
-          <select multiple = {false} name={params} id="category" onChange={handleCategory}>
+          <select multiple = {false} name={props.params} id="category" onChange={props.handleCategory}>
             <option value={12}>Arts & Collectibles</option>
             <option value={767}>Audio Equipment</option>
             <option value={253}>Baby & Family</option>
