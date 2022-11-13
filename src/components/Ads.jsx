@@ -1,10 +1,12 @@
 import React from 'react'
-import Vote from './Vote'
 
 const Ads = ({id, url, title, alt, src, price, desc, index, length}) => {
-    
+    // const [hidden, setHidden] = useState(false)
+
+
   return (
-        <div className="ad" key={id} hidden = {false}>
+        <div  className="ad" key={id} >
+            {/* <div style={{display: index === 0 ? 'block' : 'none' }}> */}
             <a href={url}>
                 <h1>{title}</h1>
             </a>
@@ -13,11 +15,8 @@ const Ads = ({id, url, title, alt, src, price, desc, index, length}) => {
             </div>
             <h2>${price}</h2>
             <p>{desc}</p>
-            <div className="vote_wrapper">
-                <Vote value="yes" id={id}/>
-                <Vote value="no"  />
             </div>
-        </div>
+        // </div>
     )}
 
 export default Ads

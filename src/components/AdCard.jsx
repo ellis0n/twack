@@ -1,12 +1,21 @@
 import React from "react";
 import { useState } from "react";
 import Ads from "./Ads";
-const AdCard = () => {
 
+
+//  Card for holding each individual ad and its child voting options
+//  TODO:: Add a comment box component and stylize
+const AdCard = () => {
+  // Manages scraped ad 
   const [ads, setAds] = useState([]);
+  // Manages user votes
+  const [votes, setVotes] = useState([])
+  // Handles wait for scraping
   const [running, setRunning] = useState(false);
+  // User parameters TODO: Set user favorites instead of hard coded 
   const [params, setParams] = useState({"location": 9008, "category":17});
 
+  // Handles changes to the requested scrape
   const handleLocation = (e)=>{
     setParams({"location": e.target.value, "category": params.category})
   }
@@ -14,8 +23,9 @@ const AdCard = () => {
     setParams({'location': params.location, "category": e.target.value})
   }
 
+  // Searches for ads 
   const handleClick = async (e) => {
-    let currentParams = JSON.stringify(params)
+    const currentParams = JSON.stringify(params)
     e.preventDefault();
     try{
       await fetch("http://localhost:3500/ads", {
@@ -35,10 +45,34 @@ const AdCard = () => {
     }
   };
 
+  const handleVote = async(e) => {
+    const vote = { "id": e.target.id, "vote": e.target.value}
+    e.preventDefault();
+    setVotes([...votes, vote])
+    // console.log(votes)
+    setAds(ads.filter(ad=> ad.id !== vote.id))
+    console.log(ads[0])
+    if (ads[0]){
+      try{
+        let data = JSON.stringify(votes)
+        await fetch("http://localhost:3500/user", {
+          method: "POST",
+          headers: { Accept: "application/json", 'Content-Type': 'application/json' },
+          body: data,
+          })
+          .then(response=>response.json())
+          .then(response=>{
+            response = JSON.parse(response)
+          })
+      }
+        catch (err) {
+          throw err
+        }
+      }
+  };
 
   return (
     <div className="wrapper">
-      {/* TO DO: Create component for form */}
       <form action ="/ads" method = "post" onSubmit={handleClick}>
         <fieldset>
           <label>Province: </label>
@@ -98,8 +132,8 @@ const AdCard = () => {
       </form>
       { running ? 
       ads.map((ad, index)=>
+      <div key = {index} style={{display: index === 0 ? 'block' : 'none' }}>
         <Ads 
-          key = {index}
           id = {ad.id} 
           url = {ad.url}
           title = {ad.title} 
@@ -107,9 +141,30 @@ const AdCard = () => {
           src = {ad.img} 
           price ={ad.price}
           desc = {ad.desc}
-          length = {ads.length}/>)
+          index = {index}
+          length = {ads.length}/>
+          <div className = "vote_wrapper">
+            
+            <button
+              id = {ad.id}
+              type = "button"
+              value="yes"
+              className="yes"
+              onClick= {handleVote}>
+              Yes
+            </button>
+            <button
+              id = {ad.id}
+              type = "button"
+              value="no"
+              className="no"
+              onClick= {handleVote}>
+              No
+            </button>
+          </div>
+      </div>)
         :
-        <div className = "ad"><h1>Set your province and category to get started.</h1></div>}
+        <div className = "ad"><h1>Set your preferences to get started.</h1></div>}
     </div>
   );
 };

@@ -25,6 +25,7 @@ const Vote = (props) => {
   return (
     <div className="wrapper">
       <div className="vote">
+      <div style={{display: props.index === 0  ? 'flex' : 'none' }}  >
         <button
         id = {props.id}
           type = "button"
@@ -33,6 +34,7 @@ const Vote = (props) => {
           onClick= {handleClick}>
           <div className = "vote_label">{props.value.toUpperCase()}</div>
         </button>
+        </div>
       </div>
     </div>
   );

@@ -96,13 +96,13 @@ button {
 }
 
 .yes {
-  padding: 100%;
+  padding: 20%;
   color: black;
   background-color: #588061;
 }
 
 .no {
-  padding: 100%;
+  padding: 20%;
   color: black;
   background-color: #f55e5e;
 }
@@ -111,7 +111,6 @@ button {
   display: flex;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.451);
-  border-top: 3px solid black;
 }
 
 .footer {
