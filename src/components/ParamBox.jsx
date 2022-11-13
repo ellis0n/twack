@@ -1,6 +1,8 @@
 import React from 'react'
 
 const ParamBox = () => {
+
+  //TODO: pass through parameters for onChange and value and integrate into application
     
   return (
      <div className="wrapper">

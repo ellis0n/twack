@@ -6,16 +6,16 @@ import Ads from "./Ads";
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component and stylize
 const AdCard = () => {
-  // Manages scraped ad 
+  //  Manages scraped ad 
   const [ads, setAds] = useState([]);
-  // Manages user votes
+  //  Manages user votes
   const [votes, setVotes] = useState([])
-  // Handles wait for scraping
+  //  Handles wait for scraping
   const [running, setRunning] = useState(false);
-  // User parameters TODO: Set user favorites instead of hard coded 
+  //  User parameters TODO: Set user favorites instead of hard coded 
   const [params, setParams] = useState({"location": 9008, "category":17});
 
-  // Handles changes to the requested scrape
+  //  Handles changes to the requested scrape
   const handleLocation = (e)=>{
     setParams({"location": e.target.value, "category": params.category})
   }
@@ -23,11 +23,13 @@ const AdCard = () => {
     setParams({'location': params.location, "category": e.target.value})
   }
 
-  // Searches for ads 
+  //  Makes request to scrape new ads
   const handleClick = async (e) => {
+    //  Accept user parameters
     const currentParams = JSON.stringify(params)
     e.preventDefault();
     try{
+      //  Call for new ads
       await fetch("http://localhost:3500/ads", {
       method: "POST",
       headers: { Accept: "application/json", 'Content-Type': 'application/json' },
@@ -36,6 +38,7 @@ const AdCard = () => {
       .then(response => response.json())
       .then(response => {
         response = JSON.parse(response)
+        //  Set ad state to response and turn run state on
         setAds(response)
         setRunning(true)
       });
@@ -45,16 +48,18 @@ const AdCard = () => {
     }
   };
 
+  //  Handles voting state and requests to server to save 
   const handleVote = async(e) => {
     const vote = { "id": e.target.id, "vote": e.target.value}
     e.preventDefault();
     setVotes([...votes, vote])
     // console.log(votes)
     setAds(ads.filter(ad=> ad.id !== vote.id))
-    console.log(ads[0])
-    if (ads[0]){
+    if (ads.length === 1){
       try{
-        let data = JSON.stringify(votes)
+        let final = [votes, vote]
+        console.log(final)
+        let data = JSON.stringify(final)
         await fetch("http://localhost:3500/user", {
           method: "POST",
           headers: { Accept: "application/json", 'Content-Type': 'application/json' },
@@ -70,6 +75,7 @@ const AdCard = () => {
         }
       }
   };
+  console.log(ads.length)
 
   return (
     <div className="wrapper">
