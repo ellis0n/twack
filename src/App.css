@@ -35,7 +35,12 @@ html {
 }
 
 .wrapper {
-  margin: auto 12%;
+  margin: auto 18%;
+}
+
+.main_wrapper{
+  margin: auto 8%;
+  bottom: -1%;
 }
 
 .ad {
@@ -44,7 +49,7 @@ html {
   background-color: #e7b5ac;
   border-radius: 1rem;
   width: 100%;
-  height: auto;
+  height: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
 .ad a {
@@ -55,7 +60,11 @@ html {
 .ad h1 {
   color: #282c34ef;
   font-family: "Fredoka One";
-  font-size: calc(6px + 2vmin);
+  font-weight: 100;
+  font-kerning: none;
+  font-size: calc(2vh + 1vmin);
+  padding: 12px 12px;
+  background-color:#faf6ff82;
 }
 
 .ad h1:hover {
@@ -63,26 +72,27 @@ html {
 }
 
 .ad h2 {
-  color: white;
+  background-color:#5880614a;
+  color:#282c34;
+  font-family: "Fredoka One";
 }
 
 .img-wrapper {
   border: 4px solid rgba(0, 0, 0, 0.003);
   border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.078);
+  background-color: rgba(0, 0, 0, 0.611);
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 200ch;
+  max-height: 100%;
   overflow: hidden;
   height: auto;
   margin: 0 12%;
 }
 
 .ad p {
-  margin: 2rem;
-  border: 2px solid black;
-  padding: 2rem;
+  border-radius: 12px;
+  padding: 1em;
 }
 
 button {
@@ -96,13 +106,15 @@ button {
 }
 
 .yes {
-  padding: 20%;
+  width: 100%;
+  height: auto;
   color: black;
   background-color: #588061;
 }
 
 .no {
-  padding: 20%;
+  width: 100%;
+  height: auto;
   color: black;
   background-color: #f55e5e;
 }
@@ -113,12 +125,35 @@ button {
   background-color: rgba(255, 255, 255, 0.451);
 }
 
+.param_wrapper{
+  font-size: 1rem;
+  padding: 1em;
+  display: block;
+  justify-content: center;
+  background-color:#5880611f;
+  border-radius: 12px;
+  padding:
+
+  
+  /* opacity:0.8; 
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+  z-index:1000; */
+}
+
+fieldset {
+  border: 0;
+}
+
 .footer {
   width: 100%;
   position: fixed;
   bottom: -1%;
   left: 0px;
-  z-index: -1;
+  z-index: 1;
 }
 .footer img {
   height: auto;
