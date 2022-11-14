@@ -1,11 +1,23 @@
 TWACK
 
-See online posts and rate them. Work-in-progress.
+Tinder for kiiji ads. 
 
-See twackend for server code. (https://github.com/ellis0n/twackend)
+Requires server running twackend:
+https://github.com/ellis0n/twackend
 
 To run:
 1. Clone to local storage
 2. Navigate to directory
-2. npm i
-3. npm start, localhost:3000
+2. Command line: npm i
+3. Command line: npm start
+4. Open http://localhost:3000 in browser
+
+To do:
+- Create accounts and login
+- User-defined default parameters (location, category)
+- Add commenting on ads
+- View ad voting history by user
+- Skip vote/"unsure" option
+- Improve styling and add animations 
+- Swiping
+
