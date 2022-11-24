@@ -1,20 +1,19 @@
-import React from 'react'
+import React from "react";
 
 //  The component for rendering each individual ad
-const Ads = ({id, url, title, alt, src, price, desc, index, length}) => {
-
-
+const Ads = ({ id, url, title, alt, src, price, desc, index, length }) => {
   return (
-        <div  className="ad" key={id} >
-            <a href={url}>
-                <h1>{title}</h1>
-            </a>
-            <div className="img-wrapper">
-                <img alt={alt} src={src}></img>
-            </div>
-            <h2>${price}</h2>
-            <p>{desc}</p>
-            </div>
-    )}
+    <div className="ad" key={index}>
+      <a href={url}>
+        <h1>{title}</h1>
+      </a>
+      <div className="img-wrapper">
+        <img alt={alt} src={src}></img>
+      </div>
+      <h2>${price}</h2>
+      <p>{desc}</p>
+    </div>
+  );
+};
 
-export default Ads
+export default Ads;
