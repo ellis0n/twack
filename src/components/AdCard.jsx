@@ -50,11 +50,17 @@ const AdCard = () => {
     }
   };
 
-  //TODO: Change to send req on each vote instead. Pull request out of conditional but leave the reset/scrapeAds function in.
+  // TODO: Change to send req on each vote instead. Pull request out of conditional but leave the reset/scrapeAds function in.
   //  Handles user voting
   const voteAds = async (e) => {
+    console.log(typeof e.target.id);
+    console.log(e.target.id);
     // Create an object with both the ad id and user choice (yes/no)
-    const vote = { id: e.target.id, vote: e.target.value };
+    const vote = {
+      id: e.target.id,
+      ad: e.target.value,
+      vote: e.target.className,
+    };
     e.preventDefault();
     //  Save the vote object to state
     setVotes([...votes, vote]);
@@ -79,7 +85,8 @@ const AdCard = () => {
         let data = votes;
         // Add final vote to current state
         data.push(vote);
-        let jsonData = JSON.stringify(data);
+        //TODO: Investigate if final ad in array is being saved
+        // let jsonData = JSON.stringify(data);
         //  Reset state
         setAds([]);
         setVotes([]);
@@ -137,9 +144,9 @@ const AdCard = () => {
 
             <div className="vote_wrapper">
               <button
-                id={ad.id}
                 type="button"
-                value="yes"
+                id={ad.id}
+                value={JSON.stringify(ad)}
                 className="yes"
                 name="voteAds"
                 onClick={handleClick}
@@ -147,9 +154,9 @@ const AdCard = () => {
                 Yes
               </button>
               <button
-                id={ad.id}
                 type="button"
-                value="no"
+                id={ad.id}
+                value={JSON.stringify(ad)}
                 name="voteAds"
                 className="no"
                 onClick={handleClick}
