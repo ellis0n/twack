@@ -20,14 +20,22 @@ const SavedAds = () => {
       });
   };
 
-  const updateVote = async () => {
+  const updateVote = async (e) => {
+    console.log(e.target.id);
+    let jsonPut = { id: e.target.id };
+    jsonPut = JSON.stringify(jsonPut);
     await fetch("http://localhost:3500/save", {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-    });
+      body: jsonPut,
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   const deleteVote = async (e) => {
@@ -42,7 +50,11 @@ const SavedAds = () => {
         "Content-Type": "application/json",
       },
       body: jsonDelete,
-    }).then((response) => response.json());
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+      });
   };
 
   return (
@@ -69,6 +81,9 @@ const SavedAds = () => {
                 length={ads.length}
               />
               <div className={ad.vote}>{ad.vote}</div>
+              <button onClick={updateVote} id={ad._id}>
+                Change vote
+              </button>
               <div>
                 <button id={ad._id} onClick={deleteVote}>
                   Delete
