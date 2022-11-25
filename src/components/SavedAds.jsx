@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import AdCard from "./AdCard";
 import Ads from "./Ads";
-import ParamBox from "./ParamBox";
 
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
@@ -17,18 +15,42 @@ const SavedAds = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         setAds(response);
         setRunning(true);
       });
   };
+
+  const updateVote = async () => {
+    await fetch("http://localhost:3500/save", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  const deleteVote = async (e) => {
+    console.log(e.target.id);
+    let jsonDelete = { id: e.target.id };
+    jsonDelete = JSON.stringify(jsonDelete);
+
+    await fetch(`http://localhost:3500/save`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: jsonDelete,
+    }).then((response) => response.json());
+  };
+
   return (
     <div className="main_wrapper">
       <button onClick={getSavedAds} className="ad">
         Refresh saved ads.
       </button>
       {running ? (
-        (console.log(ads),
         ads.length === 0 ? (
           <h3>No ads!</h3>
         ) : (
@@ -47,9 +69,15 @@ const SavedAds = () => {
                 length={ads.length}
               />
               <div className={ad.vote}>{ad.vote}</div>
+              <div>
+                <button id={ad._id} onClick={deleteVote}>
+                  Delete
+                </button>
+              </div>
+              <hr />
             </div>
           ))
-        ))
+        )
       ) : (
         <div className="ad" onClick={getSavedAds}>
           <h1>See saved ads.</h1>

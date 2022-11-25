@@ -79,6 +79,7 @@ const AdCard = () => {
       });
     // If the ad state array is empty,,,
     if (ads.length === 1) {
+      //TODO: conditional render for continue
       //  Reset state
       setAds([]);
       setVotes([]);
