@@ -50,11 +50,8 @@ const AdCard = () => {
     }
   };
 
-  // TODO: Change to send req on each vote instead. Pull request out of conditional but leave the reset/scrapeAds function in.
   //  Handles user voting
   const voteAds = async (e) => {
-    console.log(typeof e.target.id);
-    console.log(e.target.id);
     // Create an object with both the ad id and user choice (yes/no)
     const vote = {
       id: e.target.id,
@@ -74,30 +71,21 @@ const AdCard = () => {
         "Content-Type": "application/json",
       },
       body: jsonVote,
-    }).then(console.log(`${jsonVote} saved.`));
-    // .then((response) => response.json())
-    // .then((response) => {
-    //   response = JSON.parse(response);
-    // });
+    })
+      .then((response) => response.json())
+      // TODO: Convert to UI notification
+      .then((response) => {
+        console.log(response);
+      });
     // If the ad state array is empty,,,
     if (ads.length === 1) {
-      try {
-        let data = votes;
-        // Add final vote to current state
-        data.push(vote);
-        //TODO: Investigate if final ad in array is being saved
-        // let jsonData = JSON.stringify(data);
-        //  Reset state
-        setAds([]);
-        setVotes([]);
-        //  Return a new set of ads to vote on
-        // TODO: 🤔 scrapeAds(jsonData) and then parse saved data from req.body at /ads serverside?
-        setRunning(true);
-        scrapeAds();
-        setRunning(false);
-      } catch (err) {
-        throw err;
-      }
+      //  Reset state
+      setAds([]);
+      setVotes([]);
+      //  Return a new set of ads to vote on
+      setRunning(true);
+      scrapeAds();
+      setRunning(false);
     }
   };
 
