@@ -52,12 +52,12 @@ const AdCard = () => {
 
   //  Handles user voting
   const voteAds = async (e) => {
-    let userVote;
+    
     // Create an object with both the ad id and user choice (yes/no)
     const vote = {
       id: e.target.id,
       ad: e.target.value,
-      vote: userVote,
+      vote: e.target.className,
     };
     e.preventDefault();
     //  Save the vote object to state
@@ -137,18 +137,18 @@ const AdCard = () => {
                 type="button"
                 id={ad.id}
                 value={JSON.stringify(ad)}
-                className={true}
+                className="true"
                 name="voteAds"
                 onClick={handleClick}
               >
                 Yes
               </button>
               <button
-                type={false}
+                type={"false"}
                 id={ad.id}
                 value={JSON.stringify(ad)}
                 name="voteAds"
-                className={false}
+                className="false"
                 onClick={handleClick}
               >
                 No

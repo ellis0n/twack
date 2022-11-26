@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Ads from "./Ads";
 
@@ -5,7 +6,9 @@ const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
 
-  const getSavedAds = async () => {
+  let display = "block";
+
+  const getSavedAds = async (e) => {
     await fetch("http://localhost:3500/save", {
       method: "GET",
       headers: {
@@ -21,8 +24,10 @@ const SavedAds = () => {
   };
 
   const updateVote = async (e) => {
-    console.log(e.target.id);
-    let jsonPut = { id: e.target.id };
+    let id = e.target.id;
+    let update;
+    e.target.value === "true" ? update = "false" : update = "true" 
+    let jsonPut = { _id: id, vote: update };
     jsonPut = JSON.stringify(jsonPut);
     await fetch("http://localhost:3500/save", {
       method: "PUT",
@@ -36,6 +41,7 @@ const SavedAds = () => {
       .then((response) => {
         console.log(response);
       });
+      getSavedAds();
   };
 
   const deleteVote = async (e) => {
@@ -55,22 +61,24 @@ const SavedAds = () => {
       .then((response) => {
         console.log(response);
       });
+      getSavedAds();
   };
+
 
   return (
     <div className="main_wrapper">
       <button onClick={getSavedAds} className="ad">
         Refresh saved ads.
       </button>
+
       {running ? (
         ads.length === 0 ? (
           <h3>No ads!</h3>
-        ) : (
+          ) : (
+
           ads.map((ad, index) => (
-            <div key={index}>
+            <div key={index} display={display}>
               <Ads
-                //    TODO: destructure
-                id={ad.ad.id}
                 url={ad.ad.url}
                 title={ad.ad.title}
                 alt={ad.ad.desc}
@@ -79,13 +87,18 @@ const SavedAds = () => {
                 desc={ad.ad.desc}
                 index={index}
                 length={ads.length}
-              />
-              <div className={ad.vote}>{ad.vote}</div>
-              <button onClick={updateVote} id={ad._id}>
+                />
+              
+                <div className={ad.vote}>
+                  {/* TODO: Do I even need booleans? */}
+                  <h1>Voted {ad.vote === "true" ? "Yes" : "No"}</h1>
+                </div> 
+
+              <button onClick={updateVote} id={ad._id} value = {ad.vote}>
                 Change vote
               </button>
-              <div>
-                <button id={ad._id} onClick={deleteVote}>
+              <div className = "false">
+                <button  id={ad._id} onClick={deleteVote}>
                   Delete
                 </button>
               </div>

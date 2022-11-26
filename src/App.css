@@ -105,14 +105,14 @@ button {
   outline: inherit;
 }
 
-.yes {
+.true {
   width: 100%;
   height: auto;
   color: black;
   background-color: #588061;
 }
 
-.no {
+.false {
   width: 100%;
   height: auto;
   color: black;
