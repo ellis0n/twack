@@ -1,8 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Ads from "./Ads";
-import ParamBox from "./ParamBox";
 import Footer from "./Footer.jsx";
+import ParamBox from "./ParamBox";
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component and stylize
@@ -15,6 +15,20 @@ const AdCard = () => {
   const [running, setRunning] = useState(false);
   //  User parameters TODO: Make dynamic based on user data
   const [params, setParams] = useState({ location: 0, category: 0 });
+
+  useEffect(() => {
+    const updateParams = async () => { 
+      await fetch("http://localhost:3500/param", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => setParams({location: response.location, category: response.cateory}))
+    console.log("loaded");}
+    updateParams()
+  }, [])
 
   //  Handles changes to search location and category parameters
   const handleLocation = (e) => {
@@ -111,6 +125,9 @@ const AdCard = () => {
   return (
     <div className="main_wrapper">
       <ParamBox
+        method = "put"
+        route = "/ads"
+        text = {"Get Ads."}
         handleClick={handleClick}
         params={params}
         handleCategory={handleCategory}

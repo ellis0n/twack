@@ -4,8 +4,10 @@ const ParamBox = (props) => {
 
   return (
     <div className = "param_wrapper">
-    <form action ="/ads" method = "post" onSubmit={props.handleClick} name = "scrapeAds">
-        <label>Region: </label>
+
+    <form action ={props.route} method = {props.method} onSubmit={props.handleClick} name = "scrapeAds">
+
+        <label>Location: </label>
           <select multiple = {false}  name={props.params} id="location" onChange = {props.handleLocation}>
             <option value= {0}>All</option>
             <option value= {9008}>Newfoundland & Labradaor</option>
@@ -59,7 +61,7 @@ const ParamBox = (props) => {
           <br/>
 
           <br/>
-          <input value="submit"  type="submit"></input>
+          <input value={props.text}  type="submit"></input>
     </form>
     </div>
   )
