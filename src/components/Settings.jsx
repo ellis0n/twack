@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ParamBox from './ParamBox'
 
 const Settings = () => {
   const [params, setParams] = useState({ location: 0, category: 0 });
+
 
   const handleLocation = (e) => {
     setParams({ location: e.target.value, category: params.category });
@@ -10,17 +11,19 @@ const Settings = () => {
   const handleCategory = (e) => {
     setParams({ location: params.location, category: e.target.value });
   };
-  const handleUpdate = async(e)=>{
-    const data = JSON.stringify(params);
-    await fetch("http://localhost:3500/param", {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: data,
-    })
-    .then((response) => console.log(response.json()))
+  const handleClick = async(e)=>{
+    e.prevent.default()
+    console.log(e)
+    // const data = JSON.stringify(e.value);
+    // await fetch("http://localhost:3500/param", {
+    //   method: "PUT",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: data,
+    // })
+    // .then((response) =>(response.json()))
   }
 
 
@@ -29,12 +32,10 @@ const Settings = () => {
       <ParamBox
       text= "Save preferences."
         // handleClick={handleClick}
-        route = "/param"
-        method = "put"
         params={params}
         handleCategory={handleCategory}
         handleLocation={handleLocation}
-        handleClick = {handleUpdate}
+        handleClick = {handleClick}
       />    
     </div>
   )

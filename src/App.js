@@ -15,7 +15,7 @@ function App() {
       <Banner />
       <Login />
       <Settings/>
-      <AdCard />
+      {/* <AdCard /> */}
       <hr />
       <SavedAds />
     </div>

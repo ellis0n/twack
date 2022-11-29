@@ -1,14 +1,29 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 const ParamBox = (props) => {
+  const [params, setParams] = useState({ location: 0, category: 0 });
 
+  useEffect(() => {
+    const getParams = async () => { 
+      await fetch("http://localhost:3500/param", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json(), )
+    .then((response) => ( setParams({location: response[0].location, category: response[0].category})))
+  }
+    getParams()
+  }, [])
   return (
     <div className = "param_wrapper">
 
-    <form action ={props.route} method = {props.method} onSubmit={props.handleClick} name = "scrapeAds">
+    <form  method = {props.method} onSubmit={props.handleClick} name = "scrapeAds" value={params}>
 
         <label>Location: </label>
-          <select multiple = {false}  name={props.params} id="location" onChange = {props.handleLocation}>
+          <select multiple={false}  name={props.params} id="location" onChange = {props.handleLocation}
+          defaultValue = {params}>
             <option value= {0}>All</option>
             <option value= {9008}>Newfoundland & Labradaor</option>
             <option value={9002}>Nova Scotia</option>
