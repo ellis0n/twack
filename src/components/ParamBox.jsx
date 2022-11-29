@@ -1,29 +1,52 @@
 import React, {useEffect, useState} from 'react'
 
 const ParamBox = (props) => {
-  const [params, setParams] = useState({ location: 0, category: 0 });
+  const [params, setParams] = useState({ location: null, category: null });
+  console.log(params)
 
   useEffect(() => {
-    const getParams = async () => { 
+    const updateParams = async () => { 
       await fetch("http://localhost:3500/param", {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-    }).then((response) => response.json(), )
-    .then((response) => ( setParams({location: response[0].location, category: response[0].category})))
+    }).then((response) => response.json())
+    .then((response) => setParams({location: response[0].location, category: response[0].category}))
   }
-    getParams()
+    updateParams()
   }, [])
+
+  const handleLocation = (e) => {
+    setParams({ location: e.target.value, category: params.category });
+  };
+  const handleCategory = (e) => {
+    setParams({ location: params.location, category: e.target.value });
+  };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    switch (props.type) {
+      case "setting":
+        props.handleClick(params);
+        break;
+      case "scraper":
+        props.handleClick(params);
+        break;
+      default:
+        console.log(e.target);
+    }
+  };
+
+
+
   return (
     <div className = "param_wrapper">
-
-    <form  method = {props.method} onSubmit={props.handleClick} name = "scrapeAds" value={params}>
-
+    <form name = "scrapeAds">
         <label>Location: </label>
-          <select multiple={false}  name={props.params} id="location" onChange = {props.handleLocation}
-          defaultValue = {params}>
+          <select multiple={false}  id="location" onChange = {handleLocation}
+          value = {params.location}>
             <option value= {0}>All</option>
             <option value= {9008}>Newfoundland & Labradaor</option>
             <option value={9002}>Nova Scotia</option>
@@ -40,7 +63,7 @@ const ParamBox = (props) => {
           <br/>
           <br/>
           <label>Category: </label>
-          <select multiple = {false} name={props.params} id="category" onChange={props.handleCategory}>
+          <select multiple = {false} id="category" onChange={handleCategory} value = {params.category}>
             <option value={0}>All</option>
             <option value={12}>Arts & Collectibles</option>
             <option value={767}>Audio Equipment</option>
@@ -76,7 +99,7 @@ const ParamBox = (props) => {
           <br/>
 
           <br/>
-          <input value={props.text}  type="submit"></input>
+          <button value={params} onClick={handleClick}  type="submit">{props.text}</button>
     </form>
     </div>
   )

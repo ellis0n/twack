@@ -3,32 +3,18 @@ import { useState, useEffect } from "react";
 import Ads from "./Ads";
 import Footer from "./Footer.jsx";
 import ParamBox from "./ParamBox";
+import VoteButton from "./VoteButton";
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component
 const AdCard = () => {
-  //  Manages scraped ad
   const [ads, setAds] = useState([]);
-  //  Manages user votes
   const [votes, setVotes] = useState([]); 
-  //  Handles wait for scraping
   const [running, setRunning] = useState(false);
-  //  User parameters TODO: Make dynamic based on user data
-  const [params, setParams] = useState({ location: 0, category: 0 });
-
-
-  //  Handles changes to search location and category parameters
-  const handleLocation = (e) => {
-    setParams({ location: e.target.value, category: params.category });
-  };
-  const handleCategory = (e) => {
-    setParams({ location: params.location, category: e.target.value });
-  };
 
   //  Request handler for scraping ads
-  const scrapeAds = async () => {
+  const scrapeAds = async (params) => {
     try {
-      // JSON parameter state, send to server
       const data = JSON.stringify(params);
       await fetch("http://localhost:3500/scrape", {
         method: "POST",
@@ -38,7 +24,6 @@ const AdCard = () => {
         },
         body: data,
       })
-        //  Save the returned array in state and render the images by toggling run state
         .then((response) => response.json())
         .then((response) => {
           response = JSON.parse(response);
@@ -50,19 +35,16 @@ const AdCard = () => {
     }
   };
 
-  //  Handles user voting
-  const voteAds = async (e) => {
-    
-    // Create an object with both the ad id and user choice (yes/no)
+  //  Handles user voting.
+  const sendVote = async (data) => {
     const vote = {
-      id: e.target.id,
-      ad: e.target.value,
-      vote: e.target.className,
+      id: data.ad.id,
+      ad: data.ad,
+      vote: data.vote,
     };
-    e.preventDefault();
-    //  Save the vote object to state
+
     setVotes([...votes, vote]);
-    //  Remove the ad from the ad statearray
+    // Remove ad from state once voted on
     setAds(ads.filter((ad) => ad.id !== vote.id));
     let jsonVote = JSON.stringify(vote);
     await fetch("http://localhost:3500/save", {
@@ -78,44 +60,20 @@ const AdCard = () => {
         // TODO: Convert to UI notification
         console.log(response);
       });
-    // If the ad state array is empty,,,
+    // If the ad state array is empty, reset vote counter
     if (ads.length === 1) {
       //TODO: conditional render for continue
-      //  Reset state
-      setAds([]);
       setVotes([]);
-      //  Return a new set of ads to vote on
-      setRunning(true);
-      scrapeAds();
       setRunning(false);
-    }
-  };
-
-  //  TODO: write function to handle "unsure/skip"
-  //  Handles click events
-  const handleClick = async (e) => {
-    //  Accept user parameters
-    e.preventDefault();
-    switch (e.target.name) {
-      case "voteAds":
-        voteAds(e);
-        break;
-      case "scrapeAds":
-        scrapeAds();
-        break;
-      default:
-        console.log(e.target);
     }
   };
 
   return (
     <div className="main_wrapper">
       <ParamBox
+        type= "scraper"
         text = {"Get Ads."}
-        handleClick={handleClick}
-        params={params}
-        handleCategory={handleCategory}
-        handleLocation={handleLocation}
+        handleClick={scrapeAds}
       />
 
       {running ? (
@@ -134,31 +92,21 @@ const AdCard = () => {
             />
 
             <div className="vote_wrapper">
-              <button
-                type="button"
-                id={ad.id}
-                value={JSON.stringify(ad)}
-                className="true"
-                name="voteAds"
-                onClick={handleClick}
-              >
-                Yes
-              </button>
-              <button
-                type={"false"}
-                id={ad.id}
-                value={JSON.stringify(ad)}
-                name="voteAds"
-                className="false"
-                onClick={handleClick}
-              >
-                No
-              </button>
+              <VoteButton
+              adInfo={ad}
+              vote="true"
+              text="Deal!"
+              sendVote = {sendVote}/>
+              <VoteButton
+              adInfo = {ad}
+              vote = "false"
+              text = "No Deal!"
+              sendVote = {sendVote}/>
             </div>
           </div>
         ))
       ) : (
-        <div className="ad" onClick={scrapeAds} style={{ cursor: "pointer" }}>
+        <div style={{ cursor: "pointer" }}>
           <h1>Get twacking.</h1> <Footer />
         </div>
       )}
