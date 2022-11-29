@@ -6,21 +6,22 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import AdCard from "./components/AdCard";
 import Settings from "./components/Settings"
+import Navbar from "./components/Navbar"
 import { Routes, Route } from "react-router-dom";
 
 
 function App() {
 
-
-  
   return (
     <div className="App">
       <Banner/>
-      <AdCard active={false}/>
-      <Login active={false}/>
-      <Settings active={false}/>
-      <SavedAds active={false}/>
-      <Footer/>
+      <Navbar/>
+      <Routes>
+      <Route path ="/" element={<AdCard/>}/>
+      <Route path ="/login" element={<Login/>}/>
+      <Route path ="/settings" element={<Settings/>}/>
+      <Route path ="/saved" element={<SavedAds/>}/>
+      </Routes>
     </div>
   );
 }

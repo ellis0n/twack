@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Ads from "./Ads";
 import Footer from "./Footer.jsx";
 import ParamBox from "./ParamBox";
@@ -88,7 +88,6 @@ const AdCard = () => {
               price={ad.price}
               desc={ad.desc}
               index={index}
-              length={ads.length}
             />
 
             <div className="vote_wrapper">
@@ -107,7 +106,7 @@ const AdCard = () => {
         ))
       ) : (
         <div style={{ cursor: "pointer" }}>
-          <h1>Get twacking.</h1> <Footer />
+          <h1>Get twacking.</h1> 
         </div>
       )}
     </div>

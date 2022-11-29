@@ -154,6 +154,7 @@ fieldset {
   bottom: -1%;
   left: 0px;
   z-index: 1;
+  transition: top 0.3s;
 }
 .footer img {
   height: auto;
@@ -161,4 +162,27 @@ fieldset {
   filter: sepia(30%);
   max-height: 120px + 1vmin;
   z-index: -1;
+}
+
+
+.navBar{
+  display: flexbox;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+}
+
+.navLink {
+  text-decoration: none;
+  margin: 0% 1%;
+  padding: 0% 2%;
+  font-size: 1rem;
+  background: #e7b5ac;
+  color: black;
+  border-radius: 8px;
+
+}
+.navLink:hover {
+  color: darkred;
+  background: beige;
+  transition: transform 1500ms, background 1750ms;
 }
