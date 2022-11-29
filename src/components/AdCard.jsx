@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Ads from "./Ads";
 import Footer from "./Footer.jsx";
 import ParamBox from "./ParamBox";
@@ -9,8 +9,28 @@ import VoteButton from "./VoteButton";
 //  TODO:: Add a comment box component
 const AdCard = () => {
   const [ads, setAds] = useState([]);
-  const [votes, setVotes] = useState([]); 
+  const [votes, setVotes] = useState([]);
   const [running, setRunning] = useState(false);
+
+  useEffect(() => {
+    const updateParams = async () => {
+      await fetch("http://localhost:3500/pref", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((response) =>
+          scrapeAds({
+            location: response[0].location,
+            category: response[0].category,
+          })
+        );
+    };
+    updateParams();
+  }, []);
 
   //  Request handler for scraping ads
   const scrapeAds = async (params) => {
@@ -70,11 +90,7 @@ const AdCard = () => {
 
   return (
     <div className="main_wrapper">
-      <ParamBox
-        type= "scraper"
-        text = {"Get Ads."}
-        handleClick={scrapeAds}
-      />
+      <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
 
       {running ? (
         ads.map((ad, index) => (
@@ -92,21 +108,23 @@ const AdCard = () => {
 
             <div className="vote_wrapper">
               <VoteButton
-              adInfo={ad}
-              vote="true"
-              text="Deal!"
-              sendVote = {sendVote}/>
+                adInfo={ad}
+                vote="true"
+                text="Deal!"
+                sendVote={sendVote}
+              />
               <VoteButton
-              adInfo = {ad}
-              vote = "false"
-              text = "No Deal!"
-              sendVote = {sendVote}/>
+                adInfo={ad}
+                vote="false"
+                text="No Deal!"
+                sendVote={sendVote}
+              />
             </div>
           </div>
         ))
       ) : (
         <div style={{ cursor: "pointer" }}>
-          <h1>Get twacking.</h1> 
+          <h1>Get twacking.</h1>
         </div>
       )}
     </div>

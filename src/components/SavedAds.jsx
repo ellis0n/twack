@@ -1,14 +1,15 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Ads from "./Ads";
 
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
 
-  let display = "block";
+  useEffect(() => {
+    getSavedAds();
+  }, []);
 
-  const getSavedAds = async (e) => {
+  const getSavedAds = async () => {
     await fetch("http://localhost:3500/save", {
       method: "GET",
       headers: {
@@ -26,7 +27,7 @@ const SavedAds = () => {
   const updateVote = async (e) => {
     let id = e.target.id;
     let update;
-    e.target.value === "true" ? update = "false" : update = "true" 
+    e.target.value === "true" ? (update = "false") : (update = "true");
     let jsonPut = { _id: id, vote: update };
     jsonPut = JSON.stringify(jsonPut);
     await fetch("http://localhost:3500/save", {
@@ -41,7 +42,7 @@ const SavedAds = () => {
       .then((response) => {
         console.log(response);
       });
-      getSavedAds();
+    getSavedAds();
   };
 
   const deleteVote = async (e) => {
@@ -61,9 +62,8 @@ const SavedAds = () => {
       .then((response) => {
         console.log(response);
       });
-      getSavedAds();
+    getSavedAds();
   };
-
 
   return (
     <div className="main_wrapper">
@@ -74,10 +74,9 @@ const SavedAds = () => {
       {running ? (
         ads.length === 0 ? (
           <h3>No ads!</h3>
-          ) : (
-
+        ) : (
           ads.map((ad, index) => (
-            <div key={index} display={display}>
+            <div key={index}>
               <Ads
                 url={ad.ad.url}
                 title={ad.ad.title}
@@ -87,18 +86,18 @@ const SavedAds = () => {
                 desc={ad.ad.desc}
                 index={index}
                 length={ads.length}
-                />
-              
-                <div className={ad.vote}>
-                  {/* TODO: Do I even need booleans? */}
-                  <h1>Voted {ad.vote === "true" ? "Yes" : "No"}</h1>
-                </div> 
+              />
 
-              <button onClick={updateVote} id={ad._id} value = {ad.vote}>
+              <div className={ad.vote}>
+                {/* TODO: Do I even need booleans? */}
+                <h1>Voted {ad.vote === "true" ? "Yes" : "No"}</h1>
+              </div>
+
+              <button onClick={updateVote} id={ad._id} value={ad.vote}>
                 Change vote
               </button>
-              <div className = "false">
-                <button  id={ad._id} onClick={deleteVote}>
+              <div className="false">
+                <button id={ad._id} onClick={deleteVote}>
                   Delete
                 </button>
               </div>
