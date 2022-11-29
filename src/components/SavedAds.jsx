@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Ads from "./Ads";
-
+import Footer from "./Footer";
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
@@ -106,9 +106,7 @@ const SavedAds = () => {
           ))
         )
       ) : (
-        <div className="ad" onClick={getSavedAds}>
-          <h1>See saved ads.</h1>
-        </div>
+        <Footer />
       )}
     </div>
   );

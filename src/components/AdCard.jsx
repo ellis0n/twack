@@ -124,7 +124,8 @@ const AdCard = () => {
         ))
       ) : (
         <div style={{ cursor: "pointer" }}>
-          <h1>Get twacking.</h1>
+          <h2>Loading...</h2>
+          <Footer />
         </div>
       )}
     </div>
