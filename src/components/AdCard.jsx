@@ -105,14 +105,13 @@ const AdCard = () => {
             <div className="vote_wrapper">
               <VoteButton
                 ad={ad}
-                vote="true"
-                // TODO: Icon
+                vote={true}
                 text="Deal"
                 handleClick={sendVote}
               />
               <VoteButton
                 ad={ad}
-                vote="false"
+                vote={false}
                 text="No Deal"
                 handleClick={sendVote}
               />

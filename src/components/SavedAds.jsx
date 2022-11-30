@@ -27,7 +27,9 @@ const SavedAds = () => {
   const updateVote = async (e) => {
     let id = e.target.id;
     let update;
-    e.target.value === "true" ? (update = "false") : (update = "true");
+    console.log(typeof(e.target.value))
+    e.target.value === true ? (update = false) : (update = true);
+    console.log(update)
     let jsonPut = { _id: id, vote: update };
     jsonPut = JSON.stringify(jsonPut);
     await fetch("http://localhost:3500/save", {
@@ -67,9 +69,9 @@ const SavedAds = () => {
 
   return (
     <div className="main_wrapper">
-      <button onClick={getSavedAds} className="ad">
+      {/* <button onClick={getSavedAds} className="ad">
         Refresh saved ads.
-      </button>
+      </button> */}
 
       {running ? (
         ads.length === 0 ? (
@@ -88,16 +90,21 @@ const SavedAds = () => {
                 length={ads.length}
               />
 
-              <div className={ad.vote}>
-                {/* TODO: Do I even need booleans? */}
-                <h1>Voted {ad.vote === "true" ? "Yes" : "No"}</h1>
+              <div className={ad.vote.toString()}>
+                <h1>{ad.vote === true ? "Deal" : "No Deal"}</h1>
               </div>
 
-              <button onClick={updateVote} id={ad._id} value={ad.vote}>
-                Change vote
-              </button>
-              <div className="false">
-                <button id={ad._id} onClick={deleteVote}>
+              <div className = "update_btn">
+                <button 
+                onClick={updateVote} 
+                id={ad._id}
+                value={ad.vote}>
+                  Change vote
+                </button>
+              </div>
+
+              <div className="delete_btn">
+                <button onClick={deleteVote} id={ad._id}>
                   Delete
                 </button>
               </div>
