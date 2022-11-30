@@ -1,19 +1,22 @@
 import React from 'react'
 
-const VoteButton = ({adInfo, vote, sendVote, text}) => {
-    let data = {id: adInfo.id, ad: adInfo, vote: vote}
+const VoteButton = (props) => {
+
+
+  let data = {ad: props.ad, vote: props.vote}
+
     const handleClick = async (e) => {
         e.preventDefault();      
-        sendVote(data);  
+        props.handleClick(data);  
     }
 
   return (
     <button
         type="button"
-        id={adInfo.id}
-        className={vote}
+        data= {props.ad}
+        className={props.vote}
         onClick={handleClick}>
-        {text}
+        {props.text}
     </button>
   )
 }

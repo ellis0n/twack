@@ -56,16 +56,12 @@ const AdCard = () => {
   };
 
   //  Handles user voting.
-  const sendVote = async (data) => {
-    const vote = {
-      id: data.ad.id,
-      ad: data.ad,
-      vote: data.vote,
-    };
 
+  //TODO: Pass back only vote id and filter against ads in state.
+  const sendVote = async (vote) => {
     setVotes([...votes, vote]);
     // Remove ad from state once voted on
-    setAds(ads.filter((ad) => ad.id !== vote.id));
+    setAds(ads.filter((ad) => ad.id !== vote.ad.id));
     let jsonVote = JSON.stringify(vote);
     await fetch("http://localhost:3500/save", {
       method: "POST",
@@ -108,16 +104,17 @@ const AdCard = () => {
 
             <div className="vote_wrapper">
               <VoteButton
-                adInfo={ad}
+                ad={ad}
                 vote="true"
-                text="Deal!"
-                sendVote={sendVote}
+                // TODO: Icon
+                text="Deal"
+                handleClick={sendVote}
               />
               <VoteButton
-                adInfo={ad}
+                ad={ad}
                 vote="false"
-                text="No Deal!"
-                sendVote={sendVote}
+                text="No Deal"
+                handleClick={sendVote}
               />
             </div>
           </div>
