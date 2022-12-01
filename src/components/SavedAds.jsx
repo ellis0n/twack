@@ -1,14 +1,17 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Ads from "./Ads";
+import Footer from "./Footer";
+import VoteButton from "./VoteButton";
 
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
 
-  let display = "block";
+  useEffect(() => {
+    getSavedAds();
+  }, []);
 
-  const getSavedAds = async (e) => {
+  const getSavedAds = async () => {
     await fetch("http://localhost:3500/save", {
       method: "GET",
       headers: {
@@ -18,36 +21,31 @@ const SavedAds = () => {
     })
       .then((response) => response.json())
       .then((response) => {
+        // console.log(response);
         setAds(response);
         setRunning(true);
       });
   };
 
-  const updateVote = async (e) => {
-    let id = e.target.id;
-    let update;
-    e.target.value === "true" ? update = "false" : update = "true" 
-    let jsonPut = { _id: id, vote: update };
-    jsonPut = JSON.stringify(jsonPut);
+  const updateVote = async ({ ad, vote }) => {
+    let newVote;
+    vote === true ? (newVote = false) : (newVote = true);
+    console.log(ad);
+    const data = JSON.stringify({ ad: ad.ad, vote: newVote });
     await fetch("http://localhost:3500/save", {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: jsonPut,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
-      getSavedAds();
+      body: data,
+    }).then((response) => response.json());
+    getSavedAds();
   };
 
-  const deleteVote = async (e) => {
-    console.log(e.target.id);
-    let jsonDelete = { id: e.target.id };
-    jsonDelete = JSON.stringify(jsonDelete);
+  const deleteVote = async (data) => {
+    console.log(data.ad);
+    let deletedAd = JSON.stringify(data.ad);
 
     await fetch(`http://localhost:3500/save`, {
       method: "DELETE",
@@ -55,29 +53,23 @@ const SavedAds = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: jsonDelete,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
-      getSavedAds();
+      body: deletedAd,
+    }).then((response) => response.json());
+    getSavedAds();
   };
-
 
   return (
     <div className="main_wrapper">
-      <button onClick={getSavedAds} className="ad">
+      {/* <button onClick={getSavedAds} className="ad">
         Refresh saved ads.
-      </button>
+      </button> */}
 
       {running ? (
         ads.length === 0 ? (
           <h3>No ads!</h3>
-          ) : (
-
+        ) : (
           ads.map((ad, index) => (
-            <div key={index} display={display}>
+            <div key={index}>
               <Ads
                 url={ad.ad.url}
                 title={ad.ad.title}
@@ -87,29 +79,32 @@ const SavedAds = () => {
                 desc={ad.ad.desc}
                 index={index}
                 length={ads.length}
-                />
-              
-                <div className={ad.vote}>
-                  {/* TODO: Do I even need booleans? */}
-                  <h1>Voted {ad.vote === "true" ? "Yes" : "No"}</h1>
-                </div> 
+              />
 
-              <button onClick={updateVote} id={ad._id} value = {ad.vote}>
-                Change vote
-              </button>
-              <div className = "false">
-                <button  id={ad._id} onClick={deleteVote}>
-                  Delete
-                </button>
+              <div className={ad.vote.toString()}>
+                <h1>{ad.vote === true ? "Deal" : "No Deal"}</h1>
+              </div>
+
+              <div className="vote_wrapper">
+                <VoteButton
+                  ad={ad}
+                  vote={ad.vote}
+                  text="Change Vote"
+                  handleClick={updateVote}
+                />
+                <VoteButton
+                  ad={ad}
+                  vote={!ad.vote}
+                  text="Delete"
+                  handleClick={deleteVote}
+                />
               </div>
               <hr />
             </div>
           ))
         )
       ) : (
-        <div className="ad" onClick={getSavedAds}>
-          <h1>See saved ads.</h1>
-        </div>
+        <Footer />
       )}
     </div>
   );

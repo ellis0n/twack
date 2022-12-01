@@ -1,34 +1,40 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Ads from "./Ads";
-import ParamBox from "./ParamBox";
 import Footer from "./Footer.jsx";
+import ParamBox from "./ParamBox";
+import VoteButton from "./VoteButton";
 
 //  Card for holding each individual ad and its child voting options
-//  TODO:: Add a comment box component and stylize
+//  TODO:: Add a comment box component
 const AdCard = () => {
-  //  Manages scraped ad
   const [ads, setAds] = useState([]);
-  //  Manages user votes
-  const [votes, setVotes] = useState([]); // TODO: Add datetime here or at server?
-  //  Handles wait for scraping
+  const [votes, setVotes] = useState([]);
   const [running, setRunning] = useState(false);
-  //  User parameters TODO: Make dynamic based on user data
-  const [params, setParams] = useState({ location: 0, category: 0 });
 
-  //  Handles changes to search location and category parameters
-  const handleLocation = (e) => {
-    setParams({ location: e.target.value, category: params.category });
-  };
-  const handleCategory = (e) => {
-    setParams({ location: params.location, category: e.target.value });
-  };
+  useEffect(() => {
+    const updateParams = async () => {
+      await fetch("http://localhost:3500/pref", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((response) =>
+          scrapeAds({
+            location: response[0].location,
+            category: response[0].category,
+          })
+        );
+    };
+    updateParams();
+  }, []);
 
   //  Request handler for scraping ads
-  // TODO: send save data if ready
-  const scrapeAds = async () => {
+  const scrapeAds = async (params) => {
     try {
-      // JSON parameter state, send to server
       const data = JSON.stringify(params);
       await fetch("http://localhost:3500/scrape", {
         method: "POST",
@@ -38,7 +44,6 @@ const AdCard = () => {
         },
         body: data,
       })
-        //  Save the returned array in state and render the images by toggling run state
         .then((response) => response.json())
         .then((response) => {
           response = JSON.parse(response);
@@ -50,20 +55,13 @@ const AdCard = () => {
     }
   };
 
-  //  Handles user voting
-  const voteAds = async (e) => {
-    
-    // Create an object with both the ad id and user choice (yes/no)
-    const vote = {
-      id: e.target.id,
-      ad: e.target.value,
-      vote: e.target.className,
-    };
-    e.preventDefault();
-    //  Save the vote object to state
+  //  Handles user voting.
+
+  //TODO: Pass back only vote id and filter against ads in state.
+  const sendVote = async (vote) => {
     setVotes([...votes, vote]);
-    //  Remove the ad from the ad statearray
-    setAds(ads.filter((ad) => ad.id !== vote.id));
+    // Remove ad from state once voted on
+    setAds(ads.filter((ad) => ad.id !== vote.ad.id));
     let jsonVote = JSON.stringify(vote);
     await fetch("http://localhost:3500/save", {
       method: "POST",
@@ -74,48 +72,21 @@ const AdCard = () => {
       body: jsonVote,
     })
       .then((response) => response.json())
-      // TODO: Convert to UI notification
       .then((response) => {
+        // TODO: Convert to UI notification
         console.log(response);
       });
-    // If the ad state array is empty,,,
+    // If the ad state array is empty, reset vote counter
     if (ads.length === 1) {
       //TODO: conditional render for continue
-      //  Reset state
-      setAds([]);
       setVotes([]);
-      //  Return a new set of ads to vote on
-      setRunning(true);
-      scrapeAds();
       setRunning(false);
-    }
-  };
-
-  //  TODO: write function to handle "unsure/skip"
-  //  Handles click events
-  const handleClick = async (e) => {
-    //  Accept user parameters
-    e.preventDefault();
-    switch (e.target.name) {
-      case "voteAds":
-        voteAds(e);
-        break;
-      case "scrapeAds":
-        scrapeAds();
-        break;
-      default:
-        console.log(e.target);
     }
   };
 
   return (
     <div className="main_wrapper">
-      <ParamBox
-        handleClick={handleClick}
-        params={params}
-        handleCategory={handleCategory}
-        handleLocation={handleLocation}
-      />
+      <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
 
       {running ? (
         ads.map((ad, index) => (
@@ -129,36 +100,28 @@ const AdCard = () => {
               price={ad.price}
               desc={ad.desc}
               index={index}
-              length={ads.length}
             />
 
             <div className="vote_wrapper">
-              <button
-                type="button"
-                id={ad.id}
-                value={JSON.stringify(ad)}
-                className="true"
-                name="voteAds"
-                onClick={handleClick}
-              >
-                Yes
-              </button>
-              <button
-                type={"false"}
-                id={ad.id}
-                value={JSON.stringify(ad)}
-                name="voteAds"
-                className="false"
-                onClick={handleClick}
-              >
-                No
-              </button>
+              <VoteButton
+                ad={ad}
+                vote={true}
+                text="Deal"
+                handleClick={sendVote}
+              />
+              <VoteButton
+                ad={ad}
+                vote={false}
+                text="No Deal"
+                handleClick={sendVote}
+              />
             </div>
           </div>
         ))
       ) : (
-        <div className="ad" onClick={scrapeAds} style={{ cursor: "pointer" }}>
-          <h1>Get twacking.</h1> <Footer />
+        <div style={{ cursor: "pointer" }}>
+          <h2>Loading...</h2>
+          <Footer />
         </div>
       )}
     </div>

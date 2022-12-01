@@ -1,7 +1,7 @@
 import React from "react";
 
 //  The component for rendering each individual ad
-const Ads = ({ id, url, title, alt, src, price, desc, index, length }) => {
+const Ads = ({ url, title, alt, src, price, desc, index }) => {
   return (
     <div className="ad" key={index}>
       <a href={url}>
