@@ -1,24 +1,20 @@
-import React from 'react'
+import React from "react";
 
-const VoteButton = (props) => {
-  let data = {ad: props.ad, vote: props.vote}
-  let className = props.vote.toString()
+//TODO: Take in only ad.id and sort back in parent component
+const VoteButton = ({ ad, vote, text, handleClick }) => {
+  let data = { ad: ad, vote: vote };
+  let className = vote.toString(); //TODO: This is dumb
 
-    const handleClick = async (e) => {
-        e.preventDefault();      
-        props.handleClick(data);  
-    }
+  const onClick = async (e) => {
+    e.preventDefault();
+    handleClick(data);
+  };
 
   return (
-    <button
-        id= {props._id}
-        type="button"
-        data= {props.ad}
-        className={className}
-        onClick={handleClick}>
-        {props.text}
+    <button id={ad} type="button" className={className} onClick={onClick}>
+      {text}
     </button>
-  )
-}
+  );
+};
 
-export default VoteButton
+export default VoteButton;

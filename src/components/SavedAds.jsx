@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Ads from "./Ads";
 import Footer from "./Footer";
+import VoteButton from "./VoteButton";
+
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
@@ -19,38 +21,31 @@ const SavedAds = () => {
     })
       .then((response) => response.json())
       .then((response) => {
+        // console.log(response);
         setAds(response);
         setRunning(true);
       });
   };
 
-  const updateVote = async (e) => {
-    let id = e.target.id;
-    let update;
-    console.log(typeof(e.target.value))
-    e.target.value === true ? (update = false) : (update = true);
-    console.log(update)
-    let jsonPut = { _id: id, vote: update };
-    jsonPut = JSON.stringify(jsonPut);
+  const updateVote = async ({ ad, vote }) => {
+    let newVote;
+    vote === true ? (newVote = false) : (newVote = true);
+    console.log(ad);
+    const data = JSON.stringify({ ad: ad.ad, vote: newVote });
     await fetch("http://localhost:3500/save", {
       method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: jsonPut,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
+      body: data,
+    }).then((response) => response.json());
     getSavedAds();
   };
 
-  const deleteVote = async (e) => {
-    console.log(e.target.id);
-    let jsonDelete = { id: e.target.id };
-    jsonDelete = JSON.stringify(jsonDelete);
+  const deleteVote = async (data) => {
+    console.log(data.ad);
+    let deletedAd = JSON.stringify(data.ad);
 
     await fetch(`http://localhost:3500/save`, {
       method: "DELETE",
@@ -58,12 +53,8 @@ const SavedAds = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: jsonDelete,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-      });
+      body: deletedAd,
+    }).then((response) => response.json());
     getSavedAds();
   };
 
@@ -94,19 +85,19 @@ const SavedAds = () => {
                 <h1>{ad.vote === true ? "Deal" : "No Deal"}</h1>
               </div>
 
-              <div className = "update_btn">
-                <button 
-                onClick={updateVote} 
-                id={ad._id}
-                value={ad.vote}>
-                  Change vote
-                </button>
-              </div>
-
-              <div className="delete_btn">
-                <button onClick={deleteVote} id={ad._id}>
-                  Delete
-                </button>
+              <div className="vote_wrapper">
+                <VoteButton
+                  ad={ad}
+                  vote={ad.vote}
+                  text="Change Vote"
+                  handleClick={updateVote}
+                />
+                <VoteButton
+                  ad={ad}
+                  vote={!ad.vote}
+                  text="Delete"
+                  handleClick={deleteVote}
+                />
               </div>
               <hr />
             </div>
