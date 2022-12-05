@@ -38,7 +38,7 @@ html {
   margin: auto 18%;
 }
 
-.main_wrapper{
+.main_wrapper {
   margin: auto 8%;
   bottom: -1%;
 }
@@ -64,7 +64,7 @@ html {
   font-kerning: none;
   font-size: calc(2vh + 1vmin);
   padding: 12px 12px;
-  background-color:#faf6ff82;
+  background-color: #faf6ff82;
 }
 
 .ad h1:hover {
@@ -72,8 +72,8 @@ html {
 }
 
 .ad h2 {
-  background-color:#5880614a;
-  color:#282c34;
+  background-color: #5880614a;
+  color: #282c34;
   font-family: "Fredoka One";
 }
 
@@ -125,12 +125,12 @@ button {
   background-color: rgba(255, 255, 255, 0.451);
 }
 
-.param_wrapper{
+.param_wrapper {
   font-size: 1rem;
   padding: 1em;
   display: block;
   justify-content: center;
-  background-color:#5880611f;
+  background-color: #5880611f;
   border-radius: 12px;
   padding: 20px;
 }
@@ -155,8 +155,7 @@ fieldset {
   z-index: -1;
 }
 
-
-.navBar{
+.navBar {
   display: flexbox;
   flex-direction: row-reverse;
   justify-content: space-evenly;
@@ -170,7 +169,6 @@ fieldset {
   background: #e7b5ac;
   color: black;
   border-radius: 8px;
-
 }
 .navLink:hover {
   color: darkred;
