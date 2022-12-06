@@ -88,7 +88,7 @@ const ParamBox = (props) => {
           <option value={274}>Clothing</option>
           <option value={16}>Computers</option>
           <option value={128}>Computer Accessories</option>
-          <option value={17220001}>Free Stuff</option>
+          {/* <option value={17220001}>Free Stuff</option> */}
           <option value={235}>Furniture</option>
           <option value={638}>Garage Sales</option>
           <option value={140}>Health & Special Needs</option>
