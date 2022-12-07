@@ -5,14 +5,14 @@ const Navbar = () => {
   return (
         <div className = "navBar">
           <nav>
-                <Link className="navLink" to="/">
+                <Link className="navLink" to="/ads">
                   Home
                 </Link>
                 <Link className="navLink" to="/settings">
                   Settings
                 </Link>
                 <Link className="navLink" to="/saved">
-                  Saved Ads
+                  Deals
                 </Link>
           </nav>
         </div>

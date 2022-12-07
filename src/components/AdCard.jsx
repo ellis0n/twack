@@ -4,6 +4,8 @@ import Ads from "./Ads";
 import Footer from "./Footer.jsx";
 import ParamBox from "./ParamBox";
 import VoteButton from "./VoteButton";
+import Banner from "./Banner";
+import Navbar from "./Navbar";
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component
@@ -85,6 +87,9 @@ const AdCard = () => {
   };
 
   return (
+    <>
+    <Banner className= "banner-sm"/>
+    <Navbar/>
     <div className="main_wrapper">
       <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
 
@@ -139,6 +144,7 @@ const AdCard = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
