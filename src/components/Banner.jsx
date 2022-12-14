@@ -11,7 +11,6 @@ const Banner = ({className}) => {
       icon={faBars}  
       color="white" 
       size="xs" 
-      pull="left"
       className = "burger"
       /></div> : null }
     <div className="logo">

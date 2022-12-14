@@ -42,8 +42,6 @@
   font-size: calc(10px + 4vmin);
   font-family: "Fredoka One", cursive;
   color: #588061;
-  margin: 2% 0% 0% 20;
-  padding: 0px 1em;
   background-color: 
   #e7b5ac;
   border-bottom: 2px solid #58806141;
@@ -55,11 +53,12 @@
   #e7b5acea;
 }
 
-.burger{
+.burger, .logo{
 text-align: center;
-font-family: "Fredoka One"
-
+font-family: "Fredoka One";
+padding-left: 2%;
 }
+
 
 .wrapper {
   margin: auto 18%;
