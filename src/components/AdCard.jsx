@@ -4,6 +4,8 @@ import Ads from "./Ads";
 import Footer from "./Footer.jsx";
 import ParamBox from "./ParamBox";
 import VoteButton from "./VoteButton";
+import Banner from "./Banner";
+import Navbar from "./Navbar";
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component
@@ -85,46 +87,64 @@ const AdCard = () => {
   };
 
   return (
+    <>
+    <Banner className= "banner-sm"/>
+    <Navbar/>
     <div className="main_wrapper">
       <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
 
       {running ? (
-        ads.map((ad, index) => (
-          <div key={index} style={{ display: index === 0 ? "block" : "none" }}>
-            <Ads
-              id={ad.id}
-              url={ad.url}
-              title={ad.title}
-              alt={ad.desc}
-              src={ad.img}
-              price={ad.price}
-              desc={ad.desc}
-              index={index}
-            />
-
-            <div className="vote_wrapper">
-              <VoteButton
-                ad={ad}
-                vote={true}
-                text="Deal"
-                handleClick={sendVote}
-              />
-              <VoteButton
-                ad={ad}
-                vote={false}
-                text="No Deal"
-                handleClick={sendVote}
-              />
-            </div>
+        // IF ADS ARRAY STATE EMPTY
+        ads.length === 0 ? (
+          <div className="ad">
+            <h2>No more ads!</h2>
+            <h3> Try again later.</h3>
+            <Footer />
           </div>
-        ))
+        ) : (
+          // IF ADS ARRAY STATE NOT EMPTY
+          ads.map((ad, index) => (
+            <div
+              key={index}
+              style={{ display: index === 0 ? "block" : "none" }}
+            >
+              <Ads
+                id={ad.id}
+                url={ad.url}
+                title={ad.title}
+                alt={ad.desc}
+                src={ad.img}
+                price={ad.price}
+                desc={ad.desc}
+                index={index}
+              />
+
+              <div className="vote_wrapper">
+                <VoteButton
+                  ad={ad}
+                  vote={true}
+                  text="Deal"
+                  handleClick={sendVote}
+                />
+                <VoteButton
+                  ad={ad}
+                  vote={false}
+                  text="No Deal"
+                  handleClick={sendVote}
+                />
+              </div>
+            </div>
+          ))
+        )
       ) : (
+        // IF NOT RUNNING
         <div style={{ cursor: "pointer" }}>
           <h2>Loading...</h2>
           <Footer />
         </div>
       )}
     </div>
+    </>
   );
 };
 

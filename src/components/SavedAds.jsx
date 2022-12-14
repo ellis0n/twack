@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Ads from "./Ads";
 import Footer from "./Footer";
 import VoteButton from "./VoteButton";
-
+import Banner from "./Banner";
+import Navbar from "./Navbar";
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
@@ -59,6 +60,9 @@ const SavedAds = () => {
   };
 
   return (
+    <>
+    <Banner className = "banner-sm"/>
+    <Navbar/>
     <div className="main_wrapper">
       {/* <button onClick={getSavedAds} className="ad">
         Refresh saved ads.
@@ -70,6 +74,7 @@ const SavedAds = () => {
         ) : (
           ads.map((ad, index) => (
             <div key={index}>
+
               <Ads
                 url={ad.ad.url}
                 title={ad.ad.title}
@@ -107,6 +112,7 @@ const SavedAds = () => {
         <Footer />
       )}
     </div>
+    </>
   );
 };
 

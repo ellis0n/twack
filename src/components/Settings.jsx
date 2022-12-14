@@ -1,6 +1,8 @@
 import React from "react";
 import ParamBox from "./ParamBox";
 import Footer from "./Footer";
+import Banner from "./Banner";
+import Navbar from "./Navbar";
 
 const Settings = () => {
   //  TODO: Save to local storage
@@ -17,6 +19,7 @@ const Settings = () => {
   };
 
   return (
+    <><Banner className = "banner-sm"/><Navbar/>
     <div className="main_wrapper">
       <ParamBox
         type="setting"
@@ -25,6 +28,7 @@ const Settings = () => {
       />
       <Footer />
     </div>
+    </>
   );
 };
 
