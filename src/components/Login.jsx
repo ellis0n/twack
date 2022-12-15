@@ -1,56 +1,104 @@
-import React, {useState} from "react";
-import Banner from "./Banner";
-import Footer from "./Footer";
-
-// Placeholder login div  
+import { React, useEffect, useState, useContext } from 'react'
+import AuthContext from '../context/AuthProvider';
+import Banner from './Banner'
 
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(false);
+
+    const { setAuth } = useContext(AuthContext);
+    const [user, setUser] = useState("");
+    const [pwd, setPwd] = useState("");    
+    const [err, setErr] = useState("");
+    const [success, setSuccess] = useState(false);
 
 
+    useEffect(() => {
+        setErr("");
+    }, [user, pwd])
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
     
-    const data = JSON.stringify({ user: username, pwd: password });
-    await fetch("http://localhost:3500/auth", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: data
-    }).then((response) => response.json().then((response) => console.log(response)),
-    setUser(true)
-    )};
-
-    //this function 
-
-  return (
+    const handleClick = async(e) => {
+        e.preventDefault();
+        const data = JSON.stringify({ user, pwd });
+        await fetch("http://localhost:3500/login", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                withCredentials: true
+            },
+            body: data
+        })
+          .then((response) => {
+            if (response.status === 401){
+              throw new Error("Invalid username or password")
+            } else if (
+                response.status === 400){
+                throw new Error("Missing username or password")
+            }
+            console.log(response)
+            setSuccess(true);
+            setUser('');
+            setPwd('');
+            })
+          .catch((err) => {
+            setErr(err)
+            })
+    }
+    
+    return (
     <>
-    <Banner className="banner"/>
-    <div className="login">
-    <div className = "login-form">
-      <form onSubmit={handleSubmit}>        
-        <label >
-          <div className = "input-value">Username:</div>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}  className = "text-input"/>
-        </label>
-        <label >
-          <div className = "input-value">Password:</div>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className = "text-input"/>
-        </label>
-        <br/>
-        <input type="submit" value="Login" className = "login-btn"/>
-      </form>
-    </div>
-    </div>
-    <Footer/>
-    </>
-  );
-};
+    <Banner className ="banner"/>
+    {success ? (
+        <>
+            <div className = "true">
+                <h1>Welcome back.</h1>
+            </div>
+            <div className = "logo">
+                <p>
+                    <a href="/ads">Get twacking.</a>
+                </p>
+            </div>
+        </>
+    ) : (
 
-export default Login;
+    <div className="login">
+        {err ?
+        <div className = "error-msg">
+            <h4>{`${err}`}</h4>
+        </div> :
+        null
+        }
+        <div className = "login-form">
+            <form> 
+                <label htmlFor="username">
+                <div className = "input-value">
+                    Username:
+                </div>
+                <input 
+                    type="text"
+                    value={user} 
+                    autoComplete="off"
+                    onChange={(e) => setUser(e.target.value)}  className = "text-input"/>
+                </label>
+
+                <label >
+                    <div className = "input-value">Password:</div>
+                    <input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} className = "text-input"/>
+                </label>
+
+                <button className = "login-btn" onClick={handleClick}>
+                    Sign In
+                </button>
+            </form>
+        </div>
+        <h4 className = "auth-link">
+            <a href="/login">New here?</a>
+        </h4>
+    </div>
+    )}
+    </>
+    )
+}
+
+export default Login
