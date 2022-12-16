@@ -235,14 +235,15 @@ fieldset {
 }
 
 .login-btn{
-  margin: 5px;
-  padding: 2%;
-  background-color: #e7b5ac;
+  margin: 8%;
+  padding: .2em;
+  background-color: #ffffff91;
   color: rgba(0, 0, 0, 0.656);
   border-radius: 4px;
   font-family: "Fredoka One", cursive;
   border: 0;
   cursor: pointer;
+  border: 2px solid #282c34
 }
 
 .login{

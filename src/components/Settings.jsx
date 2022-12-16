@@ -3,6 +3,7 @@ import ParamBox from "./ParamBox";
 import Footer from "./Footer";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import Users from "./Users";
 
 const Settings = () => {
   //  TODO: Save to local storage
@@ -26,7 +27,8 @@ const Settings = () => {
         text="Save preferences."
         handleClick={handleClick}
       />
-      <Footer />
+      <Users/>
+      {/* <Footer /> */}
     </div>
     </>
   );

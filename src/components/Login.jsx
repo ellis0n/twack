@@ -6,8 +6,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 const Login = () => {
   const { setAuth } = useAuth();
 
-  const { navigate } = useNavigate();
-  const { location } = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
 
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
@@ -31,7 +33,7 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.status === 401) {
           throw new Error("Invalid username or password");
         } else if (response.status === 400) {
@@ -43,6 +45,8 @@ const Login = () => {
         setAuth({ user, pwd, roles, accessToken });
         setUser("");
         setPwd("");
+        navigate(from, { replace: true });
+
       })
       .catch((err) => {
         setErr(err);
