@@ -40,8 +40,10 @@ const Login = () => {
           throw new Error("Missing username or password");
         }
         const accessToken = response.accessToken;
+        console.log(accessToken)
+
         const roles = response.roles;
-        console.log(accessToken, roles);
+        console.log(roles);
         setAuth({ user, pwd, roles, accessToken });
         setUser("");
         setPwd("");

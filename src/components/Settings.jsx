@@ -1,6 +1,6 @@
 import React from "react";
 import ParamBox from "./ParamBox";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
 import Users from "./Users";
