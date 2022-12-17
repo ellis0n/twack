@@ -76,7 +76,7 @@ const AdCard = () => {
       .then((response) => response.json())
       .then((response) => {
         // TODO: Convert to UI notification
-        console.log(response);
+        // console.log(response);
       });
     // If the ad state array is empty, reset vote counter
     if (ads.length === 1) {

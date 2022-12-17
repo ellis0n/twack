@@ -8,6 +8,8 @@ import Layout from "./components/Layout";
 import RequireAuth from "./components/RequireAuth";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./components/Landing";
+import Unauthorized from "./components/Unauthorized";
+import Users from "./components/Users";
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/landing" element={<Landing />} />
+          <Route path="/unauthorized" element={<Unauthorized />}/>
+          <Route path="/users" element={<Users/>}/>
+
 
           {/* Private Routes */}
           <Route element={<RequireAuth />}>
