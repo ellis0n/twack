@@ -6,21 +6,25 @@ import ParamBox from "./ParamBox";
 import VoteButton from "./VoteButton";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import { AuthProvider } from "../context/AuthProvider";
+import useAuth from '../hooks/useAuth';
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component
 const AdCard = () => {
+  const { auth } = useAuth();
   const [ads, setAds] = useState([]);
   const [votes, setVotes] = useState([]);
   const [running, setRunning] = useState(false);
-
   useEffect(() => {
     const updateParams = async () => {
       await fetch("http://localhost:3500/pref", {
         method: "GET",
+        credentials: 'include',
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer: ${ auth.accessToken }`
         },
       })
         .then((response) => response.json())
@@ -40,9 +44,11 @@ const AdCard = () => {
       const data = JSON.stringify(params);
       await fetch("http://localhost:3500/scrape", {
         method: "POST",
+        credentials: 'include',
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer: ${ auth.accessToken }`
         },
         body: data,
       })

@@ -4,32 +4,35 @@ import Register from "./components/Register";
 import AdCard from "./components/AdCard";
 import Settings from "./components/Settings";
 import Login from "./components/Login";
-import Layout from "./components/Layout";
+import Home from "./components/Home";
 import RequireAuth from "./components/RequireAuth";
 import { Routes, Route } from "react-router-dom";
-import Landing from "./components/Landing";
+import Banner from "./components/Banner";
 import Unauthorized from "./components/Unauthorized";
 import Users from "./components/Users";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Layout />}>
+
           {/* Public Routes */}
+          <Route path = "/" element={<Banner className = "banner"/>} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/landing" element={<Landing />} />
           <Route path="/unauthorized" element={<Unauthorized />}/>
-          <Route path="/users" element={<Users/>}/>
+          
 
 
           {/* Private Routes */}
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<AdCard />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/ads" element={<AdCard />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/saved" element={<SavedAds />} />
+            <Route path="/users" element={<Users/>}/>
           </Route>
 
           {/* 404 */}

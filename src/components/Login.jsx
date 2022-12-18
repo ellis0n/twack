@@ -2,6 +2,8 @@ import { React, useEffect, useState } from "react";
 import Banner from "./Banner";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from '../api/axios';
+const LOGIN_URL = '/auth';
 
 const Login = () => {
   const { setAuth } = useAuth();
@@ -13,53 +15,49 @@ const Login = () => {
 
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
-  const [err, setErr] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
-    setErr("");
+    setErrMsg("");
   }, [user, pwd]);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const data = JSON.stringify({ user, pwd });
-    await fetch("http://localhost:3500/auth", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        withCredentials: true,
-      },
-      body: data,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        // console.log(response);
-        if (response.status === 401) {
-          throw new Error("Invalid username or password");
-        } else if (response.status === 400) {
-          throw new Error("Missing username or password");
+
+      try {
+          const response = await axios.post(LOGIN_URL,
+              JSON.stringify({ user, pwd }),
+              {
+                  headers: { 'Content-Type': 'application/json' },
+                  withCredentials: true
+              }
+          );
+          const accessToken = response?.data?.accessToken;
+          setAuth({ user, pwd, accessToken });
+          setUser('');
+          setPwd('');
+          navigate(from, { replace: true });
+        } catch (err) {
+          if (!err?.response) {
+            setErrMsg('No Server Response');
+        } else if (err.response?.status === 400) {
+            setErrMsg('Missing Username or Password');
+        } else if (err.response?.status === 401) {
+            setErrMsg('Unauthorized');
+        } else {
+            setErrMsg('Login Failed');
         }
-        const accessToken = response.accessToken;
-        console.log(accessToken)
+      }
+    }
 
-        setAuth({ user, pwd, accessToken });
-        setUser("");
-        setPwd("");
-        navigate(from, { replace: true });
-
-      })
-      .catch((err) => {
-        setErr(err);
-      });
-  };
-
+    
   return (
     <>
       <Banner className="banner" />
       <div className="login">
-        {err ? (
+        {errMsg ? (
           <div className="error-msg">
-            <h4>{`${err}`}</h4>
+            <h4>{`${errMsg}`}</h4>
           </div>
         ) : null}
         <div className="login-form">

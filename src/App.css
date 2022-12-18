@@ -53,6 +53,10 @@
   #e7b5acea;
 }
 
+.logo-link{
+  text-decoration: none;
+  color: inherit;
+}
 .burger, .logo{
 text-align: center;
 font-family: "Fredoka One";
