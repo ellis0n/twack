@@ -20,7 +20,7 @@ const Banner = ({className}) => {
       className = "burger"
       /></div> : null }
     <div className="logo" >
-      <Link to= "/ads" className = "logo-link"><div className="logo" >twack</div></Link>
+      <Link to= "/" className = "logo-link"><div className="logo" >twack</div></Link>
     </div>
   </div>
   </>

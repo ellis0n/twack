@@ -65,12 +65,14 @@ const Login = () => {
             <h4>{`${errMsg}`}</h4>
           </div>
         ) : null}
+
         <div className="login-form">
           <form>
             <label htmlFor="username">
               <div className="input-value">Username:</div>
               <input
                 type="text"
+                id="username"
                 autoComplete="off"
                 {...userAttribute}
                 className="text-input"
@@ -79,7 +81,7 @@ const Login = () => {
               />
             </label>
 
-            <label>
+            <label htmlFor="password">
               <div className="input-value">Password:</div>
               <input
                 type="password"
