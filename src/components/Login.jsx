@@ -2,7 +2,10 @@ import { React, useEffect, useState } from "react";
 import Banner from "./Banner";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import useInput from "../hooks/useInput";
+import useToggle from "../hooks/useToggle";
 import axios from '../api/axios';
+
 const LOGIN_URL = '/auth';
 
 const Login = () => {
@@ -13,9 +16,10 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
 
 
-  const [user, setUser] = useState("");
+  const [user, resetUser, userAttribute] = useInput("user", "");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [check, toggleCheck] = useToggle('persist', false);
 
   useEffect(() => {
     setErrMsg("");
@@ -34,7 +38,8 @@ const Login = () => {
           );
           const accessToken = response?.data?.accessToken;
           setAuth({ user, pwd, accessToken });
-          setUser('');
+          // setUser('');
+          resetUser();
           setPwd('');
           navigate(from, { replace: true });
         } catch (err) {
@@ -50,7 +55,7 @@ const Login = () => {
       }
     }
 
-    
+ 
   return (
     <>
       <Banner className="banner" />
@@ -66,10 +71,11 @@ const Login = () => {
               <div className="input-value">Username:</div>
               <input
                 type="text"
-                value={user}
                 autoComplete="off"
-                onChange={(e) => setUser(e.target.value)}
+                {...userAttribute}
                 className="text-input"
+                required
+
               />
             </label>
 
@@ -80,12 +86,24 @@ const Login = () => {
                 value={pwd}
                 onChange={(e) => setPwd(e.target.value)}
                 className="text-input"
+                required
+
               />
             </label>
 
             <button className="login-btn" onClick={handleClick}>
               Sign In
             </button>
+
+            <div className="persist-btn">
+              <input
+              type = "checkbox"
+              id = "persist"
+              onChange={toggleCheck}
+              checked= {check}
+              />
+              <label htmlFor="persist">Stay logged in.</label>
+            </div>
           </form>
         </div>
         <h4 className="auth-link">

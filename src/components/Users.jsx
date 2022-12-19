@@ -3,7 +3,8 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import useRefreshToken from "../hooks/useRefreshToken";
 import axios from "../api/axios";
-
+import Banner from "./Banner";
+import Navbar from "./Navbar";
 
 const Users = () => {
     const [users, setUsers] = useState();
@@ -39,8 +40,10 @@ const Users = () => {
 
     return (
         <>
+        <Banner className="banner-sm"/>
+        <Navbar/>
         <article>
-            <h2>Users List</h2>
+            <h2>Users</h2>
             {users?.length
                 ? (
                     <ul>
@@ -49,7 +52,6 @@ const Users = () => {
                 ) : <p>No users to display</p>
             }
         </article>
-        <button onClick={()=>refresh()}>Refresh</button>
 </>
     );
 };

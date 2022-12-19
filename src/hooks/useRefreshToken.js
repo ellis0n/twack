@@ -9,7 +9,7 @@ const useRefreshToken = () => {
         })
         console.log(response)
         setAuth(prev => {
-            console.log("BUG FIXING BELOW")
+            // console.log("BUG FIXING BELOW")
             console.log(JSON.stringify(prev));
             console.log(response.data.accessToken);
             return { ...prev, accessToken: response.data.accessToken }
