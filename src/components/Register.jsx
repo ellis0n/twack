@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Banner from "./Banner";
 import Footer from "./Footer";
+import { Link } from "react-router-dom";
 
 
 //todo: add error message for username and password
@@ -50,11 +51,8 @@ const Register = () => {
                 <div className = "true">
                     <h1>Account created.</h1>
                 </div>
-                <div className = "logo">
-                    <p>
-                        <a href="/login">Login</a>
-                    </p>
-                </div>
+                <Link to="/login" style={{ textDecoration: 'none' }}> <div className="landing-btn reg"><p> Login</p></div>
+    </Link>
                 </>
             ) : (
 

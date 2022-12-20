@@ -10,6 +10,7 @@ const LOGIN_URL = '/auth';
 
 const Login = () => {
   const { setAuth } = useAuth();
+  const auth = useAuth()
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,6 +21,14 @@ const Login = () => {
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [check, toggleCheck] = useToggle('persist', false);
+
+
+  useEffect(() => {
+    if (auth.user){
+      navigate('/ads');
+    }
+    
+  }, [auth])
 
   useEffect(() => {
     setErrMsg("");
@@ -106,11 +115,10 @@ const Login = () => {
               />
               <label htmlFor="persist">Stay logged in.</label>
             </div>
+            <Link to="/register" style={{ textDecoration: 'none' }}> <div className="landing-btn reg"><p> Register</p></div>
+            </Link>
           </form>
         </div>
-        <h4 className="auth-link">
-          <Link to="/register">New here?</Link>
-        </h4>
       </div>
     </>
   );

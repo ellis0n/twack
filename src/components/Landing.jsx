@@ -12,7 +12,7 @@ const Landing = () => {
 
 
   useEffect(() => {
-    if (auth.user){
+  if (auth.user){
       navigate('/home');
     }
     
@@ -22,11 +22,15 @@ const Landing = () => {
   return (
     <>
     <Banner className="banner"/>
-    <Link to="/login"><div className = "login-btn">Login</div></Link>
-    <Link to="/register"> <div className="login-btn">Register</div></Link>
+    <div className = "landing-wrapper">
+    <Link to="/login" style={{ textDecoration: 'none' }}><div className = "landing-btn"><p>Log In</p></div></Link>
+    
+    <Link to="/register" style={{ textDecoration: 'none' }}> <div className="landing-btn reg"><p> Register</p></div>
+    </Link>
+    </div>
     <Footer/>
     </>
-    )
+  )
 }
 
 export default Landing

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import useRefreshToken from "../hooks/useRefreshToken";
-import axios from "../api/axios";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
 
@@ -26,7 +25,7 @@ const Users = () => {
                 isMounted && setUsers(response.data);
             } catch (err) {
                 console.error(err);
-                navigate('/ads', { state: { from: location }, replace: true });
+                navigate('/login', { state: { from: location }, replace: true });
             }
         }
 
