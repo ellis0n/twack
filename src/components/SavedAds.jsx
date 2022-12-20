@@ -4,69 +4,114 @@ import Footer from "./Footer";
 import VoteButton from "./VoteButton";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import { useNavigate, useLocation } from "react-router-dom";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAuth from "../hooks/useAuth";
+
+
+
 const SavedAds = () => {
   const [ads, setAds] = useState([]);
   const [running, setRunning] = useState(false);
+  const axiosPrivate = useAxiosPrivate();
+  useAxiosPrivate();
+  const navigate = useNavigate();
+  const stateLocation = useLocation();
+  const {auth} = useAuth()
+
 
   useEffect(() => {
+    // let isMounted = true;
+    // const controller = new AbortController();
     getSavedAds();
-  }, []);
+
+    // return () => {
+      // isMounted = false;
+      // controller.abort();
+    // }
+  }, [])
 
   const getSavedAds = async () => {
-    await fetch("http://localhost:3500/save", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        // console.log(response);
-        setAds(response);
-        setRunning(true);
-      });
-  };
+    console.log("Getting saved ads.")
+    try {
+      const response = await axiosPrivate.get('/vote', {
+        // signal: controller.signal
+    });
+      // isMounted  &&
+      setAds(response.data);
+      setRunning(true);
+    } catch (err) {
+      console.error(err);
+      navigate('/login', { state: { from: stateLocation }, replace: true });
+    }}
+
+  // const getSavedAds = async () => {
+
+  //   try {
+  //     const response = await axiosPrivate.get('/vote', {});
+  //     console.log(response.data);
+  //     setAds(response.data);
+  //   } catch (err) {
+  //     console.error(err);
+  //     navigate('/login', { state: { from: location }, replace: true });
+    // }
+  //   await fetch("http://localhost:3500/save", {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       // console.log(response);
+  //       setAds(response);
+  //       setRunning(true);
+  //     });
+  // };
 
   const updateVote = async ({ ad, vote }) => {
     let newVote;
     vote === true ? (newVote = false) : (newVote = true);
-    console.log(ad);
-    const data = JSON.stringify({ ad: ad.ad, vote: newVote });
-    await fetch("http://localhost:3500/save", {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: data,
-    }).then((response) => response.json());
-    getSavedAds();
-  };
+    try {
+      const response = await axiosPrivate.put('/vote', JSON.stringify({ ad: ad.ad, vote: newVote }),
+      {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+      });
+      console.log(`Ad ${response.data.ad.id } updated to ${response.data.vote}`)
+      getSavedAds()
+      setRunning(true);
+    } catch (err) {
+        console.error(err);
+        navigate('/login', { state: { from: stateLocation }, replace: true });
+    }
+  }
 
-  const deleteVote = async (data) => {
-    console.log(data.ad);
-    let deletedAd = JSON.stringify(data.ad);
 
-    await fetch(`http://localhost:3500/save`, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: deletedAd,
-    }).then((response) => response.json());
-    getSavedAds();
-  };
+  const deleteVote = async ({ad}) => {
+    console.log(ad)
+    try {
+      const response = await axiosPrivate.delete('/vote', {data: ad},
+      {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+      });
+      console.log(response.data)
+      console.log(`Ad deleted.`)
+      getSavedAds()
+      // setRunning(true);
+    } catch (err) {
+        console.error(err);
+        navigate('/login', { state: { from: stateLocation }, replace: true });
+    }
+  }
 
   return (
     <>
     <Banner className = "banner-sm"/>
     <Navbar/>
     <div className="main_wrapper">
-      {/* <button onClick={getSavedAds} className="ad">
-        Refresh saved ads.
-      </button> */}
 
       {running ? (
         ads.length === 0 ? (

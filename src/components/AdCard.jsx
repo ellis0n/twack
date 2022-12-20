@@ -6,21 +6,33 @@ import ParamBox from "./ParamBox";
 import VoteButton from "./VoteButton";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import { AuthProvider } from "../context/AuthProvider";
+import useAuth from '../hooks/useAuth';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component
 const AdCard = () => {
+  const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const stateLocation = useLocation();
+  const { auth } = useAuth();
+
   const [ads, setAds] = useState([]);
   const [votes, setVotes] = useState([]);
   const [running, setRunning] = useState(false);
 
+  
   useEffect(() => {
     const updateParams = async () => {
       await fetch("http://localhost:3500/pref", {
         method: "GET",
+        credentials: 'include',
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer: ${ auth.accessToken }`
         },
       })
         .then((response) => response.json())
@@ -35,56 +47,67 @@ const AdCard = () => {
   }, []);
 
   //  Request handler for scraping ads
+
   const scrapeAds = async (params) => {
     try {
-      const data = JSON.stringify(params);
-      await fetch("http://localhost:3500/scrape", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: data,
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          response = JSON.parse(response);
-          setAds(response);
-          setRunning(true);
+        const response = await axiosPrivate.post('/scrape', JSON.stringify(params),
+        {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
         });
+        setAds(JSON.parse(response.data)
+        );
+        setRunning(true);
     } catch (err) {
-      throw err;
+        console.error(err);
+        navigate('/login', { state: { from: stateLocation }, replace: true });
     }
-  };
+}
 
-  //  Handles user voting.
-
-  //TODO: Pass back only vote id and filter against ads in state.
   const sendVote = async (vote) => {
-    setVotes([...votes, vote]);
-    // Remove ad from state once voted on
-    setAds(ads.filter((ad) => ad.id !== vote.ad.id));
-    let jsonVote = JSON.stringify(vote);
-    await fetch("http://localhost:3500/save", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: jsonVote,
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        // TODO: Convert to UI notification
-        console.log(response);
-      });
+      try {
+          const response = await axiosPrivate.post('/vote', JSON.stringify(vote),
+          {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: true,
+          });
+          console.log(`Voted ${response.data.vote} for ${response.data.ad.id}`)
+          setVotes([...votes, vote]);
+          setAds(ads.filter((ad) => ad.id !== vote.ad.id));
+          if (ads.length === 1) {
+            setVotes([]);
+            setRunning(false);
+          }
+      } catch (err) {
+          console.error(err);
+          navigate('/login', { state: { from: stateLocation }, replace: true });
+      }
+  }
+
+
+
+
+
+
+
+    // await fetch("http://localhost:3500/save", {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: jsonVote,
+    // })
+      // .then((response) => response.json())
+      // .then((response) => {
+        // console.log(response);
+      // });
     // If the ad state array is empty, reset vote counter
-    if (ads.length === 1) {
-      //TODO: conditional render for continue
-      setVotes([]);
-      setRunning(false);
-    }
-  };
+  //   if (ads.length === 1) {
+  //     setVotes([]);
+  //     setRunning(false);
+  //   }
+  // };
 
   return (
     <>
@@ -94,6 +117,7 @@ const AdCard = () => {
       <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
 
       {running ? (
+        console.log(ads),
         // IF ADS ARRAY STATE EMPTY
         ads.length === 0 ? (
           <div className="ad">

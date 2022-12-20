@@ -3,8 +3,20 @@ import ParamBox from "./ParamBox";
 import Footer from "./Footer";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import Users from "./Users";
+import { useNavigate, Link } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
 
 const Settings = () => {
+
+  const logout  = useLogout();;
+  const navigate = useNavigate();
+
+  const signOut = async () => {
+      await logout();
+      navigate('/login');
+  }
+
   //  TODO: Save to local storage
   const handleClick = async (pref) => {
     const data = JSON.stringify(pref);
@@ -26,6 +38,9 @@ const Settings = () => {
         text="Save preferences."
         handleClick={handleClick}
       />
+      <div >
+        <button className = "login-btn" onClick={signOut}>Sign Out</button>
+      </div>
       <Footer />
     </div>
     </>

@@ -24,7 +24,7 @@
   font-family: "Fredoka One", cursive;
   color: #588061;
   margin: 0% 20%;
-  padding: 100px 10px;
+  padding: 50px 10px;
   background-color: #e7b5ac29;
   border-radius: 12px;
 }
@@ -53,6 +53,10 @@
   #e7b5acea;
 }
 
+.logo-link{
+  text-decoration: none;
+  color: inherit;
+}
 .burger, .logo{
 text-align: center;
 font-family: "Fredoka One";
@@ -235,13 +239,15 @@ fieldset {
 }
 
 .login-btn{
-  margin: 5px;
-  padding: 2%;
-  background-color: #e7b5ac;
+  margin: 8%;
+  padding: .2em;
+  background-color: #ffffff91;
   color: rgba(0, 0, 0, 0.656);
   border-radius: 4px;
   font-family: "Fredoka One", cursive;
   border: 0;
+  cursor: pointer;
+  border: 2px solid #282c34
 }
 
 .login{
@@ -255,4 +261,52 @@ fieldset {
 .burger{
   padding-right: 2px;
   margin: 0;
+}
+
+.error-msg{
+  color: #f55e5e;
+  font-size: 0.8rem;
+  font-family: "Fredoka One", cursive;  
+  text-align: center;
+}
+
+.landing-btn{
+  margin: 18% 0;
+  padding: 0em 0 0em 0;
+  background-color: #ffffff91;
+  border: 2px solid #e7b5acae;
+  color: rgba(0, 0, 0, 0.656);
+  border-radius: 4px;
+  font-family: "Fredoka One", cursive;
+  cursor: pointer;
+  text-decoration: none;
+}
+.landing-btn:hover{
+  color: rgba(255, 255, 255, 0.874);
+  outline: black;
+  background: #5880619a;
+  transition: transform 900ms, background 1550ms   ;
+}
+.reg {
+  background-color: #ffffff91;
+}
+.reg:hover{
+  color: rgba(0, 0, 0, 0.656);
+  outline: black;
+  background: #282c3468;
+  transition: transform 900ms, background 1550ms   ;
+}
+.landing-btn p{
+  text-decoration: none;
+}
+.landing-wrapper{
+  margin: 0% 40% 0% 40%;
+}
+
+
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
