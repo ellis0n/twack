@@ -6,7 +6,6 @@ import ParamBox from "./ParamBox";
 import VoteButton from "./VoteButton";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
-import { AuthProvider } from "../context/AuthProvider";
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";

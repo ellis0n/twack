@@ -33,7 +33,6 @@ const ParamBox = (props) => {
   const handleClick = async (e) => {
     e.preventDefault();
     switch (props.type) {
-      // this is redundant, but I'm leaving it in for now
       case "setting":
         props.handleClick(params);
         break;
