@@ -1,26 +1,46 @@
 import React, { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
 
 const ParamBox = (props) => {
   const [params, setParams] = useState({ location: 0, category: 0 });
+  const { auth } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
+  const logout = useLogout();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   // console.log(params);
   useEffect(() => {
-    const updateParams = async () => {
-      await fetch("http://localhost:3500/pref", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((response) =>
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getUsers = async () => {
+      try {
+        const response = await axiosPrivate.get("/pref", {
+          signal: controller.signal,
+        });
+        console.log(response);
+        isMounted &&
           setParams({
-            location: response[0].location,
-            category: response[0].category,
-          })
-        );
+            location: response.data.pref.location,
+            category: response.data.pref.category,
+          });
+      } catch (err) {
+        console.error(err);
+
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     };
-    updateParams();
+    getUsers();
+    console.log(params);
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
 
   const handleLocation = (e) => {
@@ -32,16 +52,17 @@ const ParamBox = (props) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    switch (props.type) {
-      case "setting":
-        props.handleClick(params);
-        break;
-      case "scraper":
-        props.handleClick(params);
-        break;
-      default:
-        console.log(e.target);
-    }
+    // switch (props.type) {
+    //   case "setting":
+    console.log(params);
+    props.handleClick(params);
+    //     break;
+    //   case "scraper":
+    //     props.handleClick(params);
+    //     break;
+    //   default:
+    //     console.log(e.target);
+    // }
   };
 
   return (

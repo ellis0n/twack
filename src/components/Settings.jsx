@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ParamBox from "./ParamBox";
 import Footer from "./Footer";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
 import Users from "./Users";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -12,41 +12,49 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 const Settings = () => {
   const logout = useLogout();
   const navigate = useNavigate();
+  const location = useLocation();
   const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
+
+  // const [pref, setPref] = useState([]);
 
   const signOut = async () => {
     await logout();
     navigate("/login");
   };
 
-  //  TODO: Save to local storage
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   const controller = new AbortController();
+  //   const getUsers = async () => {
+  //     try {
+  //       const response = await axiosPrivate.get("/pref", {
+  //         signal: controller.signal,
+  //       });
+  //       isMounted && setPref(response.data.pref);
+  //     } catch (err) {
+  //       console.error(err);
+  //       navigate("/login", { state: { from: location }, replace: true });
+  //     }
+  //   };
+  //   getUsers();
+  //   console.log(pref);
+  // }, []);
+
   const handleClick = async (pref) => {
     try {
-      const response = await axiosPrivate.post(
-        "/vote",
+      const response = await axiosPrivate.put(
+        "/pref",
         JSON.stringify({ pref, user: auth.user }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
+      console.log(response);
     } catch (err) {
       console.error(err);
     }
-
-    console.log(auth.user);
-    const data = JSON.stringify({ pref, user: auth.user });
-    await fetch("http://localhost:3500/pref", {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: data,
-    })
-      .then((response) => response.json())
-      .then((response) => console.log(response));
   };
 
   return (
