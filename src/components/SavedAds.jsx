@@ -34,6 +34,7 @@ const SavedAds = () => {
         // signal: controller.signal
       });
       // isMounted  &&
+      console.log(response.data);
       setAds(response.data);
       setRunning(true);
     } catch (err) {
@@ -41,31 +42,6 @@ const SavedAds = () => {
       navigate("/login", { state: { from: stateLocation }, replace: true });
     }
   };
-
-  // const getSavedAds = async () => {
-
-  //   try {
-  //     const response = await axiosPrivate.get('/vote', {});
-  //     console.log(response.data);
-  //     setAds(response.data);
-  //   } catch (err) {
-  //     console.error(err);
-  //     navigate('/login', { state: { from: location }, replace: true });
-  // }
-  //   await fetch("http://localhost:3500/save", {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       // console.log(response);
-  //       setAds(response);
-  //       setRunning(true);
-  //     });
-  // };
 
   const updateVote = async ({ ad, vote }) => {
     let newVote;

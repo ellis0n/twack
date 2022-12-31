@@ -50,7 +50,7 @@ const AdCard = () => {
     try {
       const response = await axiosPrivate.post(
         "/scrape",
-        JSON.stringify(params),
+        JSON.stringify({ params, user: auth.user }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -65,12 +65,16 @@ const AdCard = () => {
   };
 
   const sendVote = async (vote) => {
+    let user = auth.user;
     try {
-      const response = await axiosPrivate.post("/vote", JSON.stringify(vote), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-      console.log(`Voted ${response.data.vote} for ${response.data.ad.id}`);
+      const response = await axiosPrivate.post(
+        "/vote",
+        JSON.stringify({ vote, user }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       setVotes([...votes, vote]);
       setAds(ads.filter((ad) => ad.id !== vote.ad.id));
       if (ads.length === 1) {
@@ -82,25 +86,6 @@ const AdCard = () => {
       navigate("/login", { state: { from: stateLocation }, replace: true });
     }
   };
-
-  // await fetch("http://localhost:3500/save", {
-  //   method: "POST",
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: jsonVote,
-  // })
-  // .then((response) => response.json())
-  // .then((response) => {
-  // console.log(response);
-  // });
-  // If the ad state array is empty, reset vote counter
-  //   if (ads.length === 1) {
-  //     setVotes([]);
-  //     setRunning(false);
-  //   }
-  // };
 
   return (
     <>
