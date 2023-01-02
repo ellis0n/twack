@@ -17,12 +17,12 @@ const ParamBox = (props) => {
     let isMounted = true;
     const controller = new AbortController();
 
-    const getUsers = async () => {
+    const getPref = async () => {
       try {
         const response = await axiosPrivate.get("/pref", {
           signal: controller.signal,
         });
-        console.log(response);
+        // console.log(response);
         isMounted &&
           setParams({
             location: response.data.pref.location,
@@ -34,7 +34,7 @@ const ParamBox = (props) => {
         navigate("/login", { state: { from: location }, replace: true });
       }
     };
-    getUsers();
+    getPref();
     console.log(params);
 
     return () => {

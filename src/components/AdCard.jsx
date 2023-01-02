@@ -23,7 +23,7 @@ const AdCard = () => {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    const updateParams = async () => {
+    const getPref = async () => {
       await fetch("http://localhost:3500/pref", {
         method: "GET",
         credentials: "include",
@@ -34,14 +34,15 @@ const AdCard = () => {
         },
       })
         .then((response) => response.json())
-        .then((response) =>
+        .then((response) => {
+          console.log(response);
           scrapeAds({
-            location: response[0].location,
-            category: response[0].category,
-          })
-        );
+            location: response.pref.location,
+            category: response.pref.category,
+          });
+        });
     };
-    updateParams();
+    getPref();
   }, []);
 
   //  Request handler for scraping ads
