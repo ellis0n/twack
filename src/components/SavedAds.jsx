@@ -41,6 +41,7 @@ const SavedAds = () => {
       console.error(err);
       navigate("/login", { state: { from: stateLocation }, replace: true });
     }
+    console.log(ads);
   };
 
   const updateVote = async ({ ad, vote }) => {
@@ -97,12 +98,12 @@ const SavedAds = () => {
             ads.map((ad, index) => (
               <div key={index}>
                 <Ads
-                  url={ad.ad.url}
-                  title={ad.ad.title}
-                  alt={ad.ad.desc}
-                  src={ad.ad.img}
-                  price={ad.ad.price}
-                  desc={ad.ad.desc}
+                  url={ad.url}
+                  title={ad.title}
+                  alt={ad.desc}
+                  src={ad.img}
+                  price={ad.price}
+                  desc={ad.desc}
                   index={index}
                   length={ads.length}
                 />

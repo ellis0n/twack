@@ -2,17 +2,13 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
 
-const ParamBox = (props) => {
+const ParamBox = ({ handleClick, text }) => {
   const [params, setParams] = useState({ location: 0, category: 0 });
-  const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const logout = useLogout();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // console.log(params);
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -22,7 +18,6 @@ const ParamBox = (props) => {
         const response = await axiosPrivate.get("/pref", {
           signal: controller.signal,
         });
-        // console.log(response);
         isMounted &&
           setParams({
             location: response.data.pref.location,
@@ -30,12 +25,10 @@ const ParamBox = (props) => {
           });
       } catch (err) {
         console.error(err);
-
         navigate("/login", { state: { from: location }, replace: true });
       }
     };
     getPref();
-    console.log(params);
 
     return () => {
       isMounted = false;
@@ -44,25 +37,22 @@ const ParamBox = (props) => {
   }, []);
 
   const handleLocation = (e) => {
-    setParams({ location: e.target.value, category: params.category });
+    setParams({
+      location: parseInt(e.target.value),
+      category: params.category,
+    });
   };
   const handleCategory = (e) => {
-    setParams({ location: params.location, category: e.target.value });
+    setParams({
+      location: params.location,
+      category: parseInt(e.target.value),
+    });
   };
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // switch (props.type) {
-    //   case "setting":
     console.log(params);
-    props.handleClick(params);
-    //     break;
-    //   case "scraper":
-    //     props.handleClick(params);
-    //     break;
-    //   default:
-    //     console.log(e.target);
-    // }
+    handleClick(params);
   };
 
   return (
@@ -131,8 +121,8 @@ const ParamBox = (props) => {
         <br />
 
         <br />
-        <button value={params} onClick={handleClick} type="submit">
-          {props.text}
+        <button value={params} onClick={handleSubmit} type="submit">
+          {text}
         </button>
       </form>
     </div>

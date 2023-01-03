@@ -23,24 +23,6 @@ const Settings = () => {
     navigate("/login");
   };
 
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const controller = new AbortController();
-  //   const getUsers = async () => {
-  //     try {
-  //       const response = await axiosPrivate.get("/pref", {
-  //         signal: controller.signal,
-  //       });
-  //       isMounted && setPref(response.data.pref);
-  //     } catch (err) {
-  //       console.error(err);
-  //       navigate("/login", { state: { from: location }, replace: true });
-  //     }
-  //   };
-  //   getUsers();
-  //   console.log(pref);
-  // }, []);
-
   const handleClick = async (pref) => {
     try {
       const response = await axiosPrivate.put(

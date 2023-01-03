@@ -23,28 +23,31 @@ const AdCard = () => {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+
     const getPref = async () => {
-      await fetch("http://localhost:3500/pref", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer: ${auth.accessToken}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          console.log(response);
-          scrapeAds({
-            location: response.pref.location,
-            category: response.pref.category,
-          });
+      try {
+        const response = await axiosPrivate.get("/pref", {
+          signal: controller.signal,
         });
+        isMounted &&
+          scrapeAds({
+            location: response.data.pref.location,
+            category: response.data.pref.category,
+          });
+      } catch (err) {
+        console.error(err);
+        navigate("/login", { state: { from: stateLocation }, replace: true });
+      }
     };
     getPref();
-  }, []);
 
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
   //  Request handler for scraping ads
 
   const scrapeAds = async (params) => {
@@ -82,6 +85,7 @@ const AdCard = () => {
         setVotes([]);
         setRunning(false);
       }
+      console.log(response);
     } catch (err) {
       console.error(err);
       navigate("/login", { state: { from: stateLocation }, replace: true });
