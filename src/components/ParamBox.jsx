@@ -1,48 +1,58 @@
 import React, { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const ParamBox = (props) => {
+const ParamBox = ({ handleClick, text }) => {
   const [params, setParams] = useState({ location: 0, category: 0 });
-  // console.log(params);
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    const updateParams = async () => {
-      await fetch("http://localhost:3500/pref", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((response) =>
+    let isMounted = true;
+    const controller = new AbortController();
+
+    const getPref = async () => {
+      try {
+        const response = await axiosPrivate.get("/pref", {
+          signal: controller.signal,
+        });
+        isMounted &&
           setParams({
-            location: response[0].location,
-            category: response[0].category,
-          })
-        );
+            location: response.data.pref.location,
+            category: response.data.pref.category,
+          });
+      } catch (err) {
+        console.error(err);
+        navigate("/login", { state: { from: location }, replace: true });
+      }
     };
-    updateParams();
+    getPref();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
   }, []);
 
   const handleLocation = (e) => {
-    setParams({ location: e.target.value, category: params.category });
+    setParams({
+      location: parseInt(e.target.value),
+      category: params.category,
+    });
   };
   const handleCategory = (e) => {
-    setParams({ location: params.location, category: e.target.value });
+    setParams({
+      location: params.location,
+      category: parseInt(e.target.value),
+    });
   };
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    switch (props.type) {
-      // this is redundant, but I'm leaving it in for now
-      case "setting":
-        props.handleClick(params);
-        break;
-      case "scraper":
-        props.handleClick(params);
-        break;
-      default:
-        console.log(e.target);
-    }
+    console.log(params);
+    handleClick(params);
   };
 
   return (
@@ -111,8 +121,8 @@ const ParamBox = (props) => {
         <br />
 
         <br />
-        <button value={params} onClick={handleClick} type="submit">
-          {props.text}
+        <button value={params} onClick={handleSubmit} type="submit">
+          {text}
         </button>
       </form>
     </div>

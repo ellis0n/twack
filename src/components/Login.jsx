@@ -4,31 +4,28 @@ import useAuth from "../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useInput from "../hooks/useInput";
 import useToggle from "../hooks/useToggle";
-import axios from '../api/axios';
+import axios from "../api/axios";
 
-const LOGIN_URL = '/auth';
+const LOGIN_URL = "/auth";
 
 const Login = () => {
   const { setAuth } = useAuth();
-  const auth = useAuth()
+  const auth = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-
   const [user, resetUser, userAttribute] = useInput("user", "");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [check, toggleCheck] = useToggle('persist', false);
-
+  const [check, toggleCheck] = useToggle("persist", false);
 
   useEffect(() => {
-    if (auth.user){
-      navigate('/ads');
+    if (auth.user) {
+      navigate("/ads");
     }
-    
-  }, [auth])
+  }, [auth]);
 
   useEffect(() => {
     setErrMsg("");
@@ -37,34 +34,34 @@ const Login = () => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-      try {
-          const response = await axios.post(LOGIN_URL,
-              JSON.stringify({ user, pwd }),
-              {
-                  headers: { 'Content-Type': 'application/json' },
-                  withCredentials: true
-              }
-          );
-          const accessToken = response?.data?.accessToken;
-          setAuth({ user, pwd, accessToken });
-          // setUser('');
-          resetUser();
-          setPwd('');
-          navigate(from, { replace: true });
-        } catch (err) {
-          if (!err?.response) {
-            setErrMsg('No Server Response');
-        } else if (err.response?.status === 400) {
-            setErrMsg('Missing Username or Password');
-        } else if (err.response?.status === 401) {
-            setErrMsg('Unauthorized');
-        } else {
-            setErrMsg('Login Failed');
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify({ user, pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
         }
+      );
+      const accessToken = response?.data?.accessToken;
+      setAuth({ user, pwd, accessToken });
+      // setUser('');
+      resetUser();
+      setPwd("");
+      navigate(from, { replace: true });
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 400) {
+        setErrMsg("Missing Username or Password");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Unauthorized");
+      } else {
+        setErrMsg("Login Failed");
       }
     }
+  };
 
- 
   return (
     <>
       <Banner className="banner" />
@@ -86,7 +83,6 @@ const Login = () => {
                 {...userAttribute}
                 className="text-input"
                 required
-
               />
             </label>
 
@@ -98,7 +94,6 @@ const Login = () => {
                 onChange={(e) => setPwd(e.target.value)}
                 className="text-input"
                 required
-
               />
             </label>
 
@@ -108,14 +103,18 @@ const Login = () => {
 
             <div className="persist-btn">
               <input
-              type = "checkbox"
-              id = "persist"
-              onChange={toggleCheck}
-              checked= {check}
+                type="checkbox"
+                id="persist"
+                onChange={toggleCheck}
+                checked={check}
               />
               <label htmlFor="persist">Stay logged in.</label>
             </div>
-            <Link to="/register" style={{ textDecoration: 'none' }}> <div className="landing-btn reg"><p> Register</p></div>
+            <Link to="/register" style={{ textDecoration: "none" }}>
+              {" "}
+              <div className="landing-btn reg">
+                <p> Register</p>
+              </div>
             </Link>
           </form>
         </div>
