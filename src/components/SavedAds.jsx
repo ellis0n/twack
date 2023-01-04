@@ -45,18 +45,18 @@ const SavedAds = () => {
   };
 
   const updateVote = async ({ ad, vote }) => {
+    console.log(ad);
     let newVote;
     vote === true ? (newVote = false) : (newVote = true);
     try {
       const response = await axiosPrivate.put(
         "/vote",
-        JSON.stringify({ ad: ad.ad, vote: newVote }),
+        JSON.stringify({ ad: ad.id, vote: newVote, user: auth.user }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
-      console.log(`Ad ${response.data.ad.id} updated to ${response.data.vote}`);
       getSavedAds();
       setRunning(true);
     } catch (err) {
@@ -66,18 +66,17 @@ const SavedAds = () => {
   };
 
   const deleteVote = async ({ ad }) => {
-    console.log(ad);
+    console.log(ad.id);
     try {
       const response = await axiosPrivate.delete(
         "/vote",
-        { data: ad },
+        { data: ad.id },
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
       console.log(response.data);
-      console.log(`Ad deleted.`);
       getSavedAds();
       // setRunning(true);
     } catch (err) {
@@ -119,12 +118,12 @@ const SavedAds = () => {
                     text="Change Vote"
                     handleClick={updateVote}
                   />
-                  <VoteButton
+                  {/* <VoteButton
                     ad={ad}
                     vote={!ad.vote}
                     text="Delete"
                     handleClick={deleteVote}
-                  />
+                  /> */}
                 </div>
                 <hr />
               </div>
