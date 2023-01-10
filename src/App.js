@@ -11,6 +11,7 @@ import { Routes, Route } from "react-router-dom";
 import Users from "./components/Users";
 import Layout from "./components/Layout";
 import Landing from "./components/Landing";
+import User from "./components/User";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/saved" element={<SavedAds />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/users/:id" element={<User />} />
           </Route>
         </Route>
         {/* 404 */}

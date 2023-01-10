@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
 
-.App,body {
+.App,
+body {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif, Geneva, Tahoma, sans-serif;
   background-color: #e7b5acef;
@@ -42,27 +43,25 @@
   font-size: calc(10px + 4vmin);
   font-family: "Fredoka One", cursive;
   color: #588061;
-  background-color: 
-  #e7b5ac;
+  background-color: #e7b5ac;
   border-bottom: 2px solid #58806141;
 }
 
 .banner-sm:hover {
   color: #869f77;
-  background-color: 
-  #e7b5acea;
+  background-color: #e7b5acea;
 }
 
-.logo-link{
+.logo-link {
   text-decoration: none;
   color: inherit;
 }
-.burger, .logo{
-text-align: center;
-font-family: "Fredoka One";
-padding-left: 2%;
+.burger,
+.logo {
+  text-align: center;
+  font-family: "Fredoka One";
+  padding-left: 2%;
 }
-
 
 .wrapper {
   margin: auto 18%;
@@ -163,8 +162,7 @@ button {
   background-color: rgba(255, 255, 255, 0.204);
   border-radius: 12px;
   padding: 20px;
-  font-family: "Fredoka One"
-
+  font-family: "Fredoka One";
 }
 
 fieldset {
@@ -211,7 +209,7 @@ fieldset {
   color: rgba(255, 255, 255, 0.874);
   outline: black;
   background: #588061;
-  transition: transform 900ms, background 1550ms   ;
+  transition: transform 900ms, background 1550ms;
 }
 
 .login-form {
@@ -221,56 +219,56 @@ fieldset {
   justify-content: center;
   font-family: "Fredoka One", cursive;
   color: #588061;
-  width: auto;  
+  width: auto;
   left: 0;
   right: 0;
   top: 0;
 }
 
-.text-input{
+.text-input {
   border: 2px solid #58806179;
   border-radius: 4px;
   padding: 5px;
   margin: 5px;
-  font-family: "Fredoka One", cursive ;
+  font-family: "Fredoka One", cursive;
   font-size: 1rem;
   background-color: #fffffff7;
   text-align: center;
 }
 
-.login-btn{
+.login-btn {
   margin: 8%;
-  padding: .2em;
+  padding: 0.2em;
   background-color: #ffffff91;
   color: rgba(0, 0, 0, 0.656);
   border-radius: 4px;
   font-family: "Fredoka One", cursive;
   border: 0;
   cursor: pointer;
-  border: 2px solid #282c34
+  border: 2px solid #282c34;
 }
 
-.login{
+.login {
   position: relative;
 }
 
-.input-value{
+.input-value {
   padding: 0px;
 }
 
-.burger{
+.burger {
   padding-right: 2px;
   margin: 0;
 }
 
-.error-msg{
+.error-msg {
   color: #f55e5e;
   font-size: 0.8rem;
-  font-family: "Fredoka One", cursive;  
+  font-family: "Fredoka One", cursive;
   text-align: center;
 }
 
-.landing-btn{
+.landing-btn {
   margin: 18% 0;
   padding: 0em 0 0em 0;
   background-color: #ffffff91;
@@ -281,32 +279,41 @@ fieldset {
   cursor: pointer;
   text-decoration: none;
 }
-.landing-btn:hover{
+.landing-btn:hover {
   color: rgba(255, 255, 255, 0.874);
   outline: black;
   background: #5880619a;
-  transition: transform 900ms, background 1550ms   ;
+  transition: transform 900ms, background 1550ms;
 }
 .reg {
   background-color: #ffffff91;
 }
-.reg:hover{
+.reg:hover {
   color: rgba(0, 0, 0, 0.656);
   outline: black;
   background: #282c3468;
-  transition: transform 900ms, background 1550ms   ;
+  transition: transform 900ms, background 1550ms;
 }
-.landing-btn p{
+.landing-btn p {
   text-decoration: none;
 }
-.landing-wrapper{
+.landing-wrapper {
   margin: 0% 40% 0% 40%;
 }
 
-
-ul{
+ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.users-list li {
+  margin: 0.4em;
 }

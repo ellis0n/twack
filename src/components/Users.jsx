@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useRefreshToken from "../hooks/useRefreshToken";
 import Banner from "./Banner";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 const Users = () => {
   const [users, setUsers] = useState();
@@ -41,13 +42,19 @@ const Users = () => {
       <Banner className="banner-sm" />
       <Navbar />
       <article>
-        <h2>Users</h2>
+        <h2 className="banner">Users</h2>
         {users?.length ? (
-          <ul>
-            {users.map((user, i) => (
-              <li key={i}>{user?.username}</li>
-            ))}
-          </ul>
+          <div className="users-list">
+            <ul>
+              {users.map((user, i) => (
+                <li key={i}>
+                  <Link className="navLink" to={user.username}>
+                    {user.username}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : (
           <p>No users to display</p>
         )}
