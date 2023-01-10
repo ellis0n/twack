@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
 import SavedAds from "./SavedAds";
+import Navbar from "./Navbar";
+import Banner from "./Banner";
 
 const User = () => {
   let { id } = useParams();
@@ -24,7 +26,7 @@ const User = () => {
         isMounted && setUser(response.data);
       } catch (err) {
         console.error(err);
-        // navigate("/login", { state: { from: location }, replace: true });
+        navigate("/login", { state: { from: location }, replace: true });
       }
     };
 
@@ -38,9 +40,12 @@ const User = () => {
 
   return (
     <>
+      <Banner className="banner-sm" />
+      <Navbar />
       {user ? (
         <>
-          <h1>{user.username}</h1> <h2>{user.pref.location}</h2>
+          <div className="banner">{user.username}</div>
+          {/* <h2 className="banner.pref.location}</h2> */}
         </>
       ) : (
         <h1>Loading...</h1>
