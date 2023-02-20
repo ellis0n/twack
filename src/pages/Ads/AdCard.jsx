@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Ads from "../../components/Ads";
+import Ad from "../../components/Ad";
 import Footer from "../../components/Footer.jsx";
 import ParamBox from "../../components/ParamBox";
 import VoteButton from "../../components/VoteButton";
@@ -115,7 +115,7 @@ const AdCard = () => {
 								key={index}
 								style={{ display: index === 0 ? "block" : "none" }}
 							>
-								<Ads
+								<Ad
 									id={ad.id}
 									url={ad.url}
 									title={ad.title}

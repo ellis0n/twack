@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Ads from "../../components/Ads";
+import Ad from "../../components/Ad";
 import Footer from "../../components/Footer";
 import VoteButton from "../../components/VoteButton";
 import Banner from "../../components/Banner";
@@ -96,7 +96,7 @@ const SavedAds = () => {
 					) : (
 						ads.map((ad, index) => (
 							<div key={index}>
-								<Ads
+								<Ad
 									url={ad.url}
 									title={ad.title}
 									alt={ad.desc}
