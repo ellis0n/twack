@@ -19,6 +19,7 @@ body {
 }
 
 .banner {
+	display: flex;
 	font-weight: 900;
 	min-height: 2vh;
 	font-size: calc(30px + 5vmin);

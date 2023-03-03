@@ -17,7 +17,7 @@ const Landing = () => {
 
 	return (
 		<>
-			<Banner className="banner" />
+			<Banner theme="landing" />
 			<div className="landing-wrapper">
 				<Link to="/login" style={{ textDecoration: "none" }}>
 					<div className="landing-btn">

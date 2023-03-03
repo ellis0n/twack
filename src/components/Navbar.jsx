@@ -11,7 +11,8 @@ const StyledNav = Styled.div`
   z-index: 1;
   width: 95vh;
   height: 100vh;
-
+  background: #588061;
+  position: fixed;
 
   a {
     text-decoration: none;
