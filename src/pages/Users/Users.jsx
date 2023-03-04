@@ -5,6 +5,20 @@ import useRefreshToken from "../../hooks/useRefreshToken";
 import Banner from "../../components/Banner";
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
+const UsersWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	/* height: 100vh; */
+	/* width: 100vw; */
+
+	.h2 {
+		color: #588061f6;
+	}
+`;
 
 const Users = () => {
 	const [users, setUsers] = useState();
@@ -39,10 +53,9 @@ const Users = () => {
 
 	return (
 		<>
-			<Banner className="banner-sm" />
-			<Navbar />
-			<article>
-				<h2 className="banner">Users</h2>
+			<Banner theme="header" />
+			<UsersWrapper>
+				<h2>Users</h2>
 				{users?.length ? (
 					<div className="users-list">
 						<ul>
@@ -58,7 +71,7 @@ const Users = () => {
 				) : (
 					<p>No users to display</p>
 				)}
-			</article>
+			</UsersWrapper>
 		</>
 	);
 };

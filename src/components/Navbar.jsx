@@ -1,46 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Styled from "styled-components";
+import ParamBox from "./ParamBox";
 
 const StyledNav = Styled.div`
-  display: flex;
+  display: ${(props) => (props.theme === "landing" ? "none" : "flex")};
   flex-direction: column;
   align-items: start;
-  /* font-size: 3rem; */
   font-weight: 600;
   z-index: 1;
-  width: 95vh;
+  width: 100vw;
   height: 100vh;
-  background: #588061;
+  background: #588061f6;
   position: fixed;
-
-  a {
-    text-decoration: none;
-    color: #fff;
-    font-family: "Fredoka One", cursive;
-
-    &:hover {
-    color: rgba(255, 255, 255, 0.774);
-    outline: black;
-    background: #588061;
-    transition: transform 900ms, background 1550ms;
-    }
-  }
+  transform: translateX(-100%);
+  transition: transform 0.5s ease-in-out;
 `;
 
 const LinkWrapper = Styled.div`
-  padding: 1rem;
-  margin: 1rem;
+  /* padding: 1rem; */
+  margin: .4rem;
   border-radius: 5px;
   transition: transform 900ms, background 1550ms;
+
   &:hover {
-    transform: scale(1.02);
-    color: rgba(255, 255, 255, 0.774);
-    outline: black;
-    transition: transform 900ms, background 1550ms;
-  }
-`;
-const Navbar = ({ onClick }) => {
+	  transform: scale(1.02);
+	  color: rgba(255, 255, 255, 0.774);
+	  outline: black;
+	  transition: transform 900ms, background 1550ms;
+	}
+	
+	a {
+	  text-decoration: none;
+	  color: #fff;
+	  font-family: "Fredoka One", cursive;
+	  
+	  &:hover {
+	  color: rgba(255, 255, 255, 0.774);
+	  outline: black;
+	  background: #588061;
+	  transition: transform 900ms, background 1550ms;
+	  
+	  }
+	}
+	`;
+const Navbar = ({ isMenuOpen }) => {
 	const links = [
 		{
 			name: "Home",
@@ -65,16 +69,23 @@ const Navbar = ({ onClick }) => {
 	];
 
 	return (
-		<StyledNav>
-			{links.map((link, index) => {
-				return (
-					<LinkWrapper>
-						<Link key={index} to={link.link}>
-							{link.name}
-						</Link>
+		<StyledNav
+			style={{
+				transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)",
+			}}
+		>
+			{links.map((link, index) =>
+				link.name === "Ads" ? (
+					<LinkWrapper key={index}>
+						{link.name}
+						<ParamBox />
 					</LinkWrapper>
-				);
-			})}
+				) : (
+					<LinkWrapper key={index}>
+						<Link to={link.link}>{link.name}</Link>
+					</LinkWrapper>
+				)
+			)}
 		</StyledNav>
 	);
 };

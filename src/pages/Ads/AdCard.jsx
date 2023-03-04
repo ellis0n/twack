@@ -4,6 +4,7 @@ import Ad from "../../components/Ad";
 import Footer from "../../components/Footer.jsx";
 import ParamBox from "../../components/ParamBox";
 import VoteButton from "../../components/VoteButton";
+import Wrapper from "../../components/Wrapper";
 import Banner from "../../components/Banner";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
@@ -94,9 +95,8 @@ const AdCard = () => {
 
 	return (
 		<>
-			<Banner className="banner-sm" />
-			<Navbar />
-			<div className="main_wrapper">
+			<Banner theme="header" />
+			<Wrapper>
 				<ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
 
 				{running ? (
@@ -151,7 +151,7 @@ const AdCard = () => {
 						<Footer />
 					</div>
 				)}
-			</div>
+			</Wrapper>
 		</>
 	);
 };

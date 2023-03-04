@@ -8,6 +8,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import useLogout from "../../hooks/useLogout";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Wrapper from "../../components/Wrapper";
 
 const Settings = () => {
 	const logout = useLogout();
@@ -41,9 +42,9 @@ const Settings = () => {
 
 	return (
 		<>
-			<Banner className="banner-sm" />
+			<Banner theme="header" />
 			<Navbar />
-			<div className="main_wrapper">
+			<Wrapper>
 				<ParamBox
 					type="setting"
 					text="Save preferences."
@@ -55,7 +56,7 @@ const Settings = () => {
 					</button>
 				</div>
 				<Footer />
-			</div>
+			</Wrapper>
 		</>
 	);
 };

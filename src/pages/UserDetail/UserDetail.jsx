@@ -5,6 +5,17 @@ import { useParams } from "react-router-dom";
 import SavedAds from "../SavedAds/SavedAds";
 import Navbar from "../../components/Navbar";
 import Banner from "../../components/Banner";
+import styled from "styled-components";
+
+const UserCard = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	background: #588061f6;
+`;
 
 const UserDetail = () => {
 	let { id } = useParams();
@@ -40,11 +51,10 @@ const UserDetail = () => {
 
 	return (
 		<>
-			<Banner className="banner-sm" />
-			<Navbar />
+			<Banner theme="header" />
 			{user ? (
 				<>
-					<div className="banner">{user.username}</div>
+					<UserCard>{user.username}</UserCard>
 					{/* <h2 className="banner.pref.location}</h2> */}
 				</>
 			) : (

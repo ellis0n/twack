@@ -5,8 +5,14 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
 import axios from "../../api/axios";
+import Footer from "../../components/Footer";
+import styled from "styled-components";
 
 const LOGIN_URL = "/auth";
+
+const LoginWrapper = styled.div`
+	display: flex;
+`;
 
 const Login = () => {
 	const { setAuth } = useAuth();

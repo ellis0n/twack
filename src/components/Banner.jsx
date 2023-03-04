@@ -1,62 +1,55 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar";
 
 const StyledBanner = styled.div`
 	font-weight: 900;
 	color: #588061;
 	font-family: "Fredoka One", cursive;
-	justify-content: center;
-	background-color: #e7b5ac;
-
-	display: ${(props) => (props.theme === "landing" ? "block" : "flex")};
-
 	justify-content: space-evenly;
 	align-items: center;
+	margin: 0px 20px;
 
+	display: ${(props) => (props.theme === "landing" ? "block" : "flex")};
 	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "2rem")};
+	padding: ${(props) => (props.theme === "landing" ? "1rem" : "0.5rem")};
 
-	:hover {
-		color: #869f77;
+	h1 {
 	}
 `;
 
-const MenuWrapper = styled.div`
-	display: ${(props) => (props.theme === "landing" ? "none" : "block")};
-`;
-
 const Banner = ({ theme }) => {
-	const [menuOpen, setMenuOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	console.log(theme);
-	console.log(menuOpen);
-
-	const handleMenuClick = () => {
-		setMenuOpen(!menuOpen);
-	};
+	console.log(isMenuOpen);
 
 	return (
-		<StyledBanner theme={theme}>
-			<MenuWrapper
-				theme={theme}
-				onClick={(e) => {
-					e.preventDefault();
-					handleMenuClick();
-				}}
-			>
-				<FontAwesomeIcon
-					icon={faBars}
-					color="white"
-					size="xs"
-					className="burger"
-				/>
-			</MenuWrapper>
-			<Link to="/" className="logo-link">
-				<h1>twack</h1>
-			</Link>
-		</StyledBanner>
+		<>
+			<StyledBanner theme={theme}>
+				<Link to="/ads" className="logo-link">
+					<h1>twack</h1>
+				</Link>
+				{theme === "header" ? (
+					<FontAwesomeIcon
+						icon={faBars}
+						color="white"
+						size="lg"
+						className="burger"
+						cursor={"pointer"}
+						onClick={(e) => {
+							e.preventDefault();
+							setIsMenuOpen(!isMenuOpen);
+						}}
+					/>
+				) : null}
+			</StyledBanner>
+
+			{isMenuOpen ? <Navbar isMenuOpen={isMenuOpen} /> : null}
+		</>
 	);
 };
 

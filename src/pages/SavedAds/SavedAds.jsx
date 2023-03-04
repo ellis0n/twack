@@ -3,7 +3,7 @@ import Ad from "../../components/Ad";
 import Footer from "../../components/Footer";
 import VoteButton from "../../components/VoteButton";
 import Banner from "../../components/Banner";
-import Navbar from "../../components/Navbar";
+import Wrapper from "../../components/Wrapper";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
@@ -87,9 +87,8 @@ const SavedAds = () => {
 
 	return (
 		<>
-			<Banner className="banner-sm" />
-			<Navbar />
-			<div className="main_wrapper">
+			<Banner theme="header" />
+			<Wrapper>
 				{running ? (
 					ads.length === 0 ? (
 						<h3>No ads!</h3>
@@ -118,12 +117,12 @@ const SavedAds = () => {
 										text="Change Vote"
 										handleClick={updateVote}
 									/>
-									{/* <VoteButton
-                    ad={ad}
-                    vote={!ad.vote}
-                    text="Delete"
-                    handleClick={deleteVote}
-                  /> */}
+									<VoteButton
+										ad={ad}
+										vote={!ad.vote}
+										text="Delete"
+										handleClick={deleteVote}
+									/>
 								</div>
 								<hr />
 							</div>
@@ -132,7 +131,7 @@ const SavedAds = () => {
 				) : (
 					<Footer />
 				)}
-			</div>
+			</Wrapper>
 		</>
 	);
 };
