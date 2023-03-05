@@ -124,6 +124,7 @@ const AdCard = () => {
 									price={ad.price}
 									desc={ad.desc}
 									index={index}
+									images={ad.images}
 								/>
 
 								<div className="vote_wrapper">

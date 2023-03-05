@@ -20,6 +20,19 @@ const UsersWrapper = styled.div`
 	}
 `;
 
+const UsersList = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	ul,
+	li {
+		list-style: none;
+		color: #588061f6;
+	}
+`;
+
 const Users = () => {
 	const [users, setUsers] = useState();
 	const axiosPrivate = useAxiosPrivate();
@@ -57,7 +70,7 @@ const Users = () => {
 			<UsersWrapper>
 				<h2>Users</h2>
 				{users?.length ? (
-					<div className="users-list">
+					<UsersList>
 						<ul>
 							{users.map((user, i) => (
 								<li key={i}>
@@ -67,9 +80,9 @@ const Users = () => {
 								</li>
 							))}
 						</ul>
-					</div>
+					</UsersList>
 				) : (
-					<p>No users to display</p>
+					<p>No users found!</p>
 				)}
 			</UsersWrapper>
 		</>

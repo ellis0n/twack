@@ -6,18 +6,30 @@ import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
 const StyledBanner = styled.div`
-	font-weight: 900;
 	color: #588061;
+	background-color: #ffffffa6;
 	font-family: "Fredoka One", cursive;
-	justify-content: space-evenly;
+	/* justify-content: space-evenly; */
 	align-items: center;
-	margin: 0px 20px;
-
+	height: 10vh;
+	min-height: 50px;
+	width: 100vw;
 	display: ${(props) => (props.theme === "landing" ? "block" : "flex")};
-	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "2rem")};
-	padding: ${(props) => (props.theme === "landing" ? "1rem" : "0.5rem")};
+	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "1rem")};
+	padding: ${(props) => (props.theme === "landing" ? "1rem" : "0px")};
+
+	.burger {
+		display: ${(props) => (props.theme === "header" ? "inline-block" : "none")};
+		color: #588061;
+		font-size: 24px;
+		vertical-align: middle;
+		cursor: pointer;
+		margin-right: 10px;
+	}
 
 	h1 {
+		font-size: calc(1.8rem + 1vw);
+		padding: 0.5rem;
 	}
 `;
 
@@ -30,22 +42,17 @@ const Banner = ({ theme }) => {
 	return (
 		<>
 			<StyledBanner theme={theme}>
+				<FontAwesomeIcon
+					icon={faBars}
+					className="burger"
+					onClick={(e) => {
+						e.preventDefault();
+						setIsMenuOpen(!isMenuOpen);
+					}}
+				/>
 				<Link to="/ads" className="logo-link">
 					<h1>twack</h1>
 				</Link>
-				{theme === "header" ? (
-					<FontAwesomeIcon
-						icon={faBars}
-						color="white"
-						size="lg"
-						className="burger"
-						cursor={"pointer"}
-						onClick={(e) => {
-							e.preventDefault();
-							setIsMenuOpen(!isMenuOpen);
-						}}
-					/>
-				) : null}
 			</StyledBanner>
 
 			{isMenuOpen ? <Navbar isMenuOpen={isMenuOpen} /> : null}
