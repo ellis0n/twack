@@ -125,6 +125,8 @@ const AdCard = () => {
 									desc={ad.desc}
 									index={index}
 									images={ad.images}
+									date={ad.date}
+									location={ad.location}
 								/>
 
 								<div className="vote_wrapper">
@@ -153,6 +155,7 @@ const AdCard = () => {
 					</div>
 				)}
 			</Wrapper>
+			{/* <Footer /> */}
 		</>
 	);
 };

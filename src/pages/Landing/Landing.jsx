@@ -4,6 +4,47 @@ import Banner from "../../components/Banner";
 import Footer from "../../components/Footer";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+const LandingWrapper = styled.div`
+	height: 20vh;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	/* background: #588061f0; */
+	font-family: "Fredoka One", cursive;
+	color: white;
+`;
+
+const OptionWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	border: #588061 2px solid;
+	border-radius: 4px;
+	background-color: #58806124;
+
+	button {
+		width: 8rem;
+		text-align: center;
+		background-color: #ffffff91;
+		border: 2px solid #e7b5acae;
+		color: rgba(0, 0, 0, 0.656);
+		border-radius: 4px;
+		font-family: "Fredoka One", cursive;
+		cursor: pointer;
+		text-decoration: none;
+		padding: 0.5rem 0rem;
+		margin: 0.3rem 0rem;
+
+		:hover {
+			color: rgba(255, 255, 255, 0.874);
+			outline: black;
+			background: #5880619a;
+			transition: transform 300ms, background 800ms;
+		}
+	}
+`;
 
 const Landing = () => {
 	const { auth } = useAuth();
@@ -13,26 +54,25 @@ const Landing = () => {
 		if (auth.user) {
 			navigate("/home");
 		}
-	}, [auth]);
+	}, [auth, navigate]);
 
 	return (
 		<>
 			<Banner theme="landing" />
-			<div className="landing-wrapper">
-				<Link to="/login" style={{ textDecoration: "none" }}>
-					<div className="landing-btn">
-						<p>Log In</p>
-					</div>
-				</Link>
+			<LandingWrapper>
+				<p>witty slogan</p>
+				<OptionWrapper>
+					<Link to="/login">
+						<button>Log In</button>
+					</Link>
 
-				<Link to="/register" style={{ textDecoration: "none" }}>
-					{" "}
-					<div className="landing-btn reg">
-						<p> Register</p>
-					</div>
-				</Link>
-			</div>
-			<Footer />
+					<Link to="/register">
+						{" "}
+						<button> Register</button>
+					</Link>
+				</OptionWrapper>
+				<Footer />
+			</LandingWrapper>
 		</>
 	);
 };

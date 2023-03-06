@@ -7,16 +7,16 @@ import Navbar from "./Navbar";
 
 const StyledBanner = styled.div`
 	color: #588061;
-	background-color: #ffffffa6;
 	font-family: "Fredoka One", cursive;
-	/* justify-content: space-evenly; */
 	align-items: center;
-	height: 10vh;
-	min-height: 50px;
 	width: 100vw;
+	height: 60px;
+
+	background-color: ${(props) =>
+		props.theme === "landing" ? "none" : "#F7E5E2"};
 	display: ${(props) => (props.theme === "landing" ? "block" : "flex")};
 	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "1rem")};
-	padding: ${(props) => (props.theme === "landing" ? "1rem" : "0px")};
+	padding-bottom: ${(props) => (props.theme === "landing" ? "120px" : "0px")};
 
 	.burger {
 		display: ${(props) => (props.theme === "header" ? "inline-block" : "none")};
@@ -28,8 +28,26 @@ const StyledBanner = styled.div`
 	}
 
 	h1 {
-		font-size: calc(1.8rem + 1vw);
-		padding: 0.5rem;
+		font-size: ${(props) =>
+			props.theme === "landing" ? "8rem" : "calc(1.8rem + 1vw)"};
+		margin: 0;
+		animation: ${(props) =>
+			props.theme === "landing" ? "slideIn 0.8s ease-out forwards" : ""};
+	}
+
+	:hover {
+		color: #588061;
+	}
+
+	@keyframes slideIn {
+		from {
+			opacity: 0;
+			transform: translateY(20%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 `;
 
@@ -50,12 +68,12 @@ const Banner = ({ theme }) => {
 						setIsMenuOpen(!isMenuOpen);
 					}}
 				/>
-				<Link to="/ads" className="logo-link">
+				<Link to={theme === "landing" ? "/" : "/ads"} className="logo-link">
 					<h1>twack</h1>
 				</Link>
 			</StyledBanner>
 
-			{isMenuOpen ? <Navbar isMenuOpen={isMenuOpen} /> : null}
+			{isMenuOpen ? <Navbar isOpen={isMenuOpen} /> : null}
 		</>
 	);
 };

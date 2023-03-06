@@ -3,69 +3,33 @@ import Lightbox from "./Lightbox";
 import styled from "styled-components";
 
 const AdWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
 	overflow: hidden;
 	border-radius: 1rem;
-	height: 90vh;
-	max-height: 600px;
+	height: 100%;
+	max-height: 90%;
 	font-family: Arial, Helvetica, sans-serif;
-	/* border: 2px solid #588061fd; */
-	background-color: #588061f2;
+	border: 2px solid #282c34;
+	/* background-color: #5880614a; */
+	height: 90vh;
+	max-height: 70vh;
+	max-width: 600px;
+	margin: 2% auto;
 
 	a {
-		color: inherit;
 		text-decoration: none;
-	}
-	h1 {
-		color: #282c34;
-		border-radius: 12px 12px 0 0;
-		background-color: #ffffff;
-		font-family: "Fredoka One";
-		font-weight: 900;
-		font-size: 1rem;
-		padding: 1em;
-		margin: 0;
-		line-height: 1rem;
-
-		overflow: hidden;
-		text-overflow: ellipsis;
-		:hover {
-			color: #282c3498;
-		}
-	}
-
-	h2 {
-		background-color: #5880614a;
-		color: #282c34;
-		font-family: "Fredoka One";
+		color: inherit;
 	}
 
 	p {
-		height: 100%;
+		/* height: 100%; */
 		padding: 0 1em;
-		text-align: left;
+		/* text-align: left; */
 		font-size: calc(1em + 0.5vw);
 		line-height: 1.5em;
-		background-color: #ffffffa0;
 		color: #282c34;
 		font-family: "Fredoka One";
-	}
-
-	a {
-		text-decoration: none;
-		color: #282c3475;
-		font-family: "Fredoka One";
-		font-size: 1em;
-
-		:hover {
-			color: #282c3498;
-		}
-	}
-
-	@media (min-width: 768px) {
-		width: 90%;
-		height: 90vh;
-		max-height: 600px;
-		margin: 2% auto;
 	}
 `;
 
@@ -74,36 +38,138 @@ const ImgWrapper = styled.div`
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: auto 100%;
+	background-size: 100%;
 	background-color: #ffffff22;
 
-	border: 4px solid rgba(0, 0, 0, 0.171);
-	border-radius: 12px;
-	height: 60%;
+	/* border: 4px solid rgba(0, 0, 0, 0.171); */
+	/* border-radius: 12px; */
+	height: 100%;
 
 	display: flex;
 	justify-content: flex-end;
 	flex-direction: column;
+	align-items: flex-end;
+`;
 
-	/* width: 100%; */
-	/* overflow: hidden scroll; */
-	/* object-fit: cover; */
+const TitleWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	background-color: #588061f2;
+
+	a {
+		font-size: 2rem;
+		color: #f7e5e2;
+		border-radius: 12px 12px 0 0;
+		font-family: "Fredoka One";
+		font-weight: 900;
+		margin: 0;
+		line-height: 2rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		:hover {
+			color: #282c3498;
+		}
+	}
+`;
+
+const InfoWrapper = styled.div`
+	display: flex;
+	position: relative;
+	opacity: 95%;
+	flex-direction: column;
+	width: 33%;
+	border-radius: 12px 12px 0px 0px;
+	font-family: "Fredoka One";
+	margin-right: 0.5em;
+
+	.info {
+		color: #282c34;
+		font-family: "Fredoka One";
+		font-size: 0.8rem;
+		margin: 0;
+		padding: 0.5em;
+		text-align: left;
+		background-color: #f7e5e2;
+	}
+
+	.price {
+		font-weight: 900;
+		background-color: #588061f4;
+		color: #f7e5e2;
+		border-radius: 12px 12px 0px 0px;
+
+		h2 {
+			margin: 0;
+			font-size: 3rem;
+			text-align: center;
+		}
+	}
+`;
+
+const DescriptionWrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 90%;
+	width: 100%;
+	height: 33%;
+	background-color: #f7e5e2;
+	overflow: hidden;
+	/* height: 20%; */
+	p {
+		font-size: rem;
+		color: #282c34;
+		font-family: "Fredoka One";
+		font-weight: 900;
+		margin: 0;
+		line-height: 2rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 `;
 
 //  The component for rendering each individual ad
-const Ad = ({ url, title, alt, src, price, desc, index, images }) => {
-	console.log(desc);
+const Ad = ({
+	url,
+	title,
+	alt,
+	src,
+	price,
+	desc,
+	index,
+	images,
+	date,
+	location,
+}) => {
+	console.log(location);
+
+	const highRes = (str) => {
+		return str.replace(/200-jpg/g, "1200-jpg");
+	};
+
 	return (
 		<AdWrapper>
-			<h1>
-				<a href={url}>{title}</a>
-			</h1>
-			<ImgWrapper src={src}>
-				<Lightbox images={images} />
+			<TitleWrapper>
+				<h1>
+					<a href={url} className="title">
+						{title}
+					</a>
+				</h1>
+			</TitleWrapper>
+			<ImgWrapper src={highRes(src)}>
+				<InfoWrapper>
+					<div className="price">
+						<h2>${price}</h2>
+					</div>
+					<h2 className="info">{location}</h2>
+					<h2 className="info">{date}</h2>
+				</InfoWrapper>
+				<Lightbox images={images} alt={alt} />
 			</ImgWrapper>
-			<h2>${price}</h2>
 			{desc.length > 100 ? (
-				<>
+				<DescriptionWrapper>
 					<p>
 						{desc.slice(0, desc.length - 3)}...
 						<a href={url} className="link">
@@ -111,9 +177,11 @@ const Ad = ({ url, title, alt, src, price, desc, index, images }) => {
 							(see on Kijiji)
 						</a>
 					</p>
-				</>
+				</DescriptionWrapper>
 			) : (
-				<p>{desc}</p>
+				<DescriptionWrapper>
+					<p>{desc}</p>
+				</DescriptionWrapper>
 			)}
 		</AdWrapper>
 	);

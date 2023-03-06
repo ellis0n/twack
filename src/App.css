@@ -202,17 +202,6 @@ fieldset {
 	text-align: center;
 }
 
-.landing-btn {
-	margin: 18% 0;
-	padding: 0em 0 0em 0;
-	background-color: #ffffff91;
-	border: 2px solid #e7b5acae;
-	color: rgba(0, 0, 0, 0.656);
-	border-radius: 4px;
-	font-family: "Fredoka One", cursive;
-	cursor: pointer;
-	text-decoration: none;
-}
 .landing-btn:hover {
 	color: rgba(255, 255, 255, 0.874);
 	outline: black;
@@ -230,9 +219,6 @@ fieldset {
 }
 .landing-btn p {
 	text-decoration: none;
-}
-.landing-wrapper {
-	margin: 0% 40% 0% 40%;
 }
 
 ul {

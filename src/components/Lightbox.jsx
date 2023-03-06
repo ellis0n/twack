@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Preview = styled.div`
+	opacity: 80%;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	height: 18%;
-	background-color: #0000009f;
-	border-radius: 8px;
+	height: 40px;
+	background-color: #000000;
 	/* overflow: scroll hidden; */
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
@@ -34,7 +34,7 @@ const LightboxWrapper = styled.div`
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background-color: #000000c5;
+	background-color: #000;
 	z-index: 1000;
 	justify-content: center;
 	align-items: center;
@@ -60,7 +60,7 @@ const LightboxWrapper = styled.div`
 `;
 
 const CurrentImage = styled.div`
-	width: 100%;
+	width: 90%;
 	height: 80%;
 	background-color: #000000df;
 	border-radius: 8px;
@@ -75,7 +75,7 @@ const CurrentImage = styled.div`
 	}
 `;
 
-const Lightbox = ({ images }) => {
+const Lightbox = ({ images, alt }) => {
 	const [showLightbox, setShowLightBox] = useState(false);
 	const [currentImage, setCurrentImage] = useState(0);
 
@@ -83,6 +83,11 @@ const Lightbox = ({ images }) => {
 		e.preventDefault();
 		setShowLightBox(!showLightbox);
 		console.log(showLightbox);
+	};
+
+	// TODO: Helper function, pull out
+	const changeKijijiRule = (str) => {
+		return str.replace(/200-jpg/g, "1200-jpg");
 	};
 
 	return (
@@ -99,7 +104,7 @@ const Lightbox = ({ images }) => {
 						X
 					</button>
 					<CurrentImage>
-						<img src={images[currentImage]} alt="" />
+						<img src={changeKijijiRule(images[currentImage])} alt={alt} />
 					</CurrentImage>
 					<Preview>
 						{images.map((image, i) => {
