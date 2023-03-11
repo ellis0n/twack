@@ -11,7 +11,6 @@ const AdWrapper = styled.div`
 	max-height: 90%;
 	font-family: Arial, Helvetica, sans-serif;
 	border: 2px solid #282c34;
-	/* background-color: #5880614a; */
 	height: 90vh;
 	max-height: 70vh;
 	max-width: 600px;
@@ -23,7 +22,7 @@ const AdWrapper = styled.div`
 	}
 
 	p {
-		/* height: 100%; */
+		height: auto;
 		padding: 0 1em;
 		/* text-align: left; */
 		font-size: calc(1em + 0.5vw);
@@ -40,11 +39,7 @@ const ImgWrapper = styled.div`
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-color: #ffffff22;
-
-	/* border: 4px solid rgba(0, 0, 0, 0.171); */
-	/* border-radius: 12px; */
 	height: 100%;
-
 	display: flex;
 	justify-content: flex-end;
 	flex-direction: column;
@@ -130,7 +125,6 @@ const DescriptionWrapper = styled.div`
 	}
 `;
 
-//  The component for rendering each individual ad
 const Ad = ({
 	url,
 	title,
@@ -143,8 +137,6 @@ const Ad = ({
 	date,
 	location,
 }) => {
-	console.log(location);
-
 	const highRes = (str) => {
 		return str.replace(/200-jpg/g, "1200-jpg");
 	};

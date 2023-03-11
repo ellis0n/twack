@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Ad from "../../components/Ad";
 import Footer from "../../components/Footer";
-import VoteButton from "../../components/VoteButton";
+import VoteButton from "../../components/Button";
 import Banner from "../../components/Banner";
 import Wrapper from "../../components/Wrapper";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,20 +11,21 @@ import useAuth from "../../hooks/useAuth";
 const SavedAds = () => {
 	const [ads, setAds] = useState([]);
 	const [running, setRunning] = useState(false);
+
 	const axiosPrivate = useAxiosPrivate();
 	const navigate = useNavigate();
 	const stateLocation = useLocation();
 	const { auth } = useAuth();
 
 	useEffect(() => {
-		// let isMounted = true;
-		// const controller = new AbortController();
+		let isMounted = true;
+		const controller = new AbortController();
 		getSavedAds();
 
-		// return () => {
-		// isMounted = false;
-		// controller.abort();
-		// }
+		return () => {
+			isMounted = false;
+			controller.abort();
+		};
 	}, []);
 
 	const getSavedAds = async () => {
@@ -66,7 +67,6 @@ const SavedAds = () => {
 	};
 
 	const deleteVote = async ({ ad }) => {
-		console.log(ad.id);
 		try {
 			const response = await axiosPrivate.delete(
 				"/vote",
@@ -78,7 +78,7 @@ const SavedAds = () => {
 			);
 			console.log(response.data);
 			getSavedAds();
-			// setRunning(true);
+			setRunning(true);
 		} catch (err) {
 			console.error(err);
 			navigate("/login", { state: { from: stateLocation }, replace: true });
