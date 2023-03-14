@@ -27,7 +27,9 @@ const StyledDropdown = styled.div`
 	}
 `;
 
+
 const Dropdown = ({ label, options }) => {
+	console.log({ options });
 	return (
 		<StyledDropdown>
 			<label>{label}:</label>

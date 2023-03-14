@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const ButtonWrapper = styled.button`
-	background-color: #4caf50;
+	background-color: ;
 	border: none;
 	color: white;
 	padding: 15px 32px;

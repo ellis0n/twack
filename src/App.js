@@ -12,6 +12,7 @@ import Users from "./pages/Users/Users";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing/Landing";
 import User from "./pages/UserDetail/UserDetail";
+import Lists from "./pages/Lists/Lists";
 
 function App() {
 	return (
@@ -28,7 +29,7 @@ function App() {
 					{/* Private Routes */}
 					<Route element={<RequireAuth />}>
 						<Route path="/home" element={<Home />} />
-						<Route path="/ads" element={<AdCard />} />
+						<Route path="/lists" element={<Lists />} />
 						<Route path="/settings" element={<Settings />} />
 						<Route path="/saved" element={<SavedAds />} />
 						<Route path="/users" element={<Users />} />

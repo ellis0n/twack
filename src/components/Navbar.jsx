@@ -60,7 +60,7 @@ const LinkWrapper = styled.div`
 const Navbar = ({ isOpen }) => {
 	const links = [
 		{ name: "Home", link: "/home" },
-		{ name: "Ads", link: "/ads" },
+		{ name: "Lists", link: "/lists" },
 		{ name: "Saved", link: "/saved" },
 		{ name: "Users", link: "/users" },
 		{ name: "Settings", link: "/settings" },

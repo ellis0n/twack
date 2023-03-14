@@ -5,7 +5,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-
 const StyledParamBox = styled.div`
 	font-size: 1rem;
 	padding: 1em;
@@ -139,6 +138,14 @@ const ParamBox = ({ handleClick, text }) => {
 						<option value={26}>Other</option>
 					</select>
 					<br />
+
+					{/* {categories.map((category, i) => {
+						return (
+							<>
+								<p id="i">{category}</p>
+							</>
+						);
+					}, [])} */}
 
 					<br />
 					<button value={params} onClick={handleSubmit} type="submit">
