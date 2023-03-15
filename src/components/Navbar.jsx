@@ -8,30 +8,24 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const StyledNav = styled.div`
-	display: flex;
+	/* display: ${({ isOpen }) => (isOpen ? "flex" : "none")}; */
+	/* I want this to slide in from the right */
 	flex-direction: column;
 	align-items: start;
 	text-align: left;
 	font-weight: 600;
-	z-index: 1;
-	width: 100vw;
-	height: 100vh;
-	background: #588061f0;
-	position: fixed;
+	z-index: 10000;
+	/* width: 50vw; */
+	height: calc(100vh - 60px);
+	background: #588061;
+	position: absolute;
+	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
+	transition: all 0.3s ease-in-out;
 	left: 0;
 	top: 60px;
-	transform: translateX(-100%);
-	transition: transform 0.5s ease-in-out;
-
-	${(props) =>
-		props.isOpen &&
-		`
-    transform: translateX(0);
-  `}
 `;
 
 const LinkWrapper = styled.div`
-	width: 100vw;
 	padding: 1rem 1rem;
 	margin: 0.4rem 1rem;
 	border-radius: 5px;
@@ -52,9 +46,10 @@ const LinkWrapper = styled.div`
 		font-size: 2rem;
 
 		&:hover {
+			width: inherit;
 			color: rgba(255, 255, 255, 0.774);
 			outline: black;
-			background: #588061;
+			/* background: #588061; */
 			transition: transform 900ms, background 400ms;
 		}
 	}
@@ -64,17 +59,21 @@ const Navbar = ({ isOpen }) => {
 	const logout = useLogout();
 	const navigate = useNavigate();
 
-	const links = [
-		{ name: "Lists", link: "/lists" },
-		{ name: "Users", link: "/users" },
-		{ name: "Settings", link: "/settings" },
-	];
 	const signOut = async () => {
 		await logout();
 		navigate("/login");
 	};
 
+	const links = [
+		{ name: "Profile", link: "/profile" },
+		{ name: "Lists", link: "/lists" },
+		{ name: "Users", link: "/users" },
+		{ name: "Settings", link: "/settings" },
+		{ name: "About", link: "/about" },
+	];
+
 	return (
+		// <NavBarWrapper isOpen={isOpen}>
 		<StyledNav isOpen={isOpen}>
 			{links.map((link, index) =>
 				link.name === "Ads" ? (
@@ -95,6 +94,7 @@ const Navbar = ({ isOpen }) => {
 				}}
 			/>
 		</StyledNav>
+		// </NavBarWrapper>
 	);
 };
 

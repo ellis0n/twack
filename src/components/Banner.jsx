@@ -8,6 +8,17 @@ import Button from "./Button";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useLogout from "../hooks/useLogout";
 
+const BlurDiv = styled.div`
+	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
+	top: 0;
+	left: 0;
+	width: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
+	height: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
+	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
+	z-index: 10000;
+	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
+`;
+
 const StyledBanner = styled.div`
 	color: #588061;
 	font-family: "Fredoka One", cursive;
@@ -51,6 +62,13 @@ const StyledBanner = styled.div`
 				transform: translateY(0);
 			}
 		}
+
+		@media (max-width: 768px) {
+			font-size: ${(props) =>
+				props.theme === "landing" ? "5rem" : "calc(1.8rem + 1vw)"};
+
+			padding-top: ${(props) => (props.theme === "landing" ? "20px" : "0px")};
+		}
 	}
 
 	button {
@@ -83,12 +101,10 @@ const Banner = ({ theme }) => {
 		await logout();
 		navigate("/login");
 	};
-	console.log(theme);
-	console.log(isMenuOpen);
 
 	return (
-		<>
-			<StyledBanner theme={theme}>
+		<BlurDiv theme={theme} isOpen={isMenuOpen}>
+			<StyledBanner theme={theme} isOpen={isMenuOpen}>
 				<FontAwesomeIcon
 					icon={faBars}
 					className="burger"
@@ -109,7 +125,7 @@ const Banner = ({ theme }) => {
 			</StyledBanner>
 
 			{isMenuOpen ? <Navbar isOpen={isMenuOpen} /> : null}
-		</>
+		</BlurDiv>
 	);
 };
 
