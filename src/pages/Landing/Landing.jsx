@@ -12,7 +12,6 @@ const LandingWrapper = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
-	/* background: #588061f0; */
 	font-family: "Fredoka One", cursive;
 	color: white;
 `;

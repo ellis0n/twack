@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import Button from "./Button";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useLogout from "../hooks/useLogout";
 
 const StyledBanner = styled.div`
 	color: #588061;
@@ -33,27 +36,53 @@ const StyledBanner = styled.div`
 		margin: 0;
 		animation: ${(props) =>
 			props.theme === "landing" ? "slideIn 0.8s ease-out forwards" : ""};
-	}
 
-	:hover {
-		color: #588061;
-	}
-
-	@keyframes slideIn {
-		from {
-			opacity: 0;
-			transform: translateY(20%);
+		:hover {
+			color: #588061;
 		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
+
+		@keyframes slideIn {
+			from {
+				opacity: 0;
+				transform: translateY(20%);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+	}
+
+	button {
+		display: ${(props) =>
+			props.theme === "landing" ? "none" : "inline-block"};
+		position: absolute;
+		top: 12px;
+		right: 12px;
+
+		background-color: #f7e5e2;
+		border: none;
+		color: #588061;
+		padding: 10px 20px;
+		border-radius: 24px;
+
+		:hover {
+			background-color: #588061c3;
+			color: #f7e5e2;
+			transition: 0.3s;
 		}
 	}
 `;
 
 const Banner = ({ theme }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const logout = useLogout();
+	const navigate = useNavigate();
 
+	const signOut = async () => {
+		await logout();
+		navigate("/login");
+	};
 	console.log(theme);
 	console.log(isMenuOpen);
 
@@ -68,9 +97,15 @@ const Banner = ({ theme }) => {
 						setIsMenuOpen(!isMenuOpen);
 					}}
 				/>
-				<Link to={theme === "landing" ? "/" : "/ads"} className="logo-link">
+				<Link to={theme === "landing" ? "/" : "/home"} className="logo-link">
 					<h1>twack</h1>
 				</Link>
+				<Button
+					label="Logout"
+					handleClick={() => {
+						signOut();
+					}}
+				/>
 			</StyledBanner>
 
 			{isMenuOpen ? <Navbar isOpen={isMenuOpen} /> : null}

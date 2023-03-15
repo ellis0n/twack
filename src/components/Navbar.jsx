@@ -2,7 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ParamBox from "./ParamBox";
-import Footer from "./Footer";
+import Button from "./Button";
+import useLogout from "../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const StyledNav = styled.div`
 	display: flex;
@@ -58,13 +61,18 @@ const LinkWrapper = styled.div`
 `;
 
 const Navbar = ({ isOpen }) => {
+	const logout = useLogout();
+	const navigate = useNavigate();
+
 	const links = [
-		{ name: "Home", link: "/home" },
 		{ name: "Lists", link: "/lists" },
-		{ name: "Saved", link: "/saved" },
 		{ name: "Users", link: "/users" },
 		{ name: "Settings", link: "/settings" },
 	];
+	const signOut = async () => {
+		await logout();
+		navigate("/login");
+	};
 
 	return (
 		<StyledNav isOpen={isOpen}>
@@ -80,6 +88,12 @@ const Navbar = ({ isOpen }) => {
 					</LinkWrapper>
 				)
 			)}
+			<Button
+				label="Logout"
+				handleClick={() => {
+					signOut();
+				}}
+			/>
 		</StyledNav>
 	);
 };

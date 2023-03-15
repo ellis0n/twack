@@ -1,5 +1,4 @@
 import React from "react";
-import Banner from "./Banner";
 import styled from "styled-components";
 
 const WrapperDiv = styled.div`

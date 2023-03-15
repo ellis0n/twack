@@ -141,7 +141,6 @@ const AdCard = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
 			<Wrapper>
 				<Searchbar options={locations} />
 				{/* <Searchbar options={categories} /> */}
@@ -197,10 +196,7 @@ const AdCard = () => {
 				) : (
 					// IF NOT RUNNING
 					//TODO Not working as intended
-					<div style={{ cursor: "pointer" }}>
-						<h2>Loading...</h2>
-						<Footer />
-					</div>
+					<h2>Loading...</h2>
 				)}
 			</Wrapper>
 			{/* <Footer /> */}

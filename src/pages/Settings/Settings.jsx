@@ -54,8 +54,8 @@ const Settings = () => {
 						Sign Out
 					</button>
 				</div>
-				<Footer />
 			</Wrapper>
+			<Footer />
 		</>
 	);
 };
