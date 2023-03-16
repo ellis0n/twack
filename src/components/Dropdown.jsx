@@ -3,33 +3,35 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const StyledDropdown = styled.div`
-	z-index: 1;
-	select {
-		font-size: 1rem;
-		border-radius: 12px;
-		font-family: "Fredoka One";
-		/* display: flex; */
-		padding: 0;
-		/* flex-direction: ; */
-		/* height: auto; */
-	}
-
-	option {
-		font-size: 1rem;
-		border-radius: 12px;
-		font-family: "Fredoka One";
-		width: auto;
-	}
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
 
 	label {
-		font-size: 1rem;
-		/* margin-right: 1rem; */
+		font-weight: 200;
+		color: #f7e5e2;
+
+		border-bottom: 2px solid #f7e5e2;
+	}
+
+	overflow: hidden;
+	select {
+		width: 100%;
+		height: 2rem;
+		border-radius: 4px;
+		border: 2px solid #f7e5e2;
+		text-align: center;
+		margin: 0.5rem 0rem;
+	}
+	option {
 		text-align: left;
+		overflow: hidden;
 	}
 `;
 
 const Dropdown = ({ label, options }) => {
-	console.log({ options });
 	return (
 		<StyledDropdown>
 			<label>{label}:</label>

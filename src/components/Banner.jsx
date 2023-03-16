@@ -13,9 +13,10 @@ const BlurDiv = styled.div`
 	top: 0;
 	left: 0;
 	width: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
-	height: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
+	height: ${(props) =>
+		props.theme === "landing" ? "auto" : props.isOpen ? "100%" : "60px"};
 	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	z-index: ${(props) => (props.isOpen ? "10000" : "0")};
+	z-index: ${(props) => (props.isOpen ? "1" : "0")};
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
 `;
 
@@ -38,10 +39,11 @@ const StyledBanner = styled.div`
 		background-color: #f7e5e2;
 		cursor: pointer;
 		margin: 0 12px;
-		font-size: 1rem;
+		font-size: 1em;
 		color: #588061;
-		padding: 12px 12px;
+		padding: 6px 6px;
 		border-radius: 48%;
+		border: 1.5px solid #588061;
 
 		:hover {
 			background-color: #588061dd;
@@ -84,7 +86,6 @@ const StyledBanner = styled.div`
 		display: ${(props) =>
 			props.theme === "landing" ? "none" : "inline-block"};
 		position: absolute;
-		top: 12px;
 		right: 12px;
 		border: 2px solid #588061;
 
@@ -132,7 +133,7 @@ const Banner = ({ theme }) => {
 				/>
 			</StyledBanner>
 
-			{isMenuOpen ? <Navbar isOpen={isMenuOpen} /> : null}
+			{isMenuOpen ? <Navbar className="navbar" isOpen={isMenuOpen} /> : null}
 		</BlurDiv>
 	);
 };

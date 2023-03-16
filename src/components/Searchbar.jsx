@@ -9,16 +9,6 @@ const SearchBarWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	align-items: center;
-	/* width: 100%; */
-	/* height: 100%; */
-	/* padding: 1rem; */
-	background-color: #f5f5f5;
-	border-radius: 12px;
-	margin: 0 auto;
-	margin: 1rem;
-	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-	/* border: 1px solid #000; */
 `;
 
 const Searchbar = ({ params }) => {
@@ -75,13 +65,6 @@ const Searchbar = ({ params }) => {
 		<SearchBarWrapper>
 			<Dropdown label="Location" options={locations} />
 			<Dropdown label="Category" options={categories} />
-
-			<Button
-				text="Search"
-				handleClick={() => {
-					console.log(results);
-				}}
-			/>
 		</SearchBarWrapper>
 	);
 };

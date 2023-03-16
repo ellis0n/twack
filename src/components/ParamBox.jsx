@@ -4,6 +4,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import Button from "./Button";
 import styled from "styled-components";
 const StyledParamBox = styled.div`
 	font-size: 1rem;
@@ -16,7 +17,7 @@ const StyledParamBox = styled.div`
 	font-family: "Fredoka One";
 `;
 
-const ParamBox = ({ handleClick, text }) => {
+const ParamBox = ({ handleClick }) => {
 	const [params, setParams] = useState({ location: 0, category: 0 });
 	const [show, setShow] = useState(false);
 	const axiosPrivate = useAxiosPrivate();
@@ -71,11 +72,7 @@ const ParamBox = ({ handleClick, text }) => {
 
 	return (
 		<>
-			<StyledParamBox show={show}>
-				<button onClick={() => setShow(!show)}>
-					<FontAwesomeIcon icon={faChevronUp} />
-				</button>
-
+			<StyledParamBox>
 				<form name="scrapeAds">
 					<label>Location: </label>
 					<select
@@ -139,25 +136,9 @@ const ParamBox = ({ handleClick, text }) => {
 					</select>
 					<br />
 
-					{/* {categories.map((category, i) => {
-						return (
-							<>
-								<p id="i">{category}</p>
-							</>
-						);
-					}, [])} */}
-
-					<br />
-					<button value={params} onClick={handleSubmit} type="submit">
-						{text}
-					</button>
+					<Button label="Submit" onClick={handleSubmit} />
 				</form>
 			</StyledParamBox>
-			{!show ? (
-				<button onClick={() => setShow(!show)}>
-					<FontAwesomeIcon icon={faChevronDown} />
-				</button>
-			) : null}
 		</>
 	);
 };
