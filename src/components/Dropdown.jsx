@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const StyledDropdown = styled.div`
+	z-index: 1;
 	select {
 		font-size: 1rem;
 		border-radius: 12px;
@@ -26,7 +27,6 @@ const StyledDropdown = styled.div`
 		text-align: left;
 	}
 `;
-
 
 const Dropdown = ({ label, options }) => {
 	console.log({ options });

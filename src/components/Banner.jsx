@@ -15,7 +15,7 @@ const BlurDiv = styled.div`
 	width: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
 	height: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
 	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	z-index: 10000;
+	z-index: ${(props) => (props.isOpen ? "10000" : "0")};
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
 `;
 
@@ -23,6 +23,7 @@ const StyledBanner = styled.div`
 	color: #588061;
 	font-family: "Fredoka One", cursive;
 	align-items: center;
+
 	width: 100vw;
 	height: 60px;
 
@@ -32,13 +33,21 @@ const StyledBanner = styled.div`
 	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "1rem")};
 	padding-bottom: ${(props) => (props.theme === "landing" ? "120px" : "0px")};
 
-	.burger {
+	svg {
 		display: ${(props) => (props.theme === "header" ? "inline-block" : "none")};
-		color: #588061;
-		font-size: 24px;
-		vertical-align: middle;
+		background-color: #f7e5e2;
 		cursor: pointer;
-		margin-right: 10px;
+		margin: 0 12px;
+		font-size: 1rem;
+		color: #588061;
+		padding: 12px 12px;
+		border-radius: 48%;
+
+		:hover {
+			background-color: #588061dd;
+			color: #f7e5e2;
+			transition: all 0.2s ease-in-out;
+		}
 	}
 
 	h1 {
@@ -77,9 +86,9 @@ const StyledBanner = styled.div`
 		position: absolute;
 		top: 12px;
 		right: 12px;
+		border: 2px solid #588061;
 
 		background-color: #f7e5e2;
-		border: none;
 		color: #588061;
 		padding: 10px 20px;
 		border-radius: 24px;
@@ -107,7 +116,6 @@ const Banner = ({ theme }) => {
 			<StyledBanner theme={theme} isOpen={isMenuOpen}>
 				<FontAwesomeIcon
 					icon={faBars}
-					className="burger"
 					onClick={(e) => {
 						e.preventDefault();
 						setIsMenuOpen(!isMenuOpen);

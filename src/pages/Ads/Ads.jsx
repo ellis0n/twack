@@ -53,7 +53,7 @@ const Ads = () => {
 		<>
 			<Banner theme="header" />
 			<Wrapper>
-				<ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} />
+				{/* <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} /> */}
 
 				{running ? (
 					(console.log(ads),

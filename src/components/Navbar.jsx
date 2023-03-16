@@ -5,96 +5,129 @@ import ParamBox from "./ParamBox";
 import Button from "./Button";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
+// import font awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faHouse,
+	faGear,
+	faUsers,
+	faQuestion,
+	faList,
+} from "@fortawesome/free-solid-svg-icons";
+
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const StyledNav = styled.div`
-	/* display: ${({ isOpen }) => (isOpen ? "flex" : "none")}; */
-	/* I want this to slide in from the right */
+	display: flex;
 	flex-direction: column;
-	align-items: start;
-	text-align: left;
-	font-weight: 600;
+	justify-content: flex-start;
+	align-items: center;
 	z-index: 10000;
-	/* width: 50vw; */
+	width: 65vw;
 	height: calc(100vh - 60px);
 	background: #588061;
 	position: absolute;
 	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
-	transition: all 0.3s ease-in-out;
-	left: 0;
-	top: 60px;
+	transition: all 0.1s ease-in-out;
+	border-right: 3px solid #f7e5e2e1;
+
+	a {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		text-decoration: none;
+		color: black;
+		width: 100%;
+	}
 `;
 
 const LinkWrapper = styled.div`
-	padding: 1rem 1rem;
-	margin: 0.4rem 1rem;
-	border-radius: 5px;
-	transition: transform 900ms, background 1550ms;
+	display: flex;
+	background-color: #f7e5e2a4;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 0.5rem 0rem;
+	margin: 0.2rem 0;
+	transition: transform 100ms, background 200ms;
+	font-size: calc(1rem + 0.5vw);
+	width: 100%;
 
 	&:hover {
-		transform: scale(1.02);
-		color: rgba(255, 255, 255, 0.774);
+		transform: scale(1.0001);
 		outline: black;
-		transition: transform 900ms, background 1550ms;
-		background: #588061;
+		transition: transform 100ms, background 200ms;
+		background: #f7e5e23d;
+		color: #f7e5e2;
 	}
 
-	a {
-		text-decoration: none;
-		color: #000000d5;
-		font-family: "Fredoka One", cursive;
-		font-size: 2rem;
-
-		&:hover {
-			width: inherit;
-			color: rgba(255, 255, 255, 0.774);
-			outline: black;
-			/* background: #588061; */
-			transition: transform 900ms, background 400ms;
-		}
+	svg {
+		margin: 0rem 1rem;
+		width: 1rem;
 	}
+
+	p {
+		position: relative;
+		left: 0.5rem;
+		text-align: left;
+		padding-left: 0.5rem;
+	}
+`;
+
+// TODO: The footer does this, I just need to pass props for when used in the navbar
+const NavBottom = styled.div`
+	position: fixed;
+	bottom: 1px;
+	height: 200px;
+	z-index: -1;
+	width: inherit;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0.3;
+
+	/* background-color: #000000; */
+	background-image: url(${process.env.PUBLIC_URL + "/background.png"});
 `;
 
 const Navbar = ({ isOpen }) => {
 	const logout = useLogout();
 	const navigate = useNavigate();
 
-	const signOut = async () => {
-		await logout();
-		navigate("/login");
-	};
-
 	const links = [
-		{ name: "Profile", link: "/profile" },
-		{ name: "Lists", link: "/lists" },
-		{ name: "Users", link: "/users" },
-		{ name: "Settings", link: "/settings" },
-		{ name: "About", link: "/about" },
+		{ name: "Home", link: "/home", icon: faHouse },
+		{ name: "Your Lists", link: "/lists", icon: faList },
+		{ name: "Community", link: "/users", icon: faUsers },
+		{ name: "Settings", link: "/settings", icon: faGear },
+		{ name: "About", link: "/about", icon: faQuestion },
 	];
 
 	return (
-		// <NavBarWrapper isOpen={isOpen}>
 		<StyledNav isOpen={isOpen}>
 			{links.map((link, index) =>
 				link.name === "Ads" ? (
-					<LinkWrapper key={index}>
-						<Link to={link.link}>{link.name}</Link>
+					<>
+						<Link to={link.link}>
+							<LinkWrapper key={index}>
+								<FontAwesomeIcon />
+								<p>{link.name}</p>
+							</LinkWrapper>
+						</Link>
 						<ParamBox />
-					</LinkWrapper>
+					</>
 				) : (
-					<LinkWrapper key={index}>
-						<Link to={link.link}>{link.name}</Link>
-					</LinkWrapper>
+					<Link to={link.link}>
+						<LinkWrapper key={index}>
+							<FontAwesomeIcon icon={link.icon} />
+							<p>{link.name}</p>
+						</LinkWrapper>
+					</Link>
 				)
 			)}
-			<Button
-				label="Logout"
-				handleClick={() => {
-					signOut();
-				}}
-			/>
+			<NavBottom />
 		</StyledNav>
-		// </NavBarWrapper>
 	);
 };
 

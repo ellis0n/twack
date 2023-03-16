@@ -142,7 +142,7 @@ const AdCard = () => {
 	return (
 		<>
 			<Wrapper>
-				<Searchbar options={locations} />
+				{/* <Searchbar options={locations} /> */}
 				{/* <Searchbar options={categories} /> */}
 				{/* <ParamBox type="scraper" text={"Get Ads."} handleClick={scrapeAds} /> */}
 
