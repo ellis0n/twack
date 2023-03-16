@@ -1,95 +1,132 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Styled from "styled-components";
+import styled from "styled-components";
 import ParamBox from "./ParamBox";
+import Button from "./Button";
+import useLogout from "../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
+// import font awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faHouse,
+	faGear,
+	faUsers,
+	faQuestion,
+	faList,
+} from "@fortawesome/free-solid-svg-icons";
 
-const StyledNav = Styled.div`
-  display: ${(props) => (props.theme === "landing" ? "none" : "flex")};
-  flex-direction: column;
-  align-items: start;
-  text-align: left;
-  font-weight: 600;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-  background: #588061fb;
-  position: fixed;
-  transform: translateX(-100%);
-  transition: transform 0.5s ease-in-out;
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
+const StyledNav = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	z-index: 10000;
+	width: 65vw;
+	height: calc(100vh - 60px);
+	background: #588061;
+	position: absolute;
+	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
+	transition: all 0.1s ease-in-out;
+	border-right: 3px solid #f7e5e2e1;
+
+	a {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		text-decoration: none;
+		color: black;
+		width: 100%;
+	}
 `;
 
-const LinkWrapper = Styled.div`
-	width: 100vw;
-	padding: 1rem 1rem;
-	margin: .4rem 1rem;
-	border-radius: 5px;
-	transition: transform 900ms, background 1550ms;
-
+const LinkWrapper = styled.div`
+	display: flex;
+	background-color: #f7e5e2a4;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 0.5rem 0rem;
+	margin: 0.2rem 0;
+	transition: transform 100ms, background 200ms;
+	font-size: calc(1rem + 0.5vw);
+	width: 100%;
 
 	&:hover {
-		transform: scale(1.02);
-		color: rgba(255, 255, 255, 0.774);
+		transform: scale(1.0001);
 		outline: black;
-		transition: transform 900ms, background 1550ms;
-		background: #588061;
-		}
-	
-	a {
-		text-decoration: none;
-		color: #000000d5;
-		font-family: "Fredoka One", cursive;
-		font-size: 2rem;
-
-		&:hover {
-		color: rgba(255, 255, 255, 0.774);
-		outline: black;
-		background: #588061;
-		transition: transform 900ms, background 400ms;
-		}
+		transition: transform 100ms, background 200ms;
+		background: #f7e5e23d;
+		color: #f7e5e2;
 	}
-	`;
-const Navbar = ({ isMenuOpen }) => {
+
+	svg {
+		margin: 0rem 1rem;
+		width: 1rem;
+	}
+
+	p {
+		position: relative;
+		left: 0.5rem;
+		text-align: left;
+		padding-left: 0.5rem;
+	}
+`;
+
+// TODO: The footer does this, I just need to pass props for when used in the navbar
+const NavBottom = styled.div`
+	position: fixed;
+	bottom: 1px;
+	height: 200px;
+	z-index: -1;
+	width: inherit;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0.3;
+
+	/* background-color: #000000; */
+	background-image: url(${process.env.PUBLIC_URL + "/background.png"});
+`;
+
+const Navbar = ({ isOpen }) => {
+	const logout = useLogout();
+	const navigate = useNavigate();
+
 	const links = [
-		{
-			name: "Home",
-			link: "/home",
-		},
-		{
-			name: "Ads",
-			link: "/ads",
-		},
-		{
-			name: "Saved",
-			link: "/saved",
-		},
-		{
-			name: "Users",
-			link: "/users",
-		},
-		{
-			name: "Settings",
-			link: "/settings",
-		},
+		{ name: "Home", link: "/home", icon: faHouse },
+		{ name: "Your Lists", link: "/lists", icon: faList },
+		{ name: "Community", link: "/users", icon: faUsers },
+		{ name: "Settings", link: "/settings", icon: faGear },
+		{ name: "About", link: "/about", icon: faQuestion },
 	];
 
 	return (
-		<StyledNav
-			style={{
-				transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)",
-			}}
-		>
+		<StyledNav isOpen={isOpen}>
 			{links.map((link, index) =>
 				link.name === "Ads" ? (
-					<LinkWrapper key={index}>
-						<Link to={link.link}>{link.name}</Link>
+					<>
+						<Link to={link.link}>
+							<LinkWrapper key={index}>
+								<FontAwesomeIcon />
+								<p>{link.name}</p>
+							</LinkWrapper>
+						</Link>
 						<ParamBox />
-					</LinkWrapper>
+					</>
 				) : (
-					<LinkWrapper key={index}>
-						<Link to={link.link}>{link.name}</Link>
-					</LinkWrapper>
+					<Link to={link.link}>
+						<LinkWrapper key={index}>
+							<FontAwesomeIcon icon={link.icon} />
+							<p>{link.name}</p>
+						</LinkWrapper>
+					</Link>
 				)
 			)}
+			<NavBottom />
 		</StyledNav>
 	);
 };

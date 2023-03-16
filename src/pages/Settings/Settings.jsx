@@ -43,7 +43,6 @@ const Settings = () => {
 	return (
 		<>
 			<Banner theme="header" />
-			<Navbar />
 			<Wrapper>
 				<ParamBox
 					type="setting"
@@ -55,8 +54,8 @@ const Settings = () => {
 						Sign Out
 					</button>
 				</div>
-				<Footer />
 			</Wrapper>
+			<Footer />
 		</>
 	);
 };

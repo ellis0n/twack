@@ -70,7 +70,7 @@ const Login = () => {
 
 	return (
 		<>
-			<Banner className="banner" />
+			<Banner theme="landing" />
 			<div className="login">
 				{errMsg ? (
 					<div className="error-msg">
@@ -125,6 +125,7 @@ const Login = () => {
 					</form>
 				</div>
 			</div>
+			<Footer />
 		</>
 	);
 };

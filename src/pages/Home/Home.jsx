@@ -4,6 +4,8 @@ import Banner from "../../components/Banner";
 import UserDetail from "../UserDetail/UserDetail";
 import Footer from "../../components/Footer";
 import styled from "styled-components";
+import useAuth from "../../hooks/useAuth";
+import AdCard from "../Ads/AdCard";
 
 const HomeWrapper = styled.div`
 	h1 {
@@ -14,24 +16,22 @@ const HomeWrapper = styled.div`
 const Home = () => {
 	const logout = useLogout();
 	const navigate = useNavigate();
+	const auth = useAuth();
 
 	const signOut = async () => {
 		await logout();
 		navigate("/login");
 	};
 
+	console.log(auth);
+
 	return (
 		<HomeWrapper>
 			<Banner theme="header" />
 
-			<h1>Placeholder</h1>
+			<h1>Hi, {auth.auth.user}</h1>
 
-			<div>
-				<button className="login-btn" onClick={signOut}>
-					Sign Out
-				</button>
-			</div>
-			<Footer />
+			<AdCard />
 		</HomeWrapper>
 	);
 };
