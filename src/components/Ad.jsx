@@ -15,6 +15,7 @@ const AdWrapper = styled.div`
 	max-height: 70vh;
 	max-width: 600px;
 	margin: 2% auto;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
 
 	a {
 		text-decoration: none;
