@@ -3,33 +3,21 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const StyledDropdown = styled.div`
-	z-index: 1;
 	select {
-		font-size: 1rem;
-		border-radius: 12px;
-		font-family: "Fredoka One";
-		/* display: flex; */
-		padding: 0;
-		/* flex-direction: ; */
-		/* height: auto; */
+		width: 100%;
+		height: 2rem;
+		border-radius: 4px;
+		border: 2px solid #f7e5e2;
+		text-align: center;
+		margin: 0.5rem 0rem;
 	}
-
 	option {
-		font-size: 1rem;
-		border-radius: 12px;
-		font-family: "Fredoka One";
-		width: auto;
-	}
-
-	label {
-		font-size: 1rem;
-		/* margin-right: 1rem; */
-		text-align: left;
+		text-align: center;
+		overflow: hidden;
 	}
 `;
 
 const Dropdown = ({ label, options }) => {
-	console.log({ options });
 	return (
 		<StyledDropdown>
 			<label>{label}:</label>
@@ -39,8 +27,12 @@ const Dropdown = ({ label, options }) => {
 				// onChange={handleLocation}
 				// value={params.location}
 			>
-				{options.map((option) => {
-					return <option value={option.value}>{option.key}</option>;
+				{options.map((option, i) => {
+					return (
+						<option value={option.value} key={i}>
+							{option.key}
+						</option>
+					);
 				})}
 			</select>
 		</StyledDropdown>

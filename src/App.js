@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import Landing from "./pages/Landing/Landing";
 import User from "./pages/UserDetail/UserDetail";
 import Lists from "./pages/Lists/Lists";
+import About from "./pages/About/About";
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 						<Route path="/saved" element={<SavedAds />} />
 						<Route path="/users" element={<Users />} />
 						<Route path="/users/:id" element={<User />} />
+						<Route path="/about" element={<About />}></Route>
 					</Route>
 				</Route>
 				{/* 404 */}

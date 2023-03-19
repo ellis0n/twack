@@ -4,6 +4,26 @@ import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Button from "../../components/Button";
+import NewList from "../../components/NewList";
+
+const ListsWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	height: calc(100vh - 60px);
+	z-index: 2;
+
+	button {
+		background-color: aliceblue;
+		border: none;
+		border-radius: 5px;
+		padding: 0.5rem 1rem;
+		margin: 1rem 0rem;
+		cursor: pointer;
+	}
+`;
 
 const Lists = () => {
 	const navigate = useNavigate();
@@ -39,17 +59,24 @@ const Lists = () => {
 	return (
 		<>
 			<Banner theme="header" />
-			<div>
+			<ListsWrapper>
 				<h1>Lists</h1>
-				<Button
-					ad=""
-					vote=""
-					label="Create a list"
-					handleClick={() => setShowCreateList(true)}
-				/>
+
+				{showCreateList ? (
+					<NewList
+						onClick={() => {
+							setShowCreateList(!showCreateList);
+						}}
+					/>
+				) : (
+					<Button
+						label="Create a list"
+						handleClick={() => setShowCreateList(!showCreateList)}
+					/>
+				)}
 				{lists.length === 0 ? (
 					<>
-						<p>No lists found</p>
+						<p>No lists found 😢</p>
 					</>
 				) : (
 					lists.map((list, i) => (
@@ -58,7 +85,7 @@ const Lists = () => {
 						</div>
 					))
 				)}
-			</div>
+			</ListsWrapper>
 		</>
 	);
 };

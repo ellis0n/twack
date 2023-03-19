@@ -6,7 +6,6 @@ import ParamBox from "../../components/ParamBox";
 import VoteButton from "../../components/Button";
 import Wrapper from "../../components/Wrapper";
 import Banner from "../../components/Banner";
-import Searchbar from "../../components/Searchbar";
 import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";

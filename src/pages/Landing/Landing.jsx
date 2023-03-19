@@ -50,6 +50,7 @@ const Landing = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		console.log(auth.user);
 		if (auth.user) {
 			navigate("/home");
 		}

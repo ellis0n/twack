@@ -5,8 +5,7 @@ import ParamBox from "./ParamBox";
 import Button from "./Button";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
-import Footer from "./Footer";
-// import font awesome
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faHouse,
@@ -15,8 +14,6 @@ import {
 	faQuestion,
 	faList,
 } from "@fortawesome/free-solid-svg-icons";
-
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const StyledNav = styled.div`
 	display: flex;
@@ -27,10 +24,18 @@ const StyledNav = styled.div`
 	width: 65vw;
 	height: calc(100vh - 60px);
 	background: #588061;
+
 	position: absolute;
 	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
 	transition: all 0.1s ease-in-out;
 	border-right: 3px solid #f7e5e2e1;
+
+	@media (min-width: 768px) {
+		width: 30vw;
+		height: 100vh;
+		position: fixed;
+		visibility: visible;
+	}
 
 	a {
 		display: flex;
