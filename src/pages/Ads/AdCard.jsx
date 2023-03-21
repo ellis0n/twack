@@ -53,6 +53,7 @@ const AdCard = () => {
 
 	const scrapeAds = async (params) => {
 		try {
+			console.log(auth.user);
 			const response = await axiosPrivate.post(
 				"/scrape",
 				JSON.stringify({ params, user: auth.user }),

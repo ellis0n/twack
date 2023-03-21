@@ -111,26 +111,19 @@ const Navbar = ({ isOpen }) => {
 
 	return (
 		<StyledNav isOpen={isOpen}>
-			{links.map((link, index) =>
-				link.name === "Ads" ? (
-					<>
-						<Link to={link.link}>
-							<LinkWrapper key={index}>
-								<FontAwesomeIcon />
-								<p>{link.name}</p>
-							</LinkWrapper>
-						</Link>
-						<ParamBox />
-					</>
-				) : (
-					<Link to={link.link}>
-						<LinkWrapper key={index}>
+			{links.map((link, index) => (
+				<>
+					<Link to={link.link} key={index}>
+						<LinkWrapper>
 							<FontAwesomeIcon icon={link.icon} />
 							<p>{link.name}</p>
 						</LinkWrapper>
 					</Link>
-				)
-			)}
+
+					{/* TODO: Drop down that lets you pick a list */}
+					{/* {link.name === "Your Lists" ?  /> : null} */}
+				</>
+			))}
 			<NavBottom />
 		</StyledNav>
 	);

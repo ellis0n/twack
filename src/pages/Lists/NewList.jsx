@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "../../components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { categories, locations } from "../helper/searchparams";
+import { categories, locations } from "../../helper/searchparams";
 
 const NewListWrapper = styled.div`
 	display: flex;
@@ -37,6 +37,7 @@ const NewListWrapper = styled.div`
 	}
 
 	input {
+		text-align: center;
 		width: 75%;
 		border: none;
 		border-radius: 4px;
@@ -76,6 +77,7 @@ const ListTitle = styled.div`
 	background-color: #f3ebe9e1;
 	width: 100%;
 	border-radius: 8px 9px 0 0;
+
 	h1 {
 		position: relative;
 		font-weight: 200;
@@ -105,42 +107,34 @@ const ListTitle = styled.div`
 	}
 `;
 
-const NewList = ({ onClick }) => {
+const NewList = ({ onClick, onSubmit }) => {
 	// const [showAddParam, setShowAddParam] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("");
 
 	const [list, setList] = useState({
 		listName: "New List",
 		listDescription: "",
-		category: "",
-		location: "",
+		category: "0",
+		location: "0",
 	});
 
 	const handleSubmit = () => {
-		console.log(list);
-		// setShowAddParam(false);
+		onSubmit(list);
 		setList({
 			listName: "New List",
 			listDescription: "",
+			category: "0",
+			location: "0",
 		});
 	};
 
 	const handleInputChange = (event) => {
-		const { name, value } = event.target;
+		const { name } = event.target;
 		if (name === "category") {
-			const selectedCategories = Array.from(
-				event.target.selectedOptions,
-				(option) => option.value
-			);
-			setList({ ...list, category: selectedCategories });
+			setList({ ...list, category: parseInt(event.target.value) });
 		} else if (name === "location") {
-			const selectedLocations = Array.from(
-				event.target.selectedOptions,
-				(option) => option.value
-			);
-			setList({ ...list, location: selectedLocations });
+			setList({ ...list, location: parseInt(event.target.value) });
 		} else {
-			setList({ ...list, [name]: value });
+			setList({ ...list, [name]: event.target.value });
 		}
 	};
 
