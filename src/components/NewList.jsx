@@ -4,7 +4,6 @@ import Button from "./Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { categories, locations } from "../helper/searchparams";
-import Dropdown from "./Dropdown";
 
 const NewListWrapper = styled.div`
 	display: flex;
@@ -107,24 +106,42 @@ const ListTitle = styled.div`
 `;
 
 const NewList = ({ onClick }) => {
-	const [showAddParam, setShowAddParam] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("Select a category");
-
-	const [listName, setListName] = useState("New List");
-	const [listDescription, setListDescription] = useState("");
+	// const [showAddParam, setShowAddParam] = useState(false);
+	const [selectedOption, setSelectedOption] = useState("");
 
 	const [list, setList] = useState({
-		listName: listName,
-		listDescription: listDescription,
+		listName: "New List",
+		listDescription: "",
+		category: "",
+		location: "",
 	});
 
 	const handleSubmit = () => {
 		console.log(list);
+		// setShowAddParam(false);
+		setList({
+			listName: "New List",
+			listDescription: "",
+		});
 	};
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
-		setList({ ...list, [name]: value });
+		if (name === "category") {
+			const selectedCategories = Array.from(
+				event.target.selectedOptions,
+				(option) => option.value
+			);
+			setList({ ...list, category: selectedCategories });
+		} else if (name === "location") {
+			const selectedLocations = Array.from(
+				event.target.selectedOptions,
+				(option) => option.value
+			);
+			setList({ ...list, location: selectedLocations });
+		} else {
+			setList({ ...list, [name]: value });
+		}
 	};
 
 	return (
@@ -157,56 +174,56 @@ const NewList = ({ onClick }) => {
 					/>
 				</FormSection>
 
-				{!showAddParam ? (
+				{/* {!showAddParam ? ( */}
+				{/* <FormSection>
+					<div>
+						<Button
+							label="Add new search parameter"
+							handleClick={() => {
+								setShowAddParam(true);
+							}}
+						/>
+					</div>
+				</FormSection> */}
+				{/* ) : ( */}
+				<>
 					<FormSection>
-						<div>
-							<Button
-								label="Add new search parameter"
-								handleClick={() => {
-									setShowAddParam(true);
-								}}
-							/>
-						</div>
+						<label>Category</label>
+						<select
+							multiple={false}
+							id="category"
+							name="category"
+							onChange={handleInputChange}
+						>
+							{categories.map((category, i) => {
+								return (
+									<option value={category.value} key={i}>
+										{category.key}
+									</option>
+								);
+							})}
+						</select>
 					</FormSection>
-				) : (
-					<>
-						<FormSection>
-							<label>Category</label>
-							<select
-								multiple={false}
-								id="category"
-								name="category"
-								onChange={handleInputChange}
-							>
-								{categories.map((category, i) => {
-									return (
-										<option value={category.value} key={i}>
-											{category.key}
-										</option>
-									);
-								})}
-							</select>
-						</FormSection>
-						<FormSection>
-							<label>Location</label>
-							<select
-								multiple={false}
-								id="location"
-								name="location"
-								onChange={handleInputChange}
-							>
-								{locations.map((location, i) => {
-									return (
-										<option value={location.value} key={i}>
-											{location.key}
-										</option>
-									);
-								})}
-							</select>
-						</FormSection>
-						<Button handleClick={handleSubmit} label="Submit" />
-					</>
-				)}
+					<FormSection>
+						<label>Location</label>
+						<select
+							multiple={false}
+							id="location"
+							name="location"
+							onChange={handleInputChange}
+						>
+							{locations.map((location, i) => {
+								return (
+									<option value={location.value} key={i}>
+										{location.key}
+									</option>
+								);
+							})}
+						</select>
+					</FormSection>
+					<Button handleClick={handleSubmit} label="Submit" />
+				</>
+				{/* )} */}
 			</form>
 		</NewListWrapper>
 	);
