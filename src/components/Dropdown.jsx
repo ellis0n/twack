@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const StyledDropdown = styled.div`
 	select {
-		width: 100%;
 		height: 2rem;
 		border-radius: 4px;
 		border: 2px solid #f7e5e2;
@@ -17,19 +16,32 @@ const StyledDropdown = styled.div`
 	}
 `;
 
-const Dropdown = ({ label, options }) => {
+const Dropdown = ({ label, options, handleChange }) => {
+	const [selected, setSelected] = useState({
+		key: "",
+		value: "",
+	});
+
+	const handleOptionChange = () => {
+		handleChange(selected);
+		console.log(selected);
+	};
+
 	return (
 		<StyledDropdown>
 			<label>{label}:</label>
 			<select
 				multiple={false}
-				id="location"
-				// onChange={handleLocation}
-				// value={params.location}
+				id={label}
+				name={label}
+				onChange={(e) => {
+					setSelected(e.target.value);
+					handleOptionChange();
+				}}
 			>
 				{options.map((option, i) => {
 					return (
-						<option value={option.value} key={i}>
+						<option value={option} key={i}>
 							{option.key}
 						</option>
 					);

@@ -11,8 +11,7 @@ const NewListWrapper = styled.div`
 	flex-direction: column;
 	text-align: center;
 	background-color: #588061;
-	/* height: auto; */
-	/* min-height: 59vh; */
+	height: 100%;
 
 	width: 100%;
 	max-width: 50vw;
@@ -46,6 +45,20 @@ const NewListWrapper = styled.div`
 		margin: 0.5rem 0rem;
 		background-color: #f3ebe9;
 	}
+
+	select {
+		width: 75%;
+		border: none;
+		height: 2rem;
+		border-radius: 4px;
+		border: 2px solid #f7e5e2;
+		text-align: center;
+		margin: 0.5rem 0rem;
+	}
+	option {
+		text-align: center;
+		overflow: hidden;
+	}
 `;
 
 const FormSection = styled.div`
@@ -53,6 +66,7 @@ const FormSection = styled.div`
 	flex-direction: column;
 	align-items: center;
 	height: 100%;
+	width: 100%;
 	justify-content: center;
 `;
 
@@ -62,10 +76,11 @@ const ListTitle = styled.div`
 	justify-content: center;
 	background-color: #f3ebe9e1;
 	width: 100%;
+	border-radius: 8px 9px 0 0;
 	h1 {
 		position: relative;
 		font-weight: 200;
-		/* border-bottom: 2px solid #588061; */
+
 		color: #588061;
 		margin: 0.5rem 0rem;
 		/* padding: 0.5rem 0rem; */
@@ -92,58 +107,108 @@ const ListTitle = styled.div`
 `;
 
 const NewList = ({ onClick }) => {
+	const [showAddParam, setShowAddParam] = useState(false);
+	const [selectedOption, setSelectedOption] = useState("Select a category");
+
 	const [listName, setListName] = useState("New List");
 	const [listDescription, setListDescription] = useState("");
-	const [listLocations, setListLocations] = useState([]);
-	const [listCategories, setListCategories] = useState([]);
 
-	const handleClick = () => {
-		const newList = {
-			listName,
-			listDescription,
-			listLocations,
-			listCategories,
-		};
-		console.log(newList);
+	const [list, setList] = useState({
+		listName: listName,
+		listDescription: listDescription,
+	});
+
+	const handleSubmit = () => {
+		console.log(list);
 	};
 
-	console.log();
+	const handleInputChange = (event) => {
+		const { name, value } = event.target;
+		setList({ ...list, [name]: value });
+	};
 
 	return (
-		// <CardWrapper>
 		<NewListWrapper>
 			<ListTitle>
 				<FontAwesomeIcon icon={faTimes} onClick={onClick} />
-				<h1>{listName}</h1>
+				<h1>{list.listName}</h1>
 			</ListTitle>
-			<form>
+			<form
+				onSubmit={() => {
+					handleSubmit();
+				}}
+			>
 				<FormSection>
-					<label htmlFor="listName">List Name: </label>
+					<label>List Name: </label>
 					<input
 						type="text"
-						id="listName"
-						onChange={(e) => {
-							e.target.value === ""
-								? setListName("New List")
-								: setListName(e.target.value);
-						}}
+						name="listName"
+						value={list.listName}
+						onChange={handleInputChange}
 					/>
 				</FormSection>
 				<FormSection>
-					<label htmlFor="listDescription"> Description: </label>
-					<input type="text" id="listDescription" />
+					<label> Description: </label>
+					<input
+						type="text"
+						name="listDescription"
+						value={list.listDescription}
+						onChange={handleInputChange}
+					/>
 				</FormSection>
 
-				<FormSection>
-					<Dropdown options={categories} label="Categories" />
-				</FormSection>
-				<FormSection>
-					<Dropdown options={locations} label="Locations" />
-				</FormSection>
-				<Button onClick={handleClick()} label="Create List" />
+				{!showAddParam ? (
+					<FormSection>
+						<div>
+							<Button
+								label="Add new search parameter"
+								handleClick={() => {
+									setShowAddParam(true);
+								}}
+							/>
+						</div>
+					</FormSection>
+				) : (
+					<>
+						<FormSection>
+							<label>Category</label>
+							<select
+								multiple={false}
+								id="category"
+								name="category"
+								onChange={handleInputChange}
+							>
+								{categories.map((category, i) => {
+									return (
+										<option value={category.value} key={i}>
+											{category.key}
+										</option>
+									);
+								})}
+							</select>
+						</FormSection>
+						<FormSection>
+							<label>Location</label>
+							<select
+								multiple={false}
+								id="location"
+								name="location"
+								onChange={handleInputChange}
+							>
+								{locations.map((location, i) => {
+									return (
+										<option value={location.value} key={i}>
+											{location.key}
+										</option>
+									);
+								})}
+							</select>
+						</FormSection>
+						<Button handleClick={handleSubmit} label="Submit" />
+					</>
+				)}
 			</form>
 		</NewListWrapper>
-		// </CardWrapper>
 	);
 };
 
