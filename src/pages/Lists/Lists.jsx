@@ -166,8 +166,8 @@ const Lists = () => {
 
 	const deleteList = async (id) => {
 		try {
-			// const response = await axiosPrivate.delete(`/lists/${listId}`);
-			// console.log(response);
+			const response = await axiosPrivate.delete(`/lists/${id}`);
+			console.log(response);
 			setLists(lists.filter((list) => list._id !== id));
 			console.log(lists);
 		} catch (err) {

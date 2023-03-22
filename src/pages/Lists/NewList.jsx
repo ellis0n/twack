@@ -9,13 +9,12 @@ const BlurDiv = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
+	position: fixed;
 	width: 100vw;
-	height: calc(100% - 60px);
+	height: 100vh;
 	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
 	z-index: 0;
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
-	overflow: hidden;
 `;
 
 const NewListWrapper = styled.div`
@@ -96,15 +95,6 @@ const NewListWrapper = styled.div`
 			background-color: #f7e5e2e4;
 		}
 	}
-
-	textarea {
-		width: 75%;
-		border: none;
-		border-radius: 4px;
-		padding: 0.5rem 0.5rem;
-		margin: 0.5rem 0rem;
-		background-color: #f3ebe9;
-	}
 `;
 
 const FormSection = styled.div`
@@ -125,7 +115,6 @@ const ListTitle = styled.div`
 	border-radius: 8px 9px 0 0;
 
 	h1 {
-		position: relative;
 		font-weight: 200;
 
 		color: #588061;
