@@ -15,7 +15,7 @@ const UsersWrapper = styled.div`
 	/* height: 100vh; */
 	/* width: 100vw; */
 
-	.h2 {
+	h2 {
 		color: #588061f6;
 	}
 `;
@@ -30,6 +30,7 @@ const UsersList = styled.div`
 	li {
 		list-style: none;
 		color: #588061f6;
+		z-index: 0;
 	}
 `;
 
@@ -75,7 +76,7 @@ const Users = () => {
 							{users.map((user, i) => (
 								<li key={i}>
 									<Link className="navLink" to={user.username}>
-										{user.username}
+										<h1>{user.username}</h1>
 									</Link>
 								</li>
 							))}

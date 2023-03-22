@@ -8,23 +8,11 @@ import Button from "./Button";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useLogout from "../hooks/useLogout";
 
-const BlurDiv = styled.div`
-	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
-	top: 0;
-	left: 0;
-	width: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
-	height: ${(props) =>
-		props.theme === "landing" ? "auto" : props.isOpen ? "100%" : "60px"};
-	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	z-index: ${(props) => (props.isOpen ? "1" : "0")};
-	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
-`;
-
 const StyledBanner = styled.div`
 	color: #588061;
 	font-family: "Fredoka One", cursive;
 	align-items: center;
-
+	z-index: 1000;
 	width: 100vw;
 	height: 60px;
 
@@ -113,7 +101,7 @@ const Banner = ({ theme }) => {
 	};
 
 	return (
-		<BlurDiv theme={theme} isOpen={isMenuOpen}>
+		<>
 			<StyledBanner theme={theme} isOpen={isMenuOpen}>
 				<FontAwesomeIcon
 					icon={faBars}
@@ -134,7 +122,7 @@ const Banner = ({ theme }) => {
 			</StyledBanner>
 
 			{isMenuOpen ? <Navbar className="navbar" isOpen={isMenuOpen} /> : null}
-		</BlurDiv>
+		</>
 	);
 };
 

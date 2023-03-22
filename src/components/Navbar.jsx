@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ParamBox from "./ParamBox";
 import Button from "./Button";
+import BlurWrapper from "./BlurWrapper";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -20,19 +21,15 @@ const StyledNav = styled.div`
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	z-index: 10000;
 	width: 65vw;
 	height: calc(100vh - 60px);
 	background: #588061;
-
-	position: absolute;
 	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
 	transition: all 0.1s ease-in-out;
 	border-right: 3px solid #f7e5e2e1;
 
 	@media (min-width: 768px) {
 		width: 30vw;
-		height: 100vh;
 		position: fixed;
 		visibility: visible;
 	}
@@ -81,19 +78,26 @@ const LinkWrapper = styled.div`
 	}
 `;
 
+const BlurDiv = styled.div`
+	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
+	width: 100vw;
+	height: calc(100vh - 60px);
+	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
+	z-index: ${(props) => (props.isOpen ? "1" : "0")};
+	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
+`;
+
 // TODO: The footer does this, I just need to pass props for when used in the navbar
 const NavBottom = styled.div`
-	position: fixed;
-	bottom: 1px;
-	height: 200px;
-	z-index: -1;
-	width: inherit;
+	position: absolute;
+	bottom: 0;
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
 	opacity: 0.3;
+	height: 60px;
+	width: inherit;
 
-	/* background-color: #000000; */
 	background-image: url(${process.env.PUBLIC_URL + "/background.png"});
 `;
 
@@ -110,22 +114,19 @@ const Navbar = ({ isOpen }) => {
 	];
 
 	return (
-		<StyledNav isOpen={isOpen}>
-			{links.map((link, index) => (
-				<>
+		<BlurDiv isOpen={isOpen}>
+			<StyledNav isOpen={isOpen}>
+				{links.map((link, index) => (
 					<Link to={link.link} key={index}>
 						<LinkWrapper>
 							<FontAwesomeIcon icon={link.icon} />
 							<p>{link.name}</p>
 						</LinkWrapper>
 					</Link>
-
-					{/* TODO: Drop down that lets you pick a list */}
-					{/* {link.name === "Your Lists" ?  /> : null} */}
-				</>
-			))}
-			<NavBottom />
-		</StyledNav>
+				))}
+				<NavBottom />
+			</StyledNav>
+		</BlurDiv>
 	);
 };
 

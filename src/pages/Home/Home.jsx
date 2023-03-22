@@ -28,9 +28,6 @@ const Home = () => {
 	return (
 		<HomeWrapper>
 			<Banner theme="header" />
-
-			<h1>Hi, {auth.auth.user}</h1>
-
 			<AdCard />
 		</HomeWrapper>
 	);

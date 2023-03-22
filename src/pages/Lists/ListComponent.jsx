@@ -1,22 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const ListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	text-align: left;
-	width: 50%;
+	width: 100%;
+	height: 100%;
 	background-color: #f7e5e2;
 	border-radius: 5px;
-	border: 1px solid #f7e5e2;
-	margin: 1rem 0rem;
-	padding: 1rem 0rem;
+	margin: 0.5rem 0rem;
+	transition: transform 100ms, background 200ms;
+	box-shadow: #000000 0px 2px 6px 0px;
 	h2 {
 		font-weight: 200;
 		color: #f7e5e2;
 		margin: 0.5rem 0rem;
-		background-color: #588061;
 	}
 	p {
 		font-weight: 200;
@@ -26,13 +28,41 @@ const ListWrapper = styled.div`
 	}
 `;
 
-const ListComponent = ({ list, key }) => {
+const Header = styled.div`
+	display: flex;
+	align-items: center;
+	background-color: #588061;
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+	height: 2rem;
+
+	h2 {
+		font-weight: 200;
+		color: #f7e5e2;
+		margin: 0.5rem 0rem;
+	}
+`;
+
+const ListComponent = ({ list, deleteList }) => {
 	return (
-		<ListWrapper key={key}>
-			<h2>{list.name}</h2>
-			{list.description ? <p>{list.description}</p> : <p>"placeholder"</p>}
+		<ListWrapper>
+			<Header>
+				<h2>{list.name}</h2>
+			</Header>
+			{list.description ? (
+				<p>{list.description}</p>
+			) : (
+				<p>"placeholder text from list component"</p>
+			)}
 			<p>{list.category}</p>
 			<p>{list.location}</p>
+			<FontAwesomeIcon
+				icon={faTrash}
+				onClick={(e) => {
+					e.preventDefault();
+					deleteList(list._id);
+				}}
+			/>
 		</ListWrapper>
 	);
 };

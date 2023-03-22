@@ -5,19 +5,43 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { categories, locations } from "../../helper/searchparams";
 
+const BlurDiv = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
+	width: 100vw;
+	height: calc(100% - 60px);
+	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
+	z-index: 0;
+	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
+	overflow: hidden;
+`;
+
 const NewListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	text-align: center;
 	background-color: #588061;
-	height: 100%;
-
+	top: 33%;
 	width: 100%;
-	max-width: 50vw;
+	max-width: 60vw;
 	border: #f7e5e2 solid 2px;
 	border-radius: 12px;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
-	/* overflow: hidden; */
+	position: absolute;
+
+	@media (max-width: 1024px) {
+		max-width: 65vw;
+	}
+
+	@media (max-width: 768px) {
+		max-width: 75vw;
+	}
+
+	@media (max-width: 500px) {
+		max-width: 85vw;
+	}
 
 	form {
 		display: flex;
@@ -59,6 +83,28 @@ const NewListWrapper = styled.div`
 		text-align: center;
 		overflow: hidden;
 	}
+
+	button {
+		width: 40%;
+		border: none;
+		border-radius: 4px;
+		padding: 0.5rem 0.5rem;
+		margin: 0.5rem 0rem;
+		background-color: #f7e5e2;
+
+		&:hover {
+			background-color: #f7e5e2e4;
+		}
+	}
+
+	textarea {
+		width: 75%;
+		border: none;
+		border-radius: 4px;
+		padding: 0.5rem 0.5rem;
+		margin: 0.5rem 0rem;
+		background-color: #f3ebe9;
+	}
 `;
 
 const FormSection = styled.div`
@@ -87,6 +133,7 @@ const ListTitle = styled.div`
 		/* padding: 0.5rem 0rem; */
 	}
 	svg {
+		z-index: 1;
 		position: absolute;
 		align-self: flex-end;
 		width: 1em;
@@ -97,16 +144,17 @@ const ListTitle = styled.div`
 		border-radius: 50%;
 		border: 1.5px solid #f3ebe9;
 		margin: 0.5rem 0.5rem;
-		z-index: 1;
+		padding: 0.5rem 0.5rem;
+		transition: all 0.2s ease-in-out;
 		:hover {
 			background-color: #588061;
 			color: #f7e5e2;
 			transition: all 0.2s ease-in-out;
 			border: 1.5px solid #000;
+			z-index: 1;
 		}
 	}
 `;
-
 const NewList = ({ onClick, onSubmit }) => {
 	// const [showAddParam, setShowAddParam] = useState(false);
 
@@ -125,6 +173,7 @@ const NewList = ({ onClick, onSubmit }) => {
 			category: "0",
 			location: "0",
 		});
+		onClick();
 	};
 
 	const handleInputChange = (event) => {
@@ -139,37 +188,39 @@ const NewList = ({ onClick, onSubmit }) => {
 	};
 
 	return (
-		<NewListWrapper>
-			<ListTitle>
-				<FontAwesomeIcon icon={faTimes} onClick={onClick} />
-				<h1>{list.listName}</h1>
-			</ListTitle>
-			<form
-				onSubmit={() => {
-					handleSubmit();
-				}}
-			>
-				<FormSection>
-					<label>List Name: </label>
-					<input
-						type="text"
-						name="listName"
-						value={list.listName}
-						onChange={handleInputChange}
-					/>
-				</FormSection>
-				<FormSection>
-					<label> Description: </label>
-					<input
-						type="text"
-						name="listDescription"
-						value={list.listDescription}
-						onChange={handleInputChange}
-					/>
-				</FormSection>
+		<BlurDiv isOpen={true}>
+			<NewListWrapper>
+				<ListTitle>
+					<FontAwesomeIcon icon={faTimes} onClick={onClick} />
+					<h1>{list.listName}</h1>
+				</ListTitle>
+				<form
+					onSubmit={() => {
+						handleSubmit();
+					}}
+				>
+					<FormSection>
+						<label>List Name: </label>
+						<input
+							type="text"
+							name="listName"
+							max={20}
+							value={list.listName}
+							onChange={handleInputChange}
+						/>
+					</FormSection>
+					<FormSection>
+						<label> Description: </label>
+						<input
+							type="text"
+							name="listDescription"
+							value={list.listDescription}
+							onChange={handleInputChange}
+						/>
+					</FormSection>
 
-				{/* {!showAddParam ? ( */}
-				{/* <FormSection>
+					{/* {!showAddParam ? ( */}
+					{/* <FormSection>
 					<div>
 						<Button
 							label="Add new search parameter"
@@ -179,47 +230,48 @@ const NewList = ({ onClick, onSubmit }) => {
 						/>
 					</div>
 				</FormSection> */}
-				{/* ) : ( */}
-				<>
-					<FormSection>
-						<label>Category</label>
-						<select
-							multiple={false}
-							id="category"
-							name="category"
-							onChange={handleInputChange}
-						>
-							{categories.map((category, i) => {
-								return (
-									<option value={category.value} key={i}>
-										{category.key}
-									</option>
-								);
-							})}
-						</select>
-					</FormSection>
-					<FormSection>
-						<label>Location</label>
-						<select
-							multiple={false}
-							id="location"
-							name="location"
-							onChange={handleInputChange}
-						>
-							{locations.map((location, i) => {
-								return (
-									<option value={location.value} key={i}>
-										{location.key}
-									</option>
-								);
-							})}
-						</select>
-					</FormSection>
-					<Button handleClick={handleSubmit} label="Submit" />
-				</>
-				{/* )} */}
-			</form>
-		</NewListWrapper>
+					{/* ) : ( */}
+					<>
+						<FormSection>
+							<label>Category</label>
+							<select
+								multiple={false}
+								id="category"
+								name="category"
+								onChange={handleInputChange}
+							>
+								{categories.map((category, i) => {
+									return (
+										<option value={category.value} key={i}>
+											{category.key}
+										</option>
+									);
+								})}
+							</select>
+						</FormSection>
+						<FormSection>
+							<label>Location</label>
+							<select
+								multiple={false}
+								id="location"
+								name="location"
+								onChange={handleInputChange}
+							>
+								{locations.map((location, i) => {
+									return (
+										<option value={location.value} key={i}>
+											{location.key}
+										</option>
+									);
+								})}
+							</select>
+						</FormSection>
+						<Button handleClick={handleSubmit} label="Submit" />
+					</>
+					{/* )} */}
+				</form>
+			</NewListWrapper>
+		</BlurDiv>
 	);
 };
 
