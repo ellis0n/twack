@@ -12,9 +12,8 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 100%;
-	width: 80%;
 	margin: 0 12.5%;
+	margin-top: 60px;
 	h1 {
 		margin: 1rem 0rem;
 		color: #588061;
@@ -29,8 +28,9 @@ const Header = styled.div`
 	width: 75%;
 	padding: 1rem 0rem;
 	margin: 1rem 1rem;
-	background-color: #588061;
+	background-color: #58806124;
 	border-radius: 5px;
+	border: 2px solid #588061;
 
 	button {
 		background-color: #f7e5e2;
@@ -60,7 +60,7 @@ const Header = styled.div`
 		justify-content: center;
 		width: 100%;
 		padding: 0.5rem 0rem;
-		margin: 0rem 0rem 1rem 0rem;
+		margin: 1rem 0rem 1rem 0rem;
 
 		button {
 			width: 75%;
@@ -147,6 +147,7 @@ const Lists = () => {
 
 	const submitNewList = async (newList) => {
 		const user = auth.user;
+		console.log("component");
 		console.log(newList);
 		try {
 			const response = await axiosPrivate.post(
@@ -167,9 +168,28 @@ const Lists = () => {
 	const deleteList = async (id) => {
 		try {
 			const response = await axiosPrivate.delete(`/lists/${id}`);
-			console.log(response);
-			setLists(lists.filter((list) => list._id !== id));
-			console.log(lists);
+			if (response.status === 200) {
+				setLists(lists.filter((list) => list._id !== id));
+				console.log("List deleted");
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const updateList = async (id, updatedList) => {
+		try {
+			const response = await axiosPrivate.put(`/lists/${id}`, updatedList);
+			if (response.status === 200) {
+				const newList = lists.map((list) => {
+					if (list._id === id) {
+						return updatedList;
+					}
+					return list;
+				});
+				setLists(newList);
+				console.log("List updated");
+			}
 		} catch (err) {
 			console.error(err);
 		}
@@ -177,11 +197,11 @@ const Lists = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
+			<Banner theme="header" isSticky={showCreateList} />
 			<Wrapper>
 				<Header>
 					<>
-						<h1>Your Lists</h1>
+						<h1>{auth.user} Lists</h1>
 						<Button
 							label="Create a list"
 							handleClick={() => setShowCreateList(!showCreateList)}
@@ -207,6 +227,7 @@ const Lists = () => {
 							index={i}
 							list={list}
 							deleteList={deleteList}
+							updateList={updateList}
 						/>
 					))}
 				</ListsWrapper>

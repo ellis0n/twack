@@ -22,9 +22,11 @@ const StyledNav = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	width: 65vw;
-	height: calc(100vh - 60px);
+	height: 100vh;
+	/* margin-top: 60px; */
+	/* height: calc(100vh - 60px); */
 	background: #588061;
-	visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
+	/* visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")}; */
 	transition: all 0.1s ease-in-out;
 	border-right: 3px solid #f7e5e2e1;
 
@@ -79,9 +81,8 @@ const LinkWrapper = styled.div`
 `;
 
 const BlurDiv = styled.div`
-	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
+	position: ${(props) => (props.theme === "landing" ? "relative" : "fixed")};
 	width: 100vw;
-	height: calc(100vh - 60px);
 	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
 	z-index: ${(props) => (props.isOpen ? "1" : "0")};
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};

@@ -6,6 +6,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { categories, locations } from "../../helper/searchparams";
 
 const BlurDiv = styled.div`
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -13,7 +14,6 @@ const BlurDiv = styled.div`
 	width: 100vw;
 	height: 100vh;
 	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	z-index: 0;
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
 `;
 
@@ -22,24 +22,22 @@ const NewListWrapper = styled.div`
 	flex-direction: column;
 	text-align: center;
 	background-color: #588061;
-	top: 33%;
-	width: 100%;
-	max-width: 60vw;
+	top: 120px;
+	width: 50vw;
 	border: #f7e5e2 solid 2px;
 	border-radius: 12px;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
 	position: absolute;
 
-	@media (max-width: 1024px) {
-		max-width: 65vw;
+	@media (min-width: 1024px) {
+		width: 60vw;
 	}
 
 	@media (max-width: 768px) {
-		max-width: 75vw;
+		width: 90vw;
 	}
-
-	@media (max-width: 500px) {
-		max-width: 85vw;
+	@media (max-width: 480px) {
+		width: 95vw;
 	}
 
 	form {
@@ -148,29 +146,37 @@ const NewList = ({ onClick, onSubmit }) => {
 	// const [showAddParam, setShowAddParam] = useState(false);
 
 	const [list, setList] = useState({
-		listName: "New List",
-		listDescription: "",
+		name: "New List",
+		description: "List description",
 		category: "0",
 		location: "0",
 	});
 
 	const handleSubmit = () => {
+		console.log(list);
 		onSubmit(list);
 		setList({
-			listName: "New List",
-			listDescription: "",
+			name: "New List",
+			description: "",
 			category: "0",
 			location: "0",
 		});
 		onClick();
 	};
 
+	// TODO: add validation for list name and description
+	// TODO: if list name is empty, set it to "New List"
 	const handleInputChange = (event) => {
 		const { name } = event.target;
 		if (name === "category") {
 			setList({ ...list, category: parseInt(event.target.value) });
 		} else if (name === "location") {
 			setList({ ...list, location: parseInt(event.target.value) });
+		} else if (name === "name") {
+			if (event.target.value.length > 20) {
+				return;
+			}
+			setList({ ...list, name: event.target.value });
 		} else {
 			setList({ ...list, [name]: event.target.value });
 		}
@@ -181,7 +187,8 @@ const NewList = ({ onClick, onSubmit }) => {
 			<NewListWrapper>
 				<ListTitle>
 					<FontAwesomeIcon icon={faTimes} onClick={onClick} />
-					<h1>{list.listName}</h1>
+					{/* TODO: let user input name here? */}
+					<h1>{list.name}</h1>
 				</ListTitle>
 				<form
 					onSubmit={() => {
@@ -192,9 +199,8 @@ const NewList = ({ onClick, onSubmit }) => {
 						<label>List Name: </label>
 						<input
 							type="text"
-							name="listName"
-							max={20}
-							value={list.listName}
+							name="name"
+							value={list.name}
 							onChange={handleInputChange}
 						/>
 					</FormSection>
@@ -202,8 +208,8 @@ const NewList = ({ onClick, onSubmit }) => {
 						<label> Description: </label>
 						<input
 							type="text"
-							name="listDescription"
-							value={list.listDescription}
+							name="description"
+							value={list.description}
 							onChange={handleInputChange}
 						/>
 					</FormSection>
