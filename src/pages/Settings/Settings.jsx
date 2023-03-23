@@ -9,6 +9,18 @@ import useLogout from "../../hooks/useLogout";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Wrapper from "../../components/Wrapper";
+import styled from "styled-components";
+
+const LoginWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 60px;
+	h1 {
+		margin: 1rem 0rem;
+		color: #588061;
+	}
+`;
 
 const Settings = () => {
 	const logout = useLogout();
@@ -16,8 +28,6 @@ const Settings = () => {
 	const location = useLocation();
 	const { auth } = useAuth();
 	const axiosPrivate = useAxiosPrivate();
-
-	// const [pref, setPref] = useState([]);
 
 	const signOut = async () => {
 		await logout();
@@ -43,18 +53,9 @@ const Settings = () => {
 	return (
 		<>
 			<Banner theme="header" />
-			<Wrapper>
-				<ParamBox
-					type="setting"
-					text="Save preferences."
-					handleClick={handleClick}
-				/>
-				<div>
-					<button className="login-btn" onClick={signOut}>
-						Sign Out
-					</button>
-				</div>
-			</Wrapper>
+			<LoginWrapper>
+				<h1>Settings</h1>
+			</LoginWrapper>
 			<Footer />
 		</>
 	);

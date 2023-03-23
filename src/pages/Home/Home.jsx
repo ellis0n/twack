@@ -8,8 +8,13 @@ import useAuth from "../../hooks/useAuth";
 import AdCard from "../Ads/AdCard";
 
 const HomeWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 60px;
 	h1 {
-		color: #588061f6;
+		margin: 1rem 0rem;
+		color: #588061;
 	}
 `;
 
@@ -22,8 +27,6 @@ const Home = () => {
 		await logout();
 		navigate("/login");
 	};
-
-	console.log(auth);
 
 	return (
 		<HomeWrapper>

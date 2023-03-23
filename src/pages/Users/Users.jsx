@@ -11,12 +11,11 @@ const UsersWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
-	/* height: 100vh; */
-	/* width: 100vw; */
-
-	h2 {
-		color: #588061f6;
+	margin: 0 12.5%;
+	margin-top: 60px;
+	h1 {
+		margin: 1rem 0rem;
+		color: #588061;
 	}
 `;
 
@@ -31,6 +30,10 @@ const UsersList = styled.div`
 		list-style: none;
 		color: #588061f6;
 		z-index: 0;
+	}
+
+	a {
+		text-decoration: none;
 	}
 `;
 

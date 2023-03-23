@@ -33,6 +33,7 @@ const Header = styled.div`
 	color: #f7e5e2;
 
 	h2 {
+		font-size: 2em;
 		font-weight: 200;
 		color: #f7e5e2;
 		margin: 0.5rem 0rem;
@@ -77,11 +78,12 @@ const ParamWrapper = styled.div`
 const DescriptionWrapper = styled.div`
 	display: flex;
 	justify-content: left;
-	border-radius: 5px;
+	border-radius: 0px 5px 5px 0px;
 	background-color: aliceblue;
 	width: 100%;
 	height: 100%;
-	box-shadow: #588061 0px 2px 6px 0px;
+	box-shadow: #588061 0px 2px 5px 0px;
+	margin-left: 0;
 
 	p {
 		text-align: left;
@@ -91,6 +93,7 @@ const DescriptionWrapper = styled.div`
 		margin: 0.5rem;
 		font-size: 0.7em;
 		line-height: 1.4rem;
+		padding-left: 0px;
 	}
 `;
 
@@ -152,7 +155,7 @@ const BodyWrapper = styled.div`
 const ListComponent = ({ list, deleteList, updateList }) => {
 	const findString = (value, type) => {
 		const found = type.find((category) => category.value === parseInt(value));
-		console.log(found);
+
 		return found.key ? found.key : "no category";
 	};
 	console.log(list);

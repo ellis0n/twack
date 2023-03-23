@@ -12,6 +12,17 @@ const LOGIN_URL = "/auth";
 
 const LoginWrapper = styled.div`
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	h1 {
+		font-family: "Fredoka One", cursive;
+		font-size: calc(6rem + 2vw);
+		color: #588061;
+		margin: 0;
+		padding: 0;
+	}
 `;
 
 const Login = () => {
@@ -69,8 +80,8 @@ const Login = () => {
 	};
 
 	return (
-		<>
-			<Banner theme="landing" />
+		<LoginWrapper>
+			<h1>twack</h1>
 			<div className="login">
 				{errMsg ? (
 					<div className="error-msg">
@@ -126,7 +137,7 @@ const Login = () => {
 				</div>
 			</div>
 			<Footer />
-		</>
+		</LoginWrapper>
 	);
 };
 

@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 	margin: 0 12.5%;
 	margin-top: 60px;
 	h1 {
-		margin: 1rem 0rem;
+		/* margin: 1rem 0rem; */
 		color: #588061;
 	}
 `;
@@ -127,14 +127,14 @@ const Lists = () => {
 
 		const getLists = async () => {
 			try {
-				const response = await axiosPrivate.get("/lists", {
+				const response = await axiosPrivate.get(`/users/${auth.user}/lists`, {
 					signal: controller.signal,
 				});
-				console.log(response);
+				console.log(response.data);
 				isMounted && setLists(response.data);
 			} catch (err) {
 				console.error(err);
-				// navigate("/login", { state: { from: stateLocation }, replace: true });
+				navigate("/home", { state: { from: stateLocation }, replace: true });
 			}
 		};
 		getLists();
@@ -147,11 +147,9 @@ const Lists = () => {
 
 	const submitNewList = async (newList) => {
 		const user = auth.user;
-		console.log("component");
-		console.log(newList);
 		try {
 			const response = await axiosPrivate.post(
-				"/lists",
+				`users/${user}/lists`,
 				JSON.stringify({ newList, user: user }),
 				{
 					headers: { "Content-Type": "application/json" },
@@ -166,8 +164,9 @@ const Lists = () => {
 	};
 
 	const deleteList = async (id) => {
+		const user = auth.user;
 		try {
-			const response = await axiosPrivate.delete(`/lists/${id}`);
+			const response = await axiosPrivate.delete(`users/${user}/lists/${id}`);
 			if (response.status === 200) {
 				setLists(lists.filter((list) => list._id !== id));
 				console.log("List deleted");
