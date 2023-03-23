@@ -111,6 +111,20 @@ const ListsWrapper = styled.div`
 	height: 100%;
 `;
 
+const OverLayNewList = styled.div`
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000000a6;
+	z-index: 100;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+`;
+
 const Lists = () => {
 	const axiosPrivate = useAxiosPrivate();
 	const { auth } = useAuth();
@@ -120,18 +134,26 @@ const Lists = () => {
 	const [lists, setLists] = useState([]);
 	const [showCreateList, setShowCreateList] = useState(false);
 	const [viewType, setViewType] = useState("grid");
+	const [refreshList, setRefreshList] = useState(false);
+
+	const sampleList = {
+		name: "Create New List",
+		description: "Get started!",
+		category: "0",
+		location: "0",
+	};
 
 	useEffect(() => {
 		let isMounted = true;
 		const controller = new AbortController();
-
 		const getLists = async () => {
 			try {
 				const response = await axiosPrivate.get(`/users/${auth.user}/lists`, {
-					signal: controller.signal,
+					// signal: controller.signal,
 				});
 				console.log(response.data);
-				isMounted && setLists(response.data);
+				// isMounted &&
+				setLists(response.data);
 			} catch (err) {
 				console.error(err);
 				navigate("/home", { state: { from: stateLocation }, replace: true });
@@ -143,7 +165,7 @@ const Lists = () => {
 			isMounted = false;
 			controller.abort();
 		};
-	}, []);
+	}, [refreshList]);
 
 	const submitNewList = async (newList) => {
 		const user = auth.user;
@@ -156,8 +178,8 @@ const Lists = () => {
 					withCredentials: true,
 				}
 			);
+			setRefreshList(!refreshList);
 			console.log(response);
-			setLists([...lists, newList]);
 		} catch (err) {
 			console.error(err);
 		}
@@ -186,7 +208,6 @@ const Lists = () => {
 					}
 					return list;
 				});
-				setLists(newList);
 				console.log("List updated");
 			}
 		} catch (err) {
@@ -200,11 +221,7 @@ const Lists = () => {
 			<Wrapper>
 				<Header>
 					<>
-						<h1>{auth.user} Lists</h1>
-						<Button
-							label="Create a list"
-							handleClick={() => setShowCreateList(!showCreateList)}
-						/>
+						<h1>{auth.user}'s Lists</h1>
 					</>
 				</Header>
 				<SelectView>
@@ -220,13 +237,28 @@ const Lists = () => {
 					/>
 				) : null}
 				<ListsWrapper>
+					<ListComponent
+						list={sampleList}
+						deleteList={() => {
+							return null;
+						}}
+						updateList={() => {
+							return null;
+						}}
+						handleSubmit={submitNewList}
+						sampleList={true}
+						handleNewList={() => setShowCreateList(!showCreateList)}
+					/>
 					{lists.map((list, i) => (
 						<ListComponent
 							key={i}
-							index={i}
 							list={list}
 							deleteList={deleteList}
 							updateList={updateList}
+							sampleList={false}
+							handleSubmit={() => {
+								return null;
+							}}
 						/>
 					))}
 				</ListsWrapper>
