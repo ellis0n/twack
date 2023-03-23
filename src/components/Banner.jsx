@@ -8,28 +8,26 @@ import Button from "./Button";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useLogout from "../hooks/useLogout";
 
-const BlurDiv = styled.div`
-	position: ${(props) => (props.theme === "landing" ? "relative" : "absolute")};
+const BannerWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100vw;
+	height: 60px;
+	padding: 0 12px;
+	position: ${(props) => (props.isSticky ? "fixed" : "relative")};
 	top: 0;
-	left: 0;
-	width: ${(props) => (props.theme === "landing" ? "auto" : "100%")};
-	height: ${(props) =>
-		props.theme === "landing" ? "auto" : props.isOpen ? "100%" : "60px"};
-	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	z-index: ${(props) => (props.isOpen ? "1" : "0")};
-	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
+	background-color: ${(props) =>
+		props.theme === "landing" ? "none" : "#F7E5E2"};
 `;
 
 const StyledBanner = styled.div`
+	position: fixed;
+	top: 0;
 	color: #588061;
 	font-family: "Fredoka One", cursive;
 	align-items: center;
-
-	width: 100vw;
-	height: 60px;
-
-	background-color: ${(props) =>
-		props.theme === "landing" ? "none" : "#F7E5E2"};
+	z-index: 1000;
 	display: ${(props) => (props.theme === "landing" ? "block" : "flex")};
 	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "1rem")};
 	padding-bottom: ${(props) => (props.theme === "landing" ? "120px" : "0px")};
@@ -85,10 +83,10 @@ const StyledBanner = styled.div`
 	button {
 		display: ${(props) =>
 			props.theme === "landing" ? "none" : "inline-block"};
-		position: absolute;
-		right: 12px;
+		position: relative;
 		border: 2px solid #588061;
-
+		margin-left: auto;
+		margin-right: 20px;
 		background-color: #f7e5e2;
 		color: #588061;
 		padding: 10px 20px;
@@ -102,7 +100,7 @@ const StyledBanner = styled.div`
 	}
 `;
 
-const Banner = ({ theme }) => {
+const Banner = ({ theme, isSticky }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const logout = useLogout();
 	const navigate = useNavigate();
@@ -113,28 +111,30 @@ const Banner = ({ theme }) => {
 	};
 
 	return (
-		<BlurDiv theme={theme} isOpen={isMenuOpen}>
-			<StyledBanner theme={theme} isOpen={isMenuOpen}>
-				<FontAwesomeIcon
-					icon={faBars}
-					onClick={(e) => {
-						e.preventDefault();
-						setIsMenuOpen(!isMenuOpen);
-					}}
-				/>
-				<Link to={theme === "landing" ? "/" : "/home"} className="logo-link">
-					<h1>twack</h1>
-				</Link>
-				<Button
-					label="Logout"
-					handleClick={() => {
-						signOut();
-					}}
-				/>
+		<>
+			<StyledBanner theme={theme} isOpen={isMenuOpen} isSticky={isSticky}>
+				<BannerWrapper>
+					<FontAwesomeIcon
+						icon={faBars}
+						onClick={(e) => {
+							e.preventDefault();
+							setIsMenuOpen(!isMenuOpen);
+						}}
+					/>
+					<Link to={theme === "landing" ? "/" : "/home"} className="logo-link">
+						<h1>twack</h1>
+					</Link>
+					<Button
+						label="Logout"
+						handleClick={() => {
+							signOut();
+						}}
+					/>
+				</BannerWrapper>
 			</StyledBanner>
 
 			{isMenuOpen ? <Navbar className="navbar" isOpen={isMenuOpen} /> : null}
-		</BlurDiv>
+		</>
 	);
 };
 

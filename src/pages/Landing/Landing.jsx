@@ -14,6 +14,15 @@ const LandingWrapper = styled.div`
 	align-items: center;
 	font-family: "Fredoka One", cursive;
 	color: white;
+	padding-top: 10rem;
+	background: none;
+
+	h1 {
+		font-size: calc(6rem + 2vw);
+		color: #588061;
+		margin: 0;
+		padding: 0;
+	}
 `;
 
 const OptionWrapper = styled.div`
@@ -58,8 +67,8 @@ const Landing = () => {
 
 	return (
 		<>
-			<Banner theme="landing" />
 			<LandingWrapper>
+				<h1>twack</h1>
 				<p>witty slogan</p>
 				<OptionWrapper>
 					<Link to="/login">

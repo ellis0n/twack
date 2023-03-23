@@ -1,4 +1,5 @@
 const locations = [
+	{ key: "All", value: 0 },
 	{ key: "Newfoundland and Labrador", value: 9008 },
 	{ key: "Nova Scotia", value: 9002 },
 	{ key: "British Columbia", value: 9007 },

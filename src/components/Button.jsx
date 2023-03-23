@@ -6,6 +6,7 @@ const ButtonWrapper = styled.button`
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
+	z-index: 0;
 `;
 
 const Button = ({ label, handleClick }) => {
