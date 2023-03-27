@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { categories, locations } from "../../helper/searchparams";
-import NewList from "./NewList";
+import { Link } from "react-router-dom";
 
 const ListWrapper = styled.div`
-	cursor: ${(props) => (props.sampleList ? "pointer" : "default")};
+	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -25,7 +25,33 @@ const ListWrapper = styled.div`
 		transform: scale(1.01);
 		background-color: #f7e5e2e4;
 		box-shadow: ${(props) =>
-			props.sampleList ? "#f7e5e2 0px 0px 2px 0px" : "#000000 0px 2px 6px 0px"};
+			props.createCard ? "#f7e5e2 0px 0px 2px 0px" : "#000000 0px 2px 3px 0px"};
+		animation: ${(props) =>
+			props.createCard ? "createPulse 2s infinite" : "pulse 1s infinite"};
+	}
+
+	@keyframes pulse {
+		0% {
+			box-shadow: 0 0 0 0 #f7e5e2;
+		}
+		70% {
+			box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 2px rgba(0, 0, 0, 0);
+		}
+	}
+
+	@keyframes createPulse {
+		0% {
+			box-shadow: 0 0 0 0 #588061;
+		}
+		70% {
+			box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+		}
 	}
 `;
 
@@ -56,7 +82,7 @@ const ParamWrapper = styled.div`
 	border-radius: 5px;
 	margin: 0.5rem 0rem;
 	transition: transform 100ms, background 200ms;
-	filter: ${(props) => (props.sampleList ? "blur(2px)" : "none")};
+	filter: ${(props) => (props.createCard ? "blur(2px)" : "none")};
 	h2 {
 		text-align: center;
 		font-weight: 200;
@@ -124,19 +150,27 @@ const ImageWrapper = styled.div`
 			height: 100px;
 		}
 	}
+
 	.create {
+		display: flex;
+		justify-content: center;
 		opacity: 0.9;
-		font-size: 5rem;
+		font-size: 6rem;
 		color: #f7e5e2;
 		background-color: #588061;
 		border: 1px solid #588061;
 		border-radius: 50%;
-		padding: 0.5rem;
+		padding: 1rem;
 		cursor: pointer;
+		animation: createPulse 2s infinite;
 
 		:hover {
 			background-color: #588061d8;
 			color: #f7e5e2ea;
+		}
+
+		@media (max-width: 768px) {
+			font-size: 4rem;
 		}
 	}
 `;
@@ -179,9 +213,11 @@ const ListComponent = ({
 	list,
 	deleteList,
 	updateList,
-	sampleList,
-	handleSubmit,
+	createCard,
 	handleNewList,
+	ownedCard,
+	followList,
+	openLink,
 }) => {
 	const [newList, setNewList] = useState({
 		name: "New List",
@@ -195,14 +231,17 @@ const ListComponent = ({
 	};
 
 	return (
-		<>
-			<ListWrapper sampleList={sampleList} onClick={handleNewList}>
-				<Header sampleList={sampleList}>
+		<Link to={createCard ? null : `${list._id}`}>
+			<ListWrapper
+				createCard={createCard}
+				onClick={createCard ? handleNewList : null}
+			>
+				<Header createCard={createCard}>
 					<h2>{list.name}</h2>
 				</Header>
 
 				<BodyWrapper>
-					<ParamWrapper sampleList={sampleList}>
+					<ParamWrapper createCard={createCard}>
 						<h3>Category: </h3>
 						<p>{findString(list.category, categories)}</p>
 						<h3>Location: </h3>
@@ -212,14 +251,15 @@ const ListComponent = ({
 						</DescriptionWrapper>
 					</ParamWrapper>
 					<ImageWrapper>
-						{sampleList ? (
+						{createCard ? (
 							<FontAwesomeIcon icon={faPlus} className="create" />
 						) : list.thumbnail ? (
 							<img src={list.thumbnail} alt="list" />
 						) : (
 							<img src="https://via.placeholder.com/150" alt="list" />
 						)}
-						{sampleList ? null : (
+
+						{createCard ? null : ownedCard ? (
 							<IconWrapper>
 								<FontAwesomeIcon
 									icon={faTrash}
@@ -236,11 +276,22 @@ const ListComponent = ({
 									}}
 								/>
 							</IconWrapper>
+						) : (
+							<IconWrapper>
+								<p>Follow list</p>
+								<FontAwesomeIcon
+									icon={faPlus}
+									onClick={(e) => {
+										e.preventDefault();
+										followList(list._id);
+									}}
+								/>
+							</IconWrapper>
 						)}
 					</ImageWrapper>
 				</BodyWrapper>
 			</ListWrapper>
-		</>
+		</Link>
 	);
 };
 

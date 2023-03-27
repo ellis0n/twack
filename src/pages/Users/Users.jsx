@@ -17,6 +17,10 @@ const UsersWrapper = styled.div`
 		margin: 1rem 0rem;
 		color: #588061;
 	}
+
+	p {
+		color: #588061;
+	}
 `;
 
 const UsersList = styled.div`
@@ -78,7 +82,7 @@ const Users = () => {
 						<ul>
 							{users.map((user, i) => (
 								<li key={i}>
-									<Link className="navLink" to={user.username}>
+									<Link className="navLink" to={`${user.username}/lists`}>
 										<h1>{user.username}</h1>
 									</Link>
 								</li>
@@ -86,7 +90,7 @@ const Users = () => {
 						</ul>
 					</UsersList>
 				) : (
-					<p>No users found!</p>
+					<p>Searching for users...</p>
 				)}
 			</UsersWrapper>
 		</>

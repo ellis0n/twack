@@ -14,14 +14,14 @@ import Landing from "./pages/Landing/Landing";
 import User from "./pages/UserDetail/UserDetail";
 import Lists from "./pages/Lists/Lists";
 import About from "./pages/About/About";
+import UserLists from "./pages/Users/UserLists";
 
 function App() {
 	return (
-		// <div className="App">
 		<Routes>
 			<Route path="/" element={<Layout />}>
 				{/* Public Routes */}
-				<Route path="/" element={<Landing />} />
+				{/* <Route path="/" element={<Landing />} /> */}
 				<Route path="/register" element={<Register />} />
 				<Route path="/login" element={<Login />} />
 
@@ -29,12 +29,15 @@ function App() {
 				<Route element={<PersistLogin />}>
 					{/* Private Routes */}
 					<Route element={<RequireAuth />}>
+						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
 						<Route path="/lists" element={<Lists />} />
 						<Route path="/settings" element={<Settings />} />
 						<Route path="/saved" element={<SavedAds />} />
-						<Route path="/users" element={<Users />} />
-						<Route path="/users/:id" element={<User />} />
+						<Route path="/u/" element={<Users />} />
+						<Route path="/u/:id" element={<User />} />
+						<Route path="/u/:id/lists/" element={<UserLists />} />
+						<Route path="/u/:id/lists/:listId" element={<AdCard />} />
 						<Route path="/about" element={<About />}></Route>
 					</Route>
 				</Route>

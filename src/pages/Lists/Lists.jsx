@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Banner from "../../components/Banner";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
+import {
+	useNavigate,
+	useLocation,
+	useParams,
+	Navigate,
+	Link,
+} from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Button from "../../components/Button";
 import NewList from "./NewList";
@@ -12,11 +18,14 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0 12.5%;
+	margin: 2% 12.5%;
 	margin-top: 60px;
 	h1 {
 		/* margin: 1rem 0rem; */
 		color: #588061;
+	}
+	a {
+		text-decoration: none;
 	}
 `;
 
@@ -126,8 +135,10 @@ const OverLayNewList = styled.div`
 `;
 
 const Lists = () => {
+	const { id } = useParams();
 	const axiosPrivate = useAxiosPrivate();
-	const { auth } = useAuth();
+	const { auth, persist } = useAuth();
+	const user = id ? id : localStorage.getItem("user").replace(/"/g, "");
 	const navigate = useNavigate();
 	const stateLocation = useLocation();
 
@@ -142,16 +153,16 @@ const Lists = () => {
 		category: "0",
 		location: "0",
 	};
-
+	console.log(id);
 	useEffect(() => {
+		console.log(persist);
 		let isMounted = true;
 		const controller = new AbortController();
 		const getLists = async () => {
 			try {
-				const response = await axiosPrivate.get(`/users/${auth.user}/lists`, {
+				const response = await axiosPrivate.get(`/users/${user}/lists`, {
 					// signal: controller.signal,
 				});
-				console.log(response.data);
 				// isMounted &&
 				setLists(response.data);
 			} catch (err) {
@@ -165,10 +176,9 @@ const Lists = () => {
 			isMounted = false;
 			controller.abort();
 		};
-	}, [refreshList]);
+	}, [refreshList, auth]);
 
 	const submitNewList = async (newList) => {
-		const user = auth.user;
 		try {
 			const response = await axiosPrivate.post(
 				`users/${user}/lists`,
@@ -186,7 +196,6 @@ const Lists = () => {
 	};
 
 	const deleteList = async (id) => {
-		const user = auth.user;
 		try {
 			const response = await axiosPrivate.delete(`users/${user}/lists/${id}`);
 			if (response.status === 200) {
@@ -215,13 +224,22 @@ const Lists = () => {
 		}
 	};
 
+	const followList = async (id) => {
+		try {
+			// TODO: implement follow list
+			console.log("you followed ", id);
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	return (
 		<>
 			<Banner theme="header" isSticky={showCreateList} />
 			<Wrapper>
 				<Header>
 					<>
-						<h1>{auth.user}'s Lists</h1>
+						<h1>{user}'s Lists</h1>
 					</>
 				</Header>
 				<SelectView>
@@ -237,30 +255,31 @@ const Lists = () => {
 					/>
 				) : null}
 				<ListsWrapper>
-					<ListComponent
-						list={sampleList}
-						deleteList={() => {
-							return null;
-						}}
-						updateList={() => {
-							return null;
-						}}
-						handleSubmit={submitNewList}
-						sampleList={true}
-						handleNewList={() => setShowCreateList(!showCreateList)}
-					/>
 					{lists.map((list, i) => (
 						<ListComponent
 							key={i}
 							list={list}
+							createCard={false}
 							deleteList={deleteList}
 							updateList={updateList}
-							sampleList={false}
-							handleSubmit={() => {
-								return null;
-							}}
+							followList={followList}
+							ownedCard={
+								user === localStorage.getItem("user").replace(/"/g, "")
+									? true
+									: false
+							}
 						/>
 					))}
+
+					{id ? null : (
+						<ListComponent
+							list={sampleList}
+							deleteList={() => null}
+							updateList={() => null}
+							createCard={true}
+							handleNewList={() => setShowCreateList(!showCreateList)}
+						/>
+					)}
 				</ListsWrapper>
 			</Wrapper>
 		</>

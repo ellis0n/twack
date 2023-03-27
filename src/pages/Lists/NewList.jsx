@@ -22,7 +22,7 @@ const NewListWrapper = styled.div`
 	flex-direction: column;
 	text-align: center;
 	background-color: #588061;
-	top: calc(50vh - 50vw / 2);
+	top: 62px;
 	width: 50vw;
 	border: #f7e5e2 solid 2px;
 	border-radius: 12px;

@@ -109,7 +109,7 @@ const Navbar = ({ isOpen }) => {
 	const links = [
 		{ name: "Home", link: "/home", icon: faHouse },
 		{ name: "Your Lists", link: "/lists", icon: faList },
-		{ name: "Community", link: "/users", icon: faUsers },
+		{ name: "Community", link: "/u", icon: faUsers },
 		{ name: "Settings", link: "/settings", icon: faGear },
 		{ name: "About", link: "/about", icon: faQuestion },
 	];

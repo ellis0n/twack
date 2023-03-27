@@ -2,14 +2,20 @@ import { Outlet } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
-import useLocalStorage from "../hooks/useLocalStorage";
+import Banner from "./Banner";
+import styled from "styled-components";
+
+const LoadingWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	margin-top: 60px;
+`;
 
 const PersistLogin = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const refresh = useRefreshToken();
-	const { auth } = useAuth();
-	const [persist] = useLocalStorage("persist", false);
-	console.log(auth);
+	const { auth, persist } = useAuth();
 
 	useEffect(() => {
 		let isMounted = true;
@@ -24,7 +30,7 @@ const PersistLogin = () => {
 			}
 		};
 
-		!auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+		!auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
 
 		return () => {
 			isMounted = false;
@@ -32,12 +38,24 @@ const PersistLogin = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log(`isLoading: ${isLoading}`);
-		console.log(`accessToken: ${auth?.accessToken}`);
+		console.log(`persist isLoading: ${isLoading}`);
+		console.log(`persist accessToken: ${auth?.accessToken}`);
 	}, [isLoading]);
 
+	console.log(persist);
 	return (
-		<>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
+		<LoadingWrapper>
+			{!persist ? (
+				<Outlet />
+			) : isLoading ? (
+				<>
+					<Banner />
+					<p>Loading...</p>
+				</>
+			) : (
+				<Outlet />
+			)}
+		</LoadingWrapper>
 	);
 };
 
