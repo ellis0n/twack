@@ -5,13 +5,13 @@ import UserDetail from "../UserDetail/UserDetail";
 import Footer from "../../components/Footer";
 import styled from "styled-components";
 import useAuth from "../../hooks/useAuth";
-import AdCard from "../Ads/AdCard";
+import AdPage from "../Ads/AdPage";
+import jwt_decode from "jwt-decode";
 
 const HomeWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-top: 60px;
 	h1 {
 		margin: 1rem 0rem;
 		color: #588061;
@@ -21,17 +21,16 @@ const HomeWrapper = styled.div`
 const Home = () => {
 	const logout = useLogout();
 	const navigate = useNavigate();
-	const auth = useAuth();
+	const { auth } = useAuth();
 
-	const signOut = async () => {
-		await logout();
-		navigate("/login");
-	};
+	const decode = jwt_decode(auth.accessToken);
+	const user = decode.username;
 
 	return (
 		<HomeWrapper>
+			{console.log(user)}
 			<Banner theme="header" />
-			<AdCard />
+			<AdPage />
 		</HomeWrapper>
 	);
 };

@@ -40,7 +40,7 @@ const Login = () => {
 
 	useEffect(() => {
 		if (auth.user) {
-			navigate("/ads");
+			navigate("/");
 		}
 	}, [auth]);
 
@@ -61,8 +61,7 @@ const Login = () => {
 				}
 			);
 			const accessToken = response?.data?.accessToken;
-			setAuth({ user, pwd, accessToken });
-			// setUser('');
+			setAuth({ user, accessToken });
 			resetUser();
 			setPwd("");
 			navigate(from, { replace: true });

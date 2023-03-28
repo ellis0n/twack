@@ -12,7 +12,8 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Button from "../../components/Button";
 import NewList from "./NewList";
 import useAuth from "../../hooks/useAuth";
-import ListComponent from "./ListComponent";
+import ListCard from "./ListCard";
+import jwtDecode from "jwt-decode";
 
 const Wrapper = styled.div`
 	display: flex;
@@ -121,53 +122,56 @@ const ListsWrapper = styled.div`
 `;
 
 const OverLayNewList = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: #000000a6;
-	z-index: 100;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	background-color: ${(props) => (props.isOpen ? "#000000c1" : "none")};
+	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
 `;
 
-const Lists = () => {
+const Lists = ({ authorized }) => {
 	const { id } = useParams();
 	const axiosPrivate = useAxiosPrivate();
-	const { auth, persist } = useAuth();
-	const user = id ? id : localStorage.getItem("user").replace(/"/g, "");
+	const user = id;
 	const navigate = useNavigate();
 	const stateLocation = useLocation();
+	const { auth } = useAuth();
+	const decodedToken = jwtDecode(auth.accessToken);
+	const currentUser = decodedToken.username;
 
 	const [lists, setLists] = useState([]);
-	const [showCreateList, setShowCreateList] = useState(false);
+	// TODO: Add grid and list view feature
 	const [viewType, setViewType] = useState("grid");
+	const [showCreateList, setShowCreateList] = useState(false);
+
 	const [refreshList, setRefreshList] = useState(false);
 
 	const sampleList = {
 		name: "Create New List",
-		description: "Get started!",
+		description: "Get started by creating a new list",
 		category: "0",
 		location: "0",
 	};
-	console.log(id);
+
 	useEffect(() => {
-		console.log(persist);
 		let isMounted = true;
 		const controller = new AbortController();
 		const getLists = async () => {
 			try {
 				const response = await axiosPrivate.get(`/users/${user}/lists`, {
-					// signal: controller.signal,
+					signal: controller.signal,
 				});
-				// isMounted &&
-				setLists(response.data);
+				console.log(response);
+				isMounted && setLists(response.data);
 			} catch (err) {
 				console.error(err);
-				navigate("/home", { state: { from: stateLocation }, replace: true });
+				navigate("/", { state: { from: stateLocation }, replace: true });
 			}
 		};
 		getLists();
@@ -176,7 +180,7 @@ const Lists = () => {
 			isMounted = false;
 			controller.abort();
 		};
-	}, [refreshList, auth]);
+	}, [refreshList, id]);
 
 	const submitNewList = async (newList) => {
 		try {
@@ -235,28 +239,29 @@ const Lists = () => {
 
 	return (
 		<>
+			{/* TODO: isSticky still relevant? */}
 			<Banner theme="header" isSticky={showCreateList} />
 			<Wrapper>
 				<Header>
-					<>
-						<h1>{user}'s Lists</h1>
-					</>
+					<h1>{user}'s Lists</h1>
 				</Header>
 				<SelectView>
 					<Button label="Grid" handleClick={() => setViewType("grid")} />
 					<Button label="List" handleClick={() => setViewType("list")} />
 				</SelectView>
 				{showCreateList ? (
-					<NewList
-						onClick={() => {
-							setShowCreateList(!showCreateList);
-						}}
-						onSubmit={submitNewList}
-					/>
+					<OverLayNewList isOpen={showCreateList}>
+						<NewList
+							onClick={() => {
+								setShowCreateList(!showCreateList);
+							}}
+							onSubmit={submitNewList}
+						/>
+					</OverLayNewList>
 				) : null}
 				<ListsWrapper>
 					{lists.map((list, i) => (
-						<ListComponent
+						<ListCard
 							key={i}
 							list={list}
 							createCard={false}
@@ -264,22 +269,19 @@ const Lists = () => {
 							updateList={updateList}
 							followList={followList}
 							ownedCard={
-								user === localStorage.getItem("user").replace(/"/g, "")
-									? true
-									: false
+								id === localStorage.user.replace(/"/g, "") ? true : false
 							}
 						/>
 					))}
-
-					{id ? null : (
-						<ListComponent
+					{currentUser === user ? (
+						<ListCard
 							list={sampleList}
+							createCard={true}
 							deleteList={() => null}
 							updateList={() => null}
-							createCard={true}
 							handleNewList={() => setShowCreateList(!showCreateList)}
 						/>
-					)}
+					) : null}
 				</ListsWrapper>
 			</Wrapper>
 		</>

@@ -82,7 +82,7 @@ const Users = () => {
 						<ul>
 							{users.map((user, i) => (
 								<li key={i}>
-									<Link className="navLink" to={`${user.username}/lists`}>
+									<Link className="navLink" to={`/${user.username}/lists`}>
 										<h1>{user.username}</h1>
 									</Link>
 								</li>

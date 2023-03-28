@@ -5,13 +5,6 @@ import useAuth from "../hooks/useAuth";
 import Banner from "./Banner";
 import styled from "styled-components";
 
-const LoadingWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	/* align-items: center; */
-	margin-top: 60px;
-`;
-
 const PersistLogin = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const refresh = useRefreshToken();
@@ -44,18 +37,19 @@ const PersistLogin = () => {
 
 	console.log(persist);
 	return (
-		<LoadingWrapper>
+		<>
 			{!persist ? (
 				<Outlet />
 			) : isLoading ? (
 				<>
 					<Banner />
 					<p>Loading...</p>
+					{console.log("loading...")}
 				</>
 			) : (
 				<Outlet />
 			)}
-		</LoadingWrapper>
+		</>
 	);
 };
 

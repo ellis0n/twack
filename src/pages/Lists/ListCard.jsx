@@ -12,7 +12,6 @@ const ListWrapper = styled.div`
 	justify-content: flex-start;
 	text-align: left;
 	width: 100%;
-	height: 100%;
 	background-color: #f7e5e2;
 	border-radius: 5px;
 	margin: 0.5rem 0rem;
@@ -120,7 +119,6 @@ const DescriptionWrapper = styled.div`
 
 	p {
 		text-align: left;
-
 		font-weight: 200;
 		color: #588061;
 		margin: 0.5rem;
@@ -209,7 +207,7 @@ const BodyWrapper = styled.div`
 	width: 100%;
 `;
 
-const ListComponent = ({
+const ListCard = ({
 	list,
 	deleteList,
 	updateList,
@@ -219,12 +217,6 @@ const ListComponent = ({
 	followList,
 	openLink,
 }) => {
-	const [newList, setNewList] = useState({
-		name: "New List",
-		description: "List description",
-		category: "0",
-		location: "0",
-	});
 	const findString = (value, type) => {
 		const found = type.find((category) => category.value === parseInt(value));
 		return found.key ? found.key : "no category";
@@ -246,9 +238,6 @@ const ListComponent = ({
 						<p>{findString(list.category, categories)}</p>
 						<h3>Location: </h3>
 						<p>{findString(list.location, locations)}</p>
-						<DescriptionWrapper>
-							{list.description ? <p>{list.description}</p> : null}
-						</DescriptionWrapper>
 					</ParamWrapper>
 					<ImageWrapper>
 						{createCard ? (
@@ -259,26 +248,34 @@ const ListComponent = ({
 							<img src="https://via.placeholder.com/150" alt="list" />
 						)}
 
-						{createCard ? null : ownedCard ? (
-							<IconWrapper>
-								<FontAwesomeIcon
-									icon={faTrash}
-									onClick={(e) => {
-										e.preventDefault();
-										deleteList(list._id);
-									}}
-								/>
-								<FontAwesomeIcon
-									icon={faEdit}
-									onClick={(e) => {
-										e.preventDefault();
-										updateList(list._id);
-									}}
-								/>
-							</IconWrapper>
-						) : (
-							<IconWrapper>
-								<p>Follow list</p>
+						<IconWrapper>
+							{!createCard && ownedCard ? (
+								<>
+									<FontAwesomeIcon
+										icon={faTrash}
+										onClick={(e) => {
+											e.preventDefault();
+											deleteList(list._id);
+										}}
+									/>
+									<FontAwesomeIcon
+										icon={faEdit}
+										onClick={(e) => {
+											e.preventDefault();
+											updateList(list._id);
+										}}
+									/>
+								</>
+							) : (
+								<>
+									<FontAwesomeIcon
+										icon={faEdit}
+										style={{ visibility: "hidden" }}
+									/>
+								</>
+							)}
+
+							{createCard && ownedCard ? (
 								<FontAwesomeIcon
 									icon={faPlus}
 									onClick={(e) => {
@@ -286,13 +283,28 @@ const ListComponent = ({
 										followList(list._id);
 									}}
 								/>
-							</IconWrapper>
-						)}
+							) : null}
+							{!createCard && !ownedCard ? (
+								<>
+									<p>Follow:</p>
+									<FontAwesomeIcon
+										icon={faPlus}
+										onClick={(e) => {
+											e.preventDefault();
+											openLink(list._id);
+										}}
+									/>
+								</>
+							) : null}
+						</IconWrapper>
 					</ImageWrapper>
 				</BodyWrapper>
+				<DescriptionWrapper>
+					{list.description ? <p>{list.description}</p> : null}
+				</DescriptionWrapper>
 			</ListWrapper>
 		</Link>
 	);
 };
 
-export default ListComponent;
+export default ListCard;

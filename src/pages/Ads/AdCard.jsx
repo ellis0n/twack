@@ -10,6 +10,7 @@ import Navbar from "../../components/Navbar";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 //  Card for holding each individual ad and its child voting options
 //  TODO:: Add a comment box component
@@ -18,6 +19,9 @@ const AdCard = () => {
 	const axiosPrivate = useAxiosPrivate();
 	const stateLocation = useLocation();
 	const { auth } = useAuth();
+
+	const decode = jwt_decode(auth.accessToken);
+	const user = decode.username;
 
 	const [ads, setAds] = useState([]);
 	const [votes, setVotes] = useState([]);
