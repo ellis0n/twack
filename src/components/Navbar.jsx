@@ -1,12 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ParamBox from "./ParamBox";
-import Button from "./Button";
-import BlurWrapper from "./BlurWrapper";
 import useLogout from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faHouse,
@@ -26,14 +22,14 @@ const StyledNav = styled.div`
 	/* margin-top: 60px; */
 	/* height: calc(100vh - 60px); */
 	background: #588061;
-	/* visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")}; */
+	visibility: visible;
+	/* ${({ isOpen }) => (isOpen ? "visible" : "hidden")}; */
 	transition: all 0.1s ease-in-out;
 	border-right: 3px solid #f7e5e2e1;
 
-	@media (min-width: 768px) {
-		width: 30vw;
-		position: fixed;
-		visibility: visible;
+	@media (max-width: 768px) {
+		width: 100vw;
+		visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
 	}
 
 	a {
@@ -103,12 +99,14 @@ const NavBottom = styled.div`
 `;
 
 const Navbar = ({ isOpen }) => {
+	const user = localStorage.user.replace(/"/g, "");
 	const logout = useLogout();
 	const navigate = useNavigate();
 
 	const links = [
 		{ name: "Home", link: "/home", icon: faHouse },
-		{ name: "Your Lists", link: "/lists", icon: faList },
+		// TODO: change to /mylists
+		{ name: "My Lists", link: `/${user}/lists`, icon: faList },
 		{ name: "Community", link: "/users", icon: faUsers },
 		{ name: "Settings", link: "/settings", icon: faGear },
 		{ name: "About", link: "/about", icon: faQuestion },

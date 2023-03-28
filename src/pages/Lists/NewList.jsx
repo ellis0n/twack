@@ -5,38 +5,41 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { categories, locations } from "../../helper/searchparams";
 
-const BlurDiv = styled.div`
-	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	position: fixed;
-	width: 100vw;
-	height: 100vh;
-	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
-`;
+// const BlurDiv = styled.div`
+// 	z-index: 1;
+// 	display: flex;
+// 	flex-direction: column;
+// 	align-items: center;
+// 	position: fixed;
+// 	width: 100vw;
+// 	height: calc(100vh - 62px);
+// 	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
+// 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
+// `;
 
 const NewListWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	text-align: center;
+	justify-content: center;
+	z-index: 2;
 	background-color: #588061;
-	top: calc(50vh - 50vw / 2);
-	width: 50vw;
 	border: #f7e5e2 solid 2px;
 	border-radius: 12px;
 	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+	width: 100vw;
+	height: calc(100vh - 62px);
 	position: absolute;
+	top: 60px;
 
 	@media (min-width: 1024px) {
 		width: 60vw;
 	}
 
-	@media (max-width: 768px) {
+	@media (min-width: 768px) {
 		width: 90vw;
 	}
-	@media (max-width: 480px) {
+	@media (min-width: 480px) {
 		width: 95vw;
 	}
 
@@ -183,39 +186,39 @@ const NewList = ({ onClick, onSubmit }) => {
 	};
 
 	return (
-		<BlurDiv isOpen={true}>
-			<NewListWrapper>
-				<ListTitle>
-					<FontAwesomeIcon icon={faTimes} onClick={onClick} />
-					{/* TODO: let user input name here? */}
-					<h1>{list.name}</h1>
-				</ListTitle>
-				<form
-					onSubmit={() => {
-						handleSubmit();
-					}}
-				>
-					<FormSection>
-						<label>List Name: </label>
-						<input
-							type="text"
-							name="name"
-							value={list.name}
-							onChange={handleInputChange}
-						/>
-					</FormSection>
-					<FormSection>
-						<label> Description: </label>
-						<input
-							type="text"
-							name="description"
-							value={list.description}
-							onChange={handleInputChange}
-						/>
-					</FormSection>
+		// <BlurDiv isOpen={true}>
+		<NewListWrapper>
+			<ListTitle>
+				<FontAwesomeIcon icon={faTimes} onClick={onClick} />
+				{/* TODO: let user input name here? */}
+				<h1>{list.name}</h1>
+			</ListTitle>
+			<form
+				onSubmit={() => {
+					handleSubmit();
+				}}
+			>
+				<FormSection>
+					<label>List Name: </label>
+					<input
+						type="text"
+						name="name"
+						value={list.name}
+						onChange={handleInputChange}
+					/>
+				</FormSection>
+				<FormSection>
+					<label> Description: </label>
+					<input
+						type="text"
+						name="description"
+						value={list.description}
+						onChange={handleInputChange}
+					/>
+				</FormSection>
 
-					{/* {!showAddParam ? ( */}
-					{/* <FormSection>
+				{/* {!showAddParam ? ( */}
+				{/* <FormSection>
 					<div>
 						<Button
 							label="Add new search parameter"
@@ -225,48 +228,48 @@ const NewList = ({ onClick, onSubmit }) => {
 						/>
 					</div>
 				</FormSection> */}
-					{/* ) : ( */}
-					<>
-						<FormSection>
-							<label>Category</label>
-							<select
-								multiple={false}
-								id="category"
-								name="category"
-								onChange={handleInputChange}
-							>
-								{categories.map((category, i) => {
-									return (
-										<option value={category.value} key={i}>
-											{category.key}
-										</option>
-									);
-								})}
-							</select>
-						</FormSection>
-						<FormSection>
-							<label>Location</label>
-							<select
-								multiple={false}
-								id="location"
-								name="location"
-								onChange={handleInputChange}
-							>
-								{locations.map((location, i) => {
-									return (
-										<option value={location.value} key={i}>
-											{location.key}
-										</option>
-									);
-								})}
-							</select>
-						</FormSection>
-						<Button handleClick={handleSubmit} label="Submit" />
-					</>
-					{/* )} */}
-				</form>
-			</NewListWrapper>
-		</BlurDiv>
+				{/* ) : ( */}
+				<>
+					<FormSection>
+						<label>Category</label>
+						<select
+							multiple={false}
+							id="category"
+							name="category"
+							onChange={handleInputChange}
+						>
+							{categories.map((category, i) => {
+								return (
+									<option value={category.value} key={i}>
+										{category.key}
+									</option>
+								);
+							})}
+						</select>
+					</FormSection>
+					<FormSection>
+						<label>Location</label>
+						<select
+							multiple={false}
+							id="location"
+							name="location"
+							onChange={handleInputChange}
+						>
+							{locations.map((location, i) => {
+								return (
+									<option value={location.value} key={i}>
+										{location.key}
+									</option>
+								);
+							})}
+						</select>
+					</FormSection>
+					<Button handleClick={handleSubmit} label="Submit" />
+				</>
+				{/* )} */}
+			</form>
+		</NewListWrapper>
+		// </BlurDiv>
 	);
 };
 

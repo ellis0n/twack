@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import Banner from "../../components/Banner";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
+import {
+	useNavigate,
+	useLocation,
+	useParams,
+	Navigate,
+	Link,
+} from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Button from "../../components/Button";
 import NewList from "./NewList";
 import useAuth from "../../hooks/useAuth";
-import ListComponent from "./ListComponent";
+import ListCard from "./ListCard";
+import jwtDecode from "jwt-decode";
 
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0 12.5%;
+	margin: 2% 6%;
 	margin-top: 60px;
 	h1 {
 		/* margin: 1rem 0rem; */
 		color: #588061;
+	}
+	a {
+		text-decoration: none;
 	}
 `;
 
@@ -111,30 +121,59 @@ const ListsWrapper = styled.div`
 	height: 100%;
 `;
 
+const OverLayNewList = styled.div`
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	background-color: ${(props) => (props.isOpen ? "#000000c1" : "none")};
+	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
+`;
+
 const Lists = () => {
+	const { id } = useParams();
 	const axiosPrivate = useAxiosPrivate();
-	const { auth } = useAuth();
+	const user = id;
 	const navigate = useNavigate();
 	const stateLocation = useLocation();
+	const { auth } = useAuth();
+	const decodedToken = jwtDecode(auth.accessToken);
+	const currentUser = decodedToken.username;
 
 	const [lists, setLists] = useState([]);
-	const [showCreateList, setShowCreateList] = useState(false);
+	// TODO: Add grid and list view feature
 	const [viewType, setViewType] = useState("grid");
+	const [showCreateList, setShowCreateList] = useState(false);
+
+	const [showFollowNotification, setShowFollowNotification] = useState(false);
+
+	const [refreshList, setRefreshList] = useState(false);
+
+	const sampleList = {
+		name: "Create New List",
+		description: "Get started by creating a new list",
+		category: "0",
+		location: "0",
+		_id: "_0",
+	};
 
 	useEffect(() => {
 		let isMounted = true;
 		const controller = new AbortController();
-
 		const getLists = async () => {
 			try {
-				const response = await axiosPrivate.get(`/users/${auth.user}/lists`, {
+				const response = await axiosPrivate.get(`/users/${user}/lists`, {
 					signal: controller.signal,
 				});
-				console.log(response.data);
 				isMounted && setLists(response.data);
 			} catch (err) {
 				console.error(err);
-				navigate("/home", { state: { from: stateLocation }, replace: true });
+				navigate("/", { state: { from: stateLocation }, replace: true });
 			}
 		};
 		getLists();
@@ -143,10 +182,9 @@ const Lists = () => {
 			isMounted = false;
 			controller.abort();
 		};
-	}, []);
+	}, [refreshList, id]);
 
 	const submitNewList = async (newList) => {
-		const user = auth.user;
 		try {
 			const response = await axiosPrivate.post(
 				`users/${user}/lists`,
@@ -156,15 +194,14 @@ const Lists = () => {
 					withCredentials: true,
 				}
 			);
+			setRefreshList(!refreshList);
 			console.log(response);
-			setLists([...lists, newList]);
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
 	const deleteList = async (id) => {
-		const user = auth.user;
 		try {
 			const response = await axiosPrivate.delete(`users/${user}/lists/${id}`);
 			if (response.status === 200) {
@@ -186,8 +223,21 @@ const Lists = () => {
 					}
 					return list;
 				});
-				setLists(newList);
 				console.log("List updated");
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	const followList = async (id) => {
+		try {
+			const response = await axiosPrivate.post(
+				`users/${user}/lists/${id}`,
+				JSON.stringify({ username: currentUser })
+			);
+			if (response.status === 200) {
+				setShowFollowNotification(true);
 			}
 		} catch (err) {
 			console.error(err);
@@ -196,39 +246,49 @@ const Lists = () => {
 
 	return (
 		<>
+			{/* TODO: isSticky still relevant? */}
 			<Banner theme="header" isSticky={showCreateList} />
 			<Wrapper>
 				<Header>
-					<>
-						<h1>{auth.user} Lists</h1>
-						<Button
-							label="Create a list"
-							handleClick={() => setShowCreateList(!showCreateList)}
-						/>
-					</>
+					<h1>{user}'s Lists</h1>
 				</Header>
 				<SelectView>
 					<Button label="Grid" handleClick={() => setViewType("grid")} />
 					<Button label="List" handleClick={() => setViewType("list")} />
 				</SelectView>
 				{showCreateList ? (
-					<NewList
-						onClick={() => {
-							setShowCreateList(!showCreateList);
-						}}
-						onSubmit={submitNewList}
-					/>
+					<OverLayNewList isOpen={showCreateList}>
+						<NewList
+							onClick={() => {
+								setShowCreateList(!showCreateList);
+							}}
+							onSubmit={submitNewList}
+						/>
+					</OverLayNewList>
 				) : null}
 				<ListsWrapper>
 					{lists.map((list, i) => (
-						<ListComponent
+						<ListCard
 							key={i}
-							index={i}
+							currentUser={currentUser}
 							list={list}
+							createCard={false}
 							deleteList={deleteList}
 							updateList={updateList}
+							followList={followList}
+							ownedCard={currentUser === user ? true : false}
 						/>
 					))}
+					{currentUser === user ? (
+						<ListCard
+							currentUser={currentUser}
+							list={sampleList}
+							createCard={true}
+							deleteList={() => null}
+							updateList={() => null}
+							handleNewList={() => setShowCreateList(!showCreateList)}
+						/>
+					) : null}
 				</ListsWrapper>
 			</Wrapper>
 		</>
