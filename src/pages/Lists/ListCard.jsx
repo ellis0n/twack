@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+	faTrash,
+	faEdit,
+	faPlus,
+	faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { categories, locations } from "../../helper/searchparams";
 import { Link } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ListWrapper = styled.div`
 	cursor: pointer;
@@ -27,6 +34,12 @@ const ListWrapper = styled.div`
 			props.createCard ? "#f7e5e2 0px 0px 2px 0px" : "#000000 0px 2px 3px 0px"};
 		animation: ${(props) =>
 			props.createCard ? "createPulse 2s infinite" : "pulse 1s infinite"};
+	}
+
+	p {
+		text-decoration: none;
+		color: #588061;
+		font-size: 0.8em;
 	}
 
 	@keyframes pulse {
@@ -119,6 +132,7 @@ const DescriptionWrapper = styled.div`
 
 	p {
 		text-align: left;
+
 		font-weight: 200;
 		color: #588061;
 		margin: 0.5rem;
@@ -175,6 +189,7 @@ const ImageWrapper = styled.div`
 
 const IconWrapper = styled.div`
 	display: flex;
+
 	position: relative;
 	flex-direction: row;
 	/* justify-content: end; */
@@ -197,6 +212,12 @@ const IconWrapper = styled.div`
 			color: #f7e5e2;
 		}
 	}
+
+	p {
+		font-size: 0.8rem;
+		color: #588061;
+		margin: 0.5rem 0rem;
+	}
 `;
 
 const BodyWrapper = styled.div`
@@ -208,6 +229,7 @@ const BodyWrapper = styled.div`
 `;
 
 const ListCard = ({
+	currentUser,
 	list,
 	deleteList,
 	updateList,
@@ -217,6 +239,40 @@ const ListCard = ({
 	followList,
 	openLink,
 }) => {
+	const axiosPrivate = useAxiosPrivate();
+	const navigate = useNavigate();
+	const stateLocation = useLocation();
+	const [following, setFollowing] = useState(false);
+	const [refreshFollowing, setRefreshFollowing] = useState(false);
+
+	useEffect(() => {
+		let isMounted = true;
+		const controller = new AbortController();
+
+		const getFollowing = async () => {
+			try {
+				console.log(list);
+				const response = await axiosPrivate.get(
+					`/users/${currentUser}/following/${list._id}`,
+					{
+						signal: controller.signal,
+					}
+				);
+				isMounted && setFollowing(response.data);
+			} catch (error) {
+				console.error(error);
+				navigate("/", { state: { from: stateLocation }, replace: true });
+			}
+		};
+
+		getFollowing();
+
+		return () => {
+			isMounted = false;
+			controller.abort();
+		};
+	}, []);
+
 	const findString = (value, type) => {
 		const found = type.find((category) => category.value === parseInt(value));
 		return found.key ? found.key : "no category";
@@ -280,20 +336,39 @@ const ListCard = ({
 									icon={faPlus}
 									onClick={(e) => {
 										e.preventDefault();
-										followList(list._id);
+										openLink(list._id);
 									}}
 								/>
 							) : null}
 							{!createCard && !ownedCard ? (
 								<>
-									<p>Follow:</p>
-									<FontAwesomeIcon
-										icon={faPlus}
-										onClick={(e) => {
-											e.preventDefault();
-											openLink(list._id);
-										}}
-									/>
+									{following ? (
+										<>
+											<p>Unfollow: </p>
+											<FontAwesomeIcon
+												icon={faCheck}
+												onClick={(e) => {
+													e.preventDefault();
+
+													followList(list._id);
+
+													setFollowing(false);
+												}}
+											/>
+										</>
+									) : (
+										<>
+											<p>Follow:</p>
+											<FontAwesomeIcon
+												icon={faPlus}
+												onClick={(e) => {
+													e.preventDefault();
+													followList(list._id);
+													setFollowing(true);
+												}}
+											/>
+										</>
+									)}
 								</>
 							) : null}
 						</IconWrapper>

@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 2% 12.5%;
+	margin: 2% 6%;
 	margin-top: 60px;
 	h1 {
 		/* margin: 1rem 0rem; */
@@ -135,7 +135,7 @@ const OverLayNewList = styled.div`
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
 `;
 
-const Lists = ({ authorized }) => {
+const Lists = () => {
 	const { id } = useParams();
 	const axiosPrivate = useAxiosPrivate();
 	const user = id;
@@ -150,6 +150,8 @@ const Lists = ({ authorized }) => {
 	const [viewType, setViewType] = useState("grid");
 	const [showCreateList, setShowCreateList] = useState(false);
 
+	const [showFollowNotification, setShowFollowNotification] = useState(false);
+
 	const [refreshList, setRefreshList] = useState(false);
 
 	const sampleList = {
@@ -157,6 +159,7 @@ const Lists = ({ authorized }) => {
 		description: "Get started by creating a new list",
 		category: "0",
 		location: "0",
+		_id: "_0",
 	};
 
 	useEffect(() => {
@@ -167,7 +170,6 @@ const Lists = ({ authorized }) => {
 				const response = await axiosPrivate.get(`/users/${user}/lists`, {
 					signal: controller.signal,
 				});
-				console.log(response);
 				isMounted && setLists(response.data);
 			} catch (err) {
 				console.error(err);
@@ -230,8 +232,13 @@ const Lists = ({ authorized }) => {
 
 	const followList = async (id) => {
 		try {
-			// TODO: implement follow list
-			console.log("you followed ", id);
+			const response = await axiosPrivate.post(
+				`users/${user}/lists/${id}`,
+				JSON.stringify({ username: currentUser })
+			);
+			if (response.status === 200) {
+				setShowFollowNotification(true);
+			}
 		} catch (err) {
 			console.error(err);
 		}
@@ -263,18 +270,18 @@ const Lists = ({ authorized }) => {
 					{lists.map((list, i) => (
 						<ListCard
 							key={i}
+							currentUser={currentUser}
 							list={list}
 							createCard={false}
 							deleteList={deleteList}
 							updateList={updateList}
 							followList={followList}
-							ownedCard={
-								id === localStorage.user.replace(/"/g, "") ? true : false
-							}
+							ownedCard={currentUser === user ? true : false}
 						/>
 					))}
 					{currentUser === user ? (
 						<ListCard
+							currentUser={currentUser}
 							list={sampleList}
 							createCard={true}
 							deleteList={() => null}

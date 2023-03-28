@@ -12,6 +12,9 @@ const HomeWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin: 2% 6%;
+	margin-top: 60px;
+
 	h1 {
 		margin: 1rem 0rem;
 		color: #588061;
@@ -28,9 +31,16 @@ const Home = () => {
 
 	return (
 		<HomeWrapper>
-			{console.log(user)}
 			<Banner theme="header" />
-			<AdPage />
+			<h1>hey, {decode.username}.</h1>
+			<Link to="/ads">
+				<button>View Ads</button>
+			</Link>
+			<Link to="/user">
+				<button>View User Details</button>
+			</Link>
+			<button onClick={logout}>Logout</button>
+			<Footer />
 		</HomeWrapper>
 	);
 };
