@@ -42,7 +42,7 @@ const AdWrapper = styled.div`
 
 const ListDetail = () => {
 	const axiosPrivate = useAxiosPrivate();
-	const user = useParams().id;
+	const user = useParams().user;
 	const id = useParams().listId;
 	const navigate = useNavigate();
 	const [list, setList] = useState({});

@@ -1,5 +1,4 @@
 import "./App.css";
-import SavedAds from "./pages/SavedAds/SavedAds";
 import Register from "./pages/Register/Register";
 import Settings from "./pages/Settings/Settings";
 import Login from "./pages/Login/Login";
@@ -30,21 +29,14 @@ function App() {
 						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
 						<Route path="/settings" element={<Settings />} />
-
-						<Route path="/:id" element={<User />} />
-						<Route path="/:id/lists/" element={<Lists />} />
-						<Route path="/:id/lists/:listId" element={<ListDetail />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/:user" element={<User />} />
+						<Route path="/:user/lists/" element={<Lists />} />
+						<Route path="/:user/lists/:listId" element={<ListDetail />} />
 
 						<Route path="/users" element={<Users />} />
 
-						{/* TODO: delete whats not used */}
-						<Route path="/lists" element={<Lists />} />
-						<Route path="/settings" element={<Settings />} />
-						<Route path="/saved" element={<SavedAds />} />
-						<Route path="/u/:id" element={<User />} />
-						<Route path="/u/:id/lists/" element={<Lists />} />
-						<Route path="/u/:id/lists/:listId" element={<ListDetail />} />
-						<Route path="/about" element={<About />}></Route>
+						{/* TODO: everything below here is deprecated*/}
 					</Route>
 				</Route>
 				{/* 404 */}

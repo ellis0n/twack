@@ -14,22 +14,19 @@ import {
 
 const StyledNav = styled.div`
 	display: flex;
+	position: fixed;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	width: 65vw;
 	height: 100vh;
-	/* margin-top: 60px; */
-	/* height: calc(100vh - 60px); */
+	width: 100vw;
 	background: #588061;
-	visibility: visible;
-	/* ${({ isOpen }) => (isOpen ? "visible" : "hidden")}; */
 	transition: all 0.1s ease-in-out;
 	border-right: 3px solid #f7e5e2e1;
+	z-index: 1;
 
 	@media (max-width: 768px) {
 		width: 100vw;
-		visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
 	}
 
 	a {
@@ -77,9 +74,9 @@ const LinkWrapper = styled.div`
 `;
 
 const BlurDiv = styled.div`
-	position: ${(props) => (props.theme === "landing" ? "relative" : "fixed")};
+	position: fixed;
 	width: 100vw;
-	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
+	background-color: #00000092;
 	z-index: ${(props) => (props.isOpen ? "1" : "0")};
 	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
 `;
@@ -113,19 +110,19 @@ const Navbar = ({ isOpen }) => {
 	];
 
 	return (
-		<BlurDiv isOpen={isOpen}>
-			<StyledNav isOpen={isOpen}>
-				{links.map((link, index) => (
-					<Link to={link.link} key={index}>
-						<LinkWrapper>
-							<FontAwesomeIcon icon={link.icon} />
-							<p>{link.name}</p>
-						</LinkWrapper>
-					</Link>
-				))}
-				<NavBottom />
-			</StyledNav>
-		</BlurDiv>
+		// <BlurDiv isOpen={isOpen}>
+		<StyledNav isOpen={isOpen}>
+			{links.map((link, index) => (
+				<Link to={link.link} key={index}>
+					<LinkWrapper>
+						<FontAwesomeIcon icon={link.icon} />
+						<p>{link.name}</p>
+					</LinkWrapper>
+				</Link>
+			))}
+			<NavBottom />
+		</StyledNav>
+		// </BlurDiv>
 	);
 };
 

@@ -136,9 +136,8 @@ const OverLayNewList = styled.div`
 `;
 
 const Lists = () => {
-	const { id } = useParams();
+	const { user } = useParams();
 	const axiosPrivate = useAxiosPrivate();
-	const user = id;
 	const navigate = useNavigate();
 	const stateLocation = useLocation();
 	const { auth } = useAuth();
@@ -182,7 +181,7 @@ const Lists = () => {
 			isMounted = false;
 			controller.abort();
 		};
-	}, [refreshList, id]);
+	}, [refreshList, user]);
 
 	const submitNewList = async (newList) => {
 		try {
