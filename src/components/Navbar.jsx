@@ -73,14 +73,6 @@ const LinkWrapper = styled.div`
 	}
 `;
 
-const BlurDiv = styled.div`
-	position: fixed;
-	width: 100vw;
-	background-color: #00000092;
-	z-index: ${(props) => (props.isOpen ? "1" : "0")};
-	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
-`;
-
 // TODO: The footer does this, I just need to pass props for when used in the navbar
 const NavBottom = styled.div`
 	position: absolute;
@@ -91,11 +83,10 @@ const NavBottom = styled.div`
 	opacity: 0.3;
 	height: 60px;
 	width: inherit;
-
 	background-image: url(${process.env.PUBLIC_URL + "/background.png"});
 `;
 
-const Navbar = ({ isOpen }) => {
+const Navbar = ({ isOpen, toggleClose }) => {
 	const user = localStorage.user.replace(/"/g, "");
 	const logout = useLogout();
 	const navigate = useNavigate();
@@ -110,8 +101,13 @@ const Navbar = ({ isOpen }) => {
 	];
 
 	return (
-		// <BlurDiv isOpen={isOpen}>
-		<StyledNav isOpen={isOpen}>
+		<StyledNav
+			isOpen={isOpen}
+			onClick={(e) => {
+				e.preventDefault(e);
+				toggleClose();
+			}}
+		>
 			{links.map((link, index) => (
 				<Link to={link.link} key={index}>
 					<LinkWrapper>
@@ -122,7 +118,6 @@ const Navbar = ({ isOpen }) => {
 			))}
 			<NavBottom />
 		</StyledNav>
-		// </BlurDiv>
 	);
 };
 

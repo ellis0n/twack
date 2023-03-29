@@ -30,12 +30,13 @@ const PersistLogin = () => {
 		};
 	}, []);
 
-	useEffect(() => {
-		console.log(`persist isLoading: ${isLoading}`);
-		console.log(`persist accessToken: ${auth?.accessToken}`);
-	}, [isLoading]);
+	// Uncomment to view auth changes:
 
-	console.log(persist);
+	// useEffect(() => {
+	// 	console.log(`persist isLoading: ${isLoading}`);
+	// 	console.log(`persist accessToken: ${auth?.accessToken}`);
+	// }, [isLoading]);
+
 	return (
 		<>
 			{!persist ? (
@@ -43,8 +44,7 @@ const PersistLogin = () => {
 			) : isLoading ? (
 				<>
 					<Banner />
-					<p>Loading...</p>
-					{console.log("loading...")}
+					<h1>Loading...</h1>
 				</>
 			) : (
 				<Outlet />

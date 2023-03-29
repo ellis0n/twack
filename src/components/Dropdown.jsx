@@ -22,9 +22,10 @@ const Dropdown = ({ label, options, handleChange }) => {
 		value: "",
 	});
 
-	const handleOptionChange = () => {
+	const handleOptionChange = (e) => {
+		setSelected(e.target.value);
+
 		handleChange(selected);
-		console.log(selected);
 	};
 
 	return (
@@ -35,8 +36,7 @@ const Dropdown = ({ label, options, handleChange }) => {
 				id={label}
 				name={label}
 				onChange={(e) => {
-					setSelected(e.target.value);
-					handleOptionChange();
+					handleOptionChange(e);
 				}}
 			>
 				{options.map((option, i) => {
