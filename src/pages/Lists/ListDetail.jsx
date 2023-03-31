@@ -5,9 +5,9 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const Wrapper = styled.div`
+	margin-top: 60px;
 	display: flex;
 	flex-direction: row;
-	width: 100vw;
 	height: 100vh;
 `;
 
@@ -15,7 +15,6 @@ const ListInfoWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	height: 100vh;
 	background-color: #f7e5e2;
 	text-align: left;
 
@@ -42,7 +41,7 @@ const AdWrapper = styled.div`
 
 const ListDetail = () => {
 	const axiosPrivate = useAxiosPrivate();
-	const user = useParams().id;
+	const user = useParams().user;
 	const id = useParams().listId;
 	const navigate = useNavigate();
 	const [list, setList] = useState({});
@@ -75,7 +74,7 @@ const ListDetail = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
+			<Banner />
 			<Wrapper>
 				<ListInfoWrapper>
 					<h1>{list.name}</h1>

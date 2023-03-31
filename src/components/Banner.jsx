@@ -15,10 +15,9 @@ const BannerWrapper = styled.div`
 	width: 100vw;
 	height: 60px;
 	padding: 0 12px;
-	position: ${(props) => (props.isSticky ? "fixed" : "relative")};
+	position: relative;
 	top: 0;
-	background-color: ${(props) =>
-		props.theme === "landing" ? "none" : "#F7E5E2"};
+	background-color: #f7e5e2;
 `;
 
 const StyledBanner = styled.div`
@@ -28,12 +27,10 @@ const StyledBanner = styled.div`
 	font-family: "Fredoka One", cursive;
 	align-items: center;
 	z-index: 1000;
-	display: ${(props) => (props.theme === "landing" ? "block" : "flex")};
-	font-size: ${(props) => (props.theme === "landing" ? "3rem" : "1rem")};
-	padding-bottom: ${(props) => (props.theme === "landing" ? "120px" : "0px")};
+	display: flex;
 
 	svg {
-		display: ${(props) => (props.theme === "header" ? "inline-block" : "none")};
+		display: inline-block;
 		background-color: #f7e5e2;
 		cursor: pointer;
 		margin: 0 12px;
@@ -51,38 +48,13 @@ const StyledBanner = styled.div`
 	}
 
 	h1 {
-		font-size: ${(props) =>
-			props.theme === "landing" ? "8rem" : "calc(1.8rem + 1vw)"};
+		font-size: calc(1.8rem + 1vw);
 		margin: 0;
-		animation: ${(props) =>
-			props.theme === "landing" ? "slideIn 0.8s ease-out forwards" : ""};
-
-		:hover {
-			color: #588061;
-		}
-
-		@keyframes slideIn {
-			from {
-				opacity: 0;
-				transform: translateY(20%);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		@media (max-width: 768px) {
-			font-size: ${(props) =>
-				props.theme === "landing" ? "5rem" : "calc(1.8rem + 1vw)"};
-
-			padding-top: ${(props) => (props.theme === "landing" ? "20px" : "0px")};
-		}
+		animation: slideIn 0.8s ease-out forwards;
 	}
 
 	button {
-		display: ${(props) =>
-			props.theme === "landing" ? "none" : "inline-block"};
+		display: inline-block;
 		position: relative;
 		border: 2px solid #588061;
 		margin-left: auto;
@@ -98,9 +70,14 @@ const StyledBanner = styled.div`
 			transition: 0.3s;
 		}
 	}
+
+	a {
+		text-decoration: none;
+		color: #588061;
+	}
 `;
 
-const Banner = ({ theme, isSticky }) => {
+const Banner = ({ isSticky }) => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const logout = useLogout();
 	const navigate = useNavigate();
@@ -110,9 +87,13 @@ const Banner = ({ theme, isSticky }) => {
 		navigate("/login");
 	};
 
+	const toggleClose = () => {
+		setIsMenuOpen(false);
+	};
+
 	return (
 		<>
-			<StyledBanner theme={theme} isOpen={isMenuOpen} isSticky={isSticky}>
+			<StyledBanner isOpen={isMenuOpen} isSticky={isSticky}>
 				<BannerWrapper>
 					<FontAwesomeIcon
 						icon={faBars}
@@ -121,7 +102,7 @@ const Banner = ({ theme, isSticky }) => {
 							setIsMenuOpen(!isMenuOpen);
 						}}
 					/>
-					<Link to={theme === "landing" ? "/" : "/home"} className="logo-link">
+					<Link to="/">
 						<h1>twack</h1>
 					</Link>
 					<Button
@@ -129,11 +110,14 @@ const Banner = ({ theme, isSticky }) => {
 						handleClick={() => {
 							signOut();
 						}}
+						wa
 					/>
 				</BannerWrapper>
 			</StyledBanner>
 
-			{isMenuOpen ? <Navbar className="navbar" isOpen={isMenuOpen} /> : null}
+			{isMenuOpen ? (
+				<Navbar className="navbar" toggleClose={toggleClose} />
+			) : null}
 		</>
 	);
 };

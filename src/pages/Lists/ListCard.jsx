@@ -251,7 +251,6 @@ const ListCard = ({
 
 		const getFollowing = async () => {
 			try {
-				console.log(list);
 				const response = await axiosPrivate.get(
 					`/users/${currentUser}/following/${list._id}`,
 					{

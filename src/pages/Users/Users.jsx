@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
-import useRefreshToken from "../../hooks/useRefreshToken";
 import Banner from "../../components/Banner";
-import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -63,9 +61,7 @@ const Users = () => {
 				navigate("/login", { state: { from: location }, replace: true });
 			}
 		};
-
 		getUsers();
-
 		return () => {
 			isMounted = false;
 			controller.abort();

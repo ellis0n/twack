@@ -14,22 +14,19 @@ import {
 
 const StyledNav = styled.div`
 	display: flex;
+	position: fixed;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	width: 65vw;
 	height: 100vh;
-	/* margin-top: 60px; */
-	/* height: calc(100vh - 60px); */
+	width: 100vw;
 	background: #588061;
-	visibility: visible;
-	/* ${({ isOpen }) => (isOpen ? "visible" : "hidden")}; */
 	transition: all 0.1s ease-in-out;
 	border-right: 3px solid #f7e5e2e1;
+	z-index: 1;
 
 	@media (max-width: 768px) {
 		width: 100vw;
-		visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
 	}
 
 	a {
@@ -76,14 +73,6 @@ const LinkWrapper = styled.div`
 	}
 `;
 
-const BlurDiv = styled.div`
-	position: ${(props) => (props.theme === "landing" ? "relative" : "fixed")};
-	width: 100vw;
-	background-color: ${(props) => (props.isOpen ? "#00000092" : "none")};
-	z-index: ${(props) => (props.isOpen ? "1" : "0")};
-	backdrop-filter: ${(props) => (props.isOpen ? "blur(.7px)" : "none")};
-`;
-
 // TODO: The footer does this, I just need to pass props for when used in the navbar
 const NavBottom = styled.div`
 	position: absolute;
@@ -94,11 +83,10 @@ const NavBottom = styled.div`
 	opacity: 0.3;
 	height: 60px;
 	width: inherit;
-
 	background-image: url(${process.env.PUBLIC_URL + "/background.png"});
 `;
 
-const Navbar = ({ isOpen }) => {
+const Navbar = ({ isOpen, toggleClose }) => {
 	const user = localStorage.user.replace(/"/g, "");
 	const logout = useLogout();
 	const navigate = useNavigate();
@@ -113,19 +101,23 @@ const Navbar = ({ isOpen }) => {
 	];
 
 	return (
-		<BlurDiv isOpen={isOpen}>
-			<StyledNav isOpen={isOpen}>
-				{links.map((link, index) => (
-					<Link to={link.link} key={index}>
-						<LinkWrapper>
-							<FontAwesomeIcon icon={link.icon} />
-							<p>{link.name}</p>
-						</LinkWrapper>
-					</Link>
-				))}
-				<NavBottom />
-			</StyledNav>
-		</BlurDiv>
+		<StyledNav
+			isOpen={isOpen}
+			onClick={(e) => {
+				e.preventDefault(e);
+				toggleClose();
+			}}
+		>
+			{links.map((link, index) => (
+				<Link to={link.link} key={index}>
+					<LinkWrapper>
+						<FontAwesomeIcon icon={link.icon} />
+						<p>{link.name}</p>
+					</LinkWrapper>
+				</Link>
+			))}
+			<NavBottom />
+		</StyledNav>
 	);
 };
 

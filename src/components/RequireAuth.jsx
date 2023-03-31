@@ -7,11 +7,6 @@ const RequireAuth = () => {
 	const { auth } = useAuth();
 	const location = useLocation();
 
-	const decoded = auth?.accessToken ? jwt_decode(auth.accessToken) : undefined;
-
-	const user = decoded?.username || undefined;
-	console.log("RequireAuth: " + user);
-
 	return auth.accessToken ? (
 		<>
 			<Outlet />
