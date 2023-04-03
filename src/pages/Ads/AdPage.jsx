@@ -7,8 +7,7 @@ import Lists from "../../pages/Lists/Lists";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 import jwtDecode from "jwt-decode";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import Dropdown from "../../components/Dropdown";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AdPageWrapper = styled.div`
 	display: flex;
