@@ -124,6 +124,7 @@ const ListDetail = () => {
 	const decodedToken = jwtDecode(auth.accessToken);
 	const currentUser = decodedToken.username;
 
+	const [showAd, setShowAd] = useState(false);
 	const [list, setList] = useState({});
 	const [showDetails, setShowDetails] = useState(false);
 
@@ -182,9 +183,29 @@ const ListDetail = () => {
 
 				{currentUser === user && (
 					<YourLists>
-						<p>
-							Click on an ad to view, or <span>here</span> to start twacking.
-						</p>
+						<h1>Your Lists</h1>
+						{showAd ? (
+							<p
+								onClick={() => {
+									setShowAd(false);
+								}}
+							>
+								Lets go!
+							</p>
+						) : (
+							<p>
+								Click on an ad to view, or
+								<span
+									onClick={() => {
+										setShowAd(true);
+									}}
+								>
+									{" "}
+									here{" "}
+								</span>
+								ads to add to this list
+							</p>
+						)}
 					</YourLists>
 				)}
 
