@@ -251,10 +251,12 @@ const Lists = () => {
 				<Header>
 					<h1>{user}'s Lists</h1>
 				</Header>
-				<SelectView>
+
+				{/* TODO:  */}
+				{/* <SelectView>
 					<Button label="Grid" handleClick={() => setViewType("grid")} />
 					<Button label="List" handleClick={() => setViewType("list")} />
-				</SelectView>
+				</SelectView> */}
 				{showCreateList ? (
 					<OverLayNewList isOpen={showCreateList}>
 						<NewList

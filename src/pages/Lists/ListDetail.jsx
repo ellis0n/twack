@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
 import jwtDecode from "jwt-decode";
+import Ads from "../../components/Ads";
 
 const Wrapper = styled.div`
 	margin-top: 60px;
 	display: flex;
 	flex-direction: row;
-	height: 100vh;
 
 	a {
 		text-decoration: none;
@@ -35,8 +35,9 @@ const AdListWrapper = styled.div`
 	align-items: flex-start;
 	background-color: #f7e5e2e4;
 	text-align: left;
-	width: 25%;
+	width: 33%;
 	height: 100%;
+	min-height: 100vh;
 
 	h2 {
 		width: 100%;
@@ -92,7 +93,7 @@ const InfoBox = styled.div`
 	}
 `;
 
-const YourLists = styled.div`
+const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -179,19 +180,15 @@ const ListDetail = () => {
 							<p>{list.location}</p>
 						</InfoBox>
 					)}
+					{list.ads}
 				</AdListWrapper>
 
 				{currentUser === user && (
-					<YourLists>
-						<h1>Your Lists</h1>
+					<Container>
+						<h1>{list.name}</h1>
+						<br />
 						{showAd ? (
-							<p
-								onClick={() => {
-									setShowAd(false);
-								}}
-							>
-								Lets go!
-							</p>
+							<Ads listInfo={list} />
 						) : (
 							<p>
 								Click on an ad to view, or
@@ -203,10 +200,10 @@ const ListDetail = () => {
 									{" "}
 									here{" "}
 								</span>
-								ads to add to this list
+								to find new ads.
 							</p>
 						)}
-					</YourLists>
+					</Container>
 				)}
 
 				{list.ads &&
