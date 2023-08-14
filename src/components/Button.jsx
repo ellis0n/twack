@@ -10,10 +10,11 @@ const ButtonWrapper = styled.button`
 `;
 
 const Button = (props) => {
+	console.log(props.data);
 	const onClick = async (e) => {
 		e.preventDefault();
+
 		props.data ? props.handleClick(props.data) : props.handleClick();
-		props.handleClick();
 	};
 
 	return (

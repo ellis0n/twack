@@ -41,12 +41,13 @@ const Ads = ({ listInfo }) => {
 	const [votes, setVotes] = useState([]);
 	const [running, setRunning] = useState(false);
 
+	console.log(listInfo);
+
 	useEffect(() => {
 		let isMounted = true;
 		const controller = new AbortController();
 
 		const getAds = async (listInfo) => {
-			console.log(listInfo);
 			const params = {
 				location: listInfo.location,
 				category: listInfo.category,
@@ -75,19 +76,19 @@ const Ads = ({ listInfo }) => {
 		};
 	}, []);
 
-	const sendVote = async (vote) => {
-		console.log(vote);
-		let user = auth.user;
+	const sendVote = async (v) => {
+		const { vote, ad, listId } = v;
 		try {
 			const response = await axiosPrivate.post(
 				"/vote",
-				JSON.stringify({ vote, user }),
+				JSON.stringify({ vote, ad, listId }),
 				{
 					headers: { "Content-Type": "application/json" },
 					withCredentials: true,
 				}
 			);
 			setVotes([...votes, vote]);
+			console.log(votes);
 			setAds(ads.filter((ad) => ad.id !== vote.ad.id));
 			if (ads.length === 1) {
 				setVotes([]);
@@ -131,6 +132,7 @@ const Ads = ({ listInfo }) => {
 								<VoteContainer>
 									<VoteButton
 										data={{
+											listId: listInfo._id,
 											ad: ad,
 											vote: true,
 										}}
@@ -139,6 +141,7 @@ const Ads = ({ listInfo }) => {
 									/>
 									<VoteButton
 										data={{
+											listId: listInfo._id,
 											ad: ad,
 											vote: false,
 										}}
