@@ -245,18 +245,12 @@ const Lists = () => {
 
 	return (
 		<>
-			{/* TODO: isSticky still relevant? */}
 			<Banner theme="header" isSticky={showCreateList} />
 			<Wrapper>
 				<Header>
 					<h1>{user}'s Lists</h1>
 				</Header>
 
-				{/* TODO:  */}
-				{/* <SelectView>
-					<Button label="Grid" handleClick={() => setViewType("grid")} />
-					<Button label="List" handleClick={() => setViewType("list")} />
-				</SelectView> */}
 				{showCreateList ? (
 					<OverLayNewList isOpen={showCreateList}>
 						<NewList

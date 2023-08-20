@@ -256,6 +256,7 @@ const NewList = ({ onClick, onSubmit }) => {
 							onChange={handleInputChange}
 						>
 							{locations.map((location, i) => {
+								console.log(location);
 								return (
 									<option value={location.value} key={i}>
 										{location.key}

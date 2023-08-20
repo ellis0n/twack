@@ -9,6 +9,7 @@ import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
 import jwtDecode from "jwt-decode";
 import Ads from "../../components/Ads";
+import Ad from "../../components/Ad";
 
 const Wrapper = styled.div`
 	margin-top: 60px;
@@ -82,15 +83,12 @@ const ListSubHeader = styled.div`
 const InfoBox = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
 	justify-content: space-evenly;
+	align-items: center;
 	width: 100%;
-	background-color: #58806124;
-	border-radius: 5px;
-
-	p {
-		margin: 0;
-	}
+	background-color: #f7e5e2e4;
+	box-shadow: #f7e5e2 0px 2px 5px 0px;
+	color: #588061;
 `;
 
 const Container = styled.div`
@@ -105,13 +103,36 @@ const Container = styled.div`
 		color: #588061;
 		background-color: #58806124;
 		padding: 10px;
-		border-radius: 5px;
-		border: 2px solid #588061;
+		box-shadow: #588061 0px 2px 5px 0px;
 	}
 
 	span {
 		color: #f7e5e2;
 		cursor: pointer;
+	}
+`;
+
+const AdLine = styled.div`
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	justify-content: space-between;
+	align-items: center;
+	width: calc(100% - 20px);
+	background-color: #58806124;
+	box-shadow: #588061 0px 2px 5px 0px;
+	padding: 5px 10px;
+	color: #588061;
+	cursor: pointer;
+
+	p {
+		margin: 0;
+		padding: 0;
+	}
+
+	&:hover {
+		background-color: #588061;
+		color: #f7e5e2;
 	}
 `;
 
@@ -128,6 +149,8 @@ const ListDetail = () => {
 	const [showAd, setShowAd] = useState(false);
 	const [list, setList] = useState({});
 	const [showDetails, setShowDetails] = useState(false);
+	const [refreshList, setRefreshList] = useState(false);
+	const [currentAd, setCurrentAd] = useState({});
 
 	useEffect(() => {
 		let isMounted = true;
@@ -151,7 +174,7 @@ const ListDetail = () => {
 			isMounted = false;
 			controller.abort();
 		};
-	}, []);
+	}, [refreshList]);
 
 	return (
 		<>
@@ -172,21 +195,23 @@ const ListDetail = () => {
 							by: <Link to={`/${user}/lists`}>{user}</Link>
 						</h2>
 					</ListSubHeader>
+
 					{showDetails && (
 						<InfoBox>
 							<p>{list.description}</p>
 							<p>{list.category}</p>
 							<p>{list.location}</p>
+							<p>{list.followers}</p>
 						</InfoBox>
 					)}
 
 					{list.ads &&
 						list.ads.map((ad) => {
 							return (
-								<div key={ad.id}>
-									{console.log(ad)}
-									<p>{ad.name}</p>
-								</div>
+								<AdLine key={ad.id}>
+									<p>{ad.title}</p>
+									<p>${ad.price}</p>
+								</AdLine>
 							);
 						})}
 				</AdListWrapper>
@@ -196,7 +221,10 @@ const ListDetail = () => {
 						<h1>{list.name}</h1>
 						<br />
 						{showAd ? (
-							<Ads listInfo={list} />
+							<Ads
+								listInfo={list}
+								onRefresh={() => setRefreshList(!refreshList)}
+							/>
 						) : (
 							<p>
 								Click on an ad to view, or
@@ -210,6 +238,26 @@ const ListDetail = () => {
 								</span>
 								to find new ads.
 							</p>
+						)}
+					</Container>
+				)}
+				{currentUser !== user && (
+					<Container>
+						{showAd ? (
+							<Ad
+								id={currentAd.id}
+								url={currentAd.url}
+								title={currentAd.title}
+								alt={currentAd.desc}
+								src={currentAd.img}
+								price={currentAd.price}
+								desc={currentAd.desc}
+								images={currentAd.images}
+								date={currentAd.date}
+								location={currentAd.location}
+							/>
+						) : (
+							<p>Click on an ad to view.</p>
 						)}
 					</Container>
 				)}

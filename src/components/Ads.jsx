@@ -31,7 +31,7 @@ const VoteContainer = styled.div`
 	}
 `;
 
-const Ads = ({ listInfo }) => {
+const Ads = ({ listInfo, onRefresh }) => {
 	const navigate = useNavigate();
 	const axiosPrivate = useAxiosPrivate();
 	const stateLocation = useLocation();
@@ -39,6 +39,7 @@ const Ads = ({ listInfo }) => {
 
 	const [ads, setAds] = useState([]);
 	const [votes, setVotes] = useState([]);
+
 	const [running, setRunning] = useState(false);
 
 	useEffect(() => {
@@ -49,7 +50,9 @@ const Ads = ({ listInfo }) => {
 			const params = {
 				location: listInfo.location,
 				category: listInfo.category,
+				listId: listInfo._id,
 			};
+			console.log(params);
 			try {
 				const response = await axiosPrivate.post(
 					"/scrape",
@@ -95,7 +98,9 @@ const Ads = ({ listInfo }) => {
 				setVotes([]);
 				setRunning(false);
 			}
-			console.log(response);
+
+			// Refresh list after voting
+			onRefresh();
 		} catch (err) {
 			console.error(err);
 			navigate("/login", { state: { from: stateLocation }, replace: true });
@@ -125,7 +130,6 @@ const Ads = ({ listInfo }) => {
 									src={ad.img}
 									price={ad.price}
 									desc={ad.desc}
-									index={index}
 									images={ad.images}
 									date={ad.date}
 									location={ad.location}

@@ -126,18 +126,7 @@ const DescriptionWrapper = styled.div`
 	}
 `;
 
-const Ad = ({
-	url,
-	title,
-	alt,
-	src,
-	price,
-	desc,
-	index,
-	images,
-	date,
-	location,
-}) => {
+const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
 	const highRes = (str) => {
 		return str.replace(/200-jpg/g, "1200-jpg");
 	};
