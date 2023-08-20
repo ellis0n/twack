@@ -2,7 +2,6 @@
 	"name": "twack",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://ellis0n.github.io/twack/",
 	"proxy": "http://localhost:3500",
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.2.1",
