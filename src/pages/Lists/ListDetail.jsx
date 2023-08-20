@@ -146,7 +146,6 @@ const ListDetail = () => {
 			}
 		};
 		getUserList();
-		console.log(list);
 
 		return () => {
 			isMounted = false;
@@ -180,7 +179,16 @@ const ListDetail = () => {
 							<p>{list.location}</p>
 						</InfoBox>
 					)}
-					{list.ads}
+
+					{list.ads &&
+						list.ads.map((ad) => {
+							return (
+								<div key={ad.id}>
+									{console.log(ad)}
+									<p>{ad.name}</p>
+								</div>
+							);
+						})}
 				</AdListWrapper>
 
 				{currentUser === user && (
@@ -205,18 +213,6 @@ const ListDetail = () => {
 						)}
 					</Container>
 				)}
-
-				{list.ads &&
-					list.ads.map((ad) => {
-						return (
-							<div>
-								<h1>{ad.name}</h1>
-								<h1>{ad.description}</h1>
-								<h1>{ad.category}</h1>
-								<h1>{ad.location}</h1>
-							</div>
-						);
-					})}
 			</Wrapper>
 		</>
 	);

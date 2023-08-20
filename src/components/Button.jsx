@@ -10,7 +10,6 @@ const ButtonWrapper = styled.button`
 `;
 
 const Button = (props) => {
-	console.log(props.data);
 	const onClick = async (e) => {
 		e.preventDefault();
 

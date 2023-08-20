@@ -41,8 +41,6 @@ const Ads = ({ listInfo }) => {
 	const [votes, setVotes] = useState([]);
 	const [running, setRunning] = useState(false);
 
-	console.log(listInfo);
-
 	useEffect(() => {
 		let isMounted = true;
 		const controller = new AbortController();
@@ -88,8 +86,11 @@ const Ads = ({ listInfo }) => {
 				}
 			);
 			setVotes([...votes, vote]);
-			console.log(votes);
-			setAds(ads.filter((ad) => ad.id !== vote.ad.id));
+
+			// Remove ad from state after voting
+			setAds(ads.filter((a) => a.id !== ad.id));
+
+			// If only one ad left, set state to empty
 			if (ads.length === 1) {
 				setVotes([]);
 				setRunning(false);
