@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/twack/static/css/main.e0f93b9e.css",
-    "main.js": "/twack/static/js/main.1bb21993.js",
+    "main.js": "/twack/static/js/main.47fcf486.js",
     "static/js/787.05ef89b2.chunk.js": "/twack/static/js/787.05ef89b2.chunk.js",
     "index.html": "/twack/index.html",
     "main.e0f93b9e.css.map": "/twack/static/css/main.e0f93b9e.css.map",
-    "main.1bb21993.js.map": "/twack/static/js/main.1bb21993.js.map",
+    "main.47fcf486.js.map": "/twack/static/js/main.47fcf486.js.map",
     "787.05ef89b2.chunk.js.map": "/twack/static/js/787.05ef89b2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e0f93b9e.css",
-    "static/js/main.1bb21993.js"
+    "static/js/main.47fcf486.js"
   ]
 }
