@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://coral-app-2d6dc.ondigitalocean.app/";
+const BASE_URL = "https://twackend-b59mi.ondigitalocean.app";
 
 export default axios.create({
 	baseURL: BASE_URL,

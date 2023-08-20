@@ -15,7 +15,7 @@ const Register = () => {
 	const handleClick = async (e) => {
 		e.preventDefault();
 		const data = JSON.stringify({ user, pwd });
-		await fetch("http://localhost:3500/register", {
+		await fetch("twackend-b59mi.ondigitalocean.app/register", {
 			method: "POST",
 			headers: {
 				Accept: "application/json",

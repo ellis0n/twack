@@ -10,7 +10,6 @@ import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { scrapeAds, sendVote } from "../helper/scrape";
 import styled from "styled-components";
 
 const AdWrapper = styled.div`
