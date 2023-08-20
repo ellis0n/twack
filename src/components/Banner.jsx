@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Button from "./Button";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useLogout from "../hooks/useLogout";
 
 const BannerWrapper = styled.div`

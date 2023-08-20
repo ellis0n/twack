@@ -6,18 +6,19 @@ const ButtonWrapper = styled.button`
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
-	z-index: 0;
+	z-index: 20;
 `;
 
-const Button = ({ label, handleClick }) => {
+const Button = (props) => {
 	const onClick = async (e) => {
 		e.preventDefault();
-		handleClick();
+
+		props.data ? props.handleClick(props.data) : props.handleClick();
 	};
 
 	return (
 		<ButtonWrapper type="button" onClick={onClick}>
-			{label}
+			{props.label}
 		</ButtonWrapper>
 	);
 };

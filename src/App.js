@@ -12,7 +12,6 @@ import User from "./pages/UserDetail/UserDetail";
 import Lists from "./pages/Lists/Lists";
 import About from "./pages/About/About";
 import ListDetail from "./pages/Lists/ListDetail";
-import AdPage from "./pages/Ads/AdPage";
 
 function App() {
 	return (
@@ -31,7 +30,6 @@ function App() {
 						<Route path="/home" element={<Home />} />
 						<Route path="/settings" element={<Settings />} />
 						<Route path="/about" element={<About />} />
-						<Route path="/twack" element={<AdPage />} />
 						<Route path="/users" element={<Users />} />
 						<Route path="/:user" element={<User />} />
 						<Route path="/:user/lists/" element={<Lists />} />

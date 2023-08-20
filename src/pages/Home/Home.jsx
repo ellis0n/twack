@@ -29,15 +29,10 @@ const Home = () => {
 			<Banner />
 			<HomeWrapper>
 				<h1>hey, {token.username}.</h1>
-				<Link to="/ads">
-					<button>View Ads</button>
+				<Link to={`/${token.username}/lists`}>
+					<button>Your ads.</button>
 				</Link>
-				<Link to="/user">
-					<button>View User Details</button>
-				</Link>
-				<Link to="/twack">
-					<button>Twacking</button>
-				</Link>
+
 				<button onClick={logout}>Logout</button>
 				<Footer />
 			</HomeWrapper>

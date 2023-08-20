@@ -18,7 +18,9 @@ const UserCard = styled.div`
 `;
 
 const UserDetail = () => {
-	let { id } = useParams();
+	const params = useParams();
+	const id = params.user;
+	console.log(useParams());
 	const [user, setUser] = useState(null);
 	const axiosPrivate = useAxiosPrivate();
 	const navigate = useNavigate();
