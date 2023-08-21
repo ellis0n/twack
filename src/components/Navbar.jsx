@@ -88,8 +88,8 @@ const NavBottom = styled.div`
 
 const Navbar = ({ isOpen, toggleClose }) => {
 	const user = localStorage.user.replace(/"/g, "");
-	const logout = useLogout();
-	const navigate = useNavigate();
+	// const logout = useLogout();
+	// const navigate = useNavigate();
 
 	const links = [
 		{ name: "Home", link: "/home", icon: faHouse },

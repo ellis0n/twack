@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
-import ParamBox from "../../components/ParamBox";
+import React from "react";
 import Footer from "../../components/Footer";
 import Banner from "../../components/Banner";
-import Navbar from "../../components/Navbar";
-import Users from "../Users/Users";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useLogout from "../../hooks/useLogout";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import Wrapper from "../../components/Wrapper";
 import styled from "styled-components";
 
 const LoginWrapper = styled.div`

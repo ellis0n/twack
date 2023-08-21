@@ -2,10 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Ad from "./Ad";
 import Footer from "./Footer.jsx";
-import ParamBox from "./ParamBox";
 import VoteButton from "./Button";
-import Wrapper from "./Wrapper";
-import Banner from "./Banner";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -75,6 +72,8 @@ const Ads = ({ listInfo, onRefresh }) => {
 			controller.abort();
 		};
 	}, []);
+
+	//todo: This needs cleanup:
 
 	const sendVote = async (v) => {
 		const { vote, ad, listId } = v;

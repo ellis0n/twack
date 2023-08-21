@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
-import SavedAds from "../SavedAds/SavedAds";
-import Navbar from "../../components/Navbar";
 import Banner from "../../components/Banner";
 import styled from "styled-components";
 

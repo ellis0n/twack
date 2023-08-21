@@ -54,7 +54,6 @@ const Users = () => {
 				const response = await axiosPrivate.get("/users", {
 					signal: controller.signal,
 				});
-				console.log(response.data);
 				isMounted && setUsers(response.data);
 			} catch (err) {
 				console.error(err);
