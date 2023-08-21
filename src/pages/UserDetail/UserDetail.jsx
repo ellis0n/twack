@@ -18,7 +18,6 @@ const UserCard = styled.div`
 const UserDetail = () => {
 	const params = useParams();
 	const id = params.user;
-	console.log(useParams());
 	const [user, setUser] = useState(null);
 	const axiosPrivate = useAxiosPrivate();
 	const navigate = useNavigate();
@@ -28,20 +27,21 @@ const UserDetail = () => {
 		let isMounted = true;
 		const controller = new AbortController();
 
-		const getUsers = async () => {
+		const getFollowing = async () => {
 			try {
-				const response = await axiosPrivate.get(`/users/${id}`, {
+				const response = await axiosPrivate.get(`/users/${id}/following`, {
 					signal: controller.signal,
 				});
-				console.log(response.data);
 				isMounted && setUser(response.data);
+				console.log(response.data);
 			} catch (err) {
 				console.error(err);
 				navigate("/login", { state: { from: location }, replace: true });
 			}
 		};
 
-		getUsers();
+		getFollowing();
+		console.log(user);
 
 		return () => {
 			isMounted = false;

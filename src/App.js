@@ -34,8 +34,6 @@ function App() {
 						<Route path="/:user" element={<User />} />
 						<Route path="/:user/lists/" element={<Lists />} />
 						<Route path="/:user/lists/:listId" element={<ListDetail />} />
-
-						{/* TODO: everything below here is deprecated*/}
 					</Route>
 				</Route>
 				{/* 404 */}
