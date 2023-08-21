@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Banner from "../../components/Banner";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
+import axios from "../../api/axios";
 
 //todo: add error message for username and password
 //todo: validate username and password
@@ -14,28 +15,23 @@ const Register = () => {
 
 	const handleClick = async (e) => {
 		e.preventDefault();
+
 		const data = JSON.stringify({ user, pwd });
-		await fetch("twackend-b59mi.ondigitalocean.app/register", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
+
+		const response = await axios.post(
+			"/register",
+			JSON.stringify({ user, pwd }),
+			{
+				headers: { "Content-Type": "application/json" },
 				withCredentials: true,
-			},
-			body: data,
-		})
-			.then((response) => {
-				if (response.status === 409) {
-					throw new Error("Username already exists");
-				}
-				console.log(response);
-				setSuccess(true);
-				setUser("");
-				setPwd("");
-			})
-			.catch((err) => {
-				setErr(err);
-			});
+			}
+		);
+
+		if (response.data.status === "201") {
+			setSuccess(true);
+		} else {
+			setErr(response.data.message);
+		}
 	};
 
 	return (
