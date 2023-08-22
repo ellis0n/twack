@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from "react";
-import Banner from "../../components/Banner";
 import styled from "styled-components";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -150,7 +149,8 @@ const ListDetail = () => {
 	const [list, setList] = useState({});
 	const [showDetails, setShowDetails] = useState(false);
 	const [refreshList, setRefreshList] = useState(false);
-	const [currentAd, setCurrentAd] = useState({});
+	const [viewSavedAd, setViewSavedAd] = useState(false);
+	const [currentAd, setCurrentAd] = useState(null);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -169,6 +169,7 @@ const ListDetail = () => {
 			}
 		};
 		getUserList();
+		console.log(viewSavedAd, currentAd, showAd);
 
 		return () => {
 			isMounted = false;
@@ -178,7 +179,6 @@ const ListDetail = () => {
 
 	return (
 		<>
-			<Banner />
 			<Wrapper>
 				<AdListWrapper>
 					<ListHeader>
@@ -208,7 +208,14 @@ const ListDetail = () => {
 					{list.ads &&
 						list.ads.map((ad) => {
 							return (
-								<AdLine key={ad.id}>
+								<AdLine
+									key={ad.id}
+									onClick={() => {
+										setShowAd(true);
+										setCurrentAd(ad);
+										setViewSavedAd(true);
+									}}
+								>
 									<p>{ad.title}</p>
 									<p>${ad.price}</p>
 								</AdLine>
@@ -221,10 +228,37 @@ const ListDetail = () => {
 						<h1>{list.name}</h1>
 						<br />
 						{showAd ? (
-							<Ads
-								listInfo={list}
-								onRefresh={() => setRefreshList(!refreshList)}
-							/>
+							!viewSavedAd ? (
+								<Ads
+									listInfo={list}
+									onRefresh={() => setRefreshList(!refreshList)}
+								/>
+							) : (
+								currentAd && (
+									<>
+										<div
+											onClick={() => {
+												setCurrentAd(null);
+												setViewSavedAd(false);
+											}}
+										>
+											Click to close
+										</div>
+										<Ad
+											id={currentAd.id}
+											url={currentAd.url}
+											title={currentAd.title}
+											alt={currentAd.desc}
+											src={currentAd.img}
+											price={currentAd.price}
+											desc={currentAd.desc}
+											images={currentAd.images}
+											date={currentAd.date}
+											location={currentAd.location}
+										/>
+									</>
+								)
+							)
 						) : (
 							<p>
 								Click on an ad to view, or
@@ -244,18 +278,20 @@ const ListDetail = () => {
 				{currentUser !== user && (
 					<Container>
 						{showAd ? (
-							<Ad
-								id={currentAd.id}
-								url={currentAd.url}
-								title={currentAd.title}
-								alt={currentAd.desc}
-								src={currentAd.img}
-								price={currentAd.price}
-								desc={currentAd.desc}
-								images={currentAd.images}
-								date={currentAd.date}
-								location={currentAd.location}
-							/>
+							currentAd && (
+								<Ad
+									id={currentAd.id}
+									url={currentAd.url}
+									title={currentAd.title}
+									alt={currentAd.desc}
+									src={currentAd.img}
+									price={currentAd.price}
+									desc={currentAd.desc}
+									images={currentAd.images}
+									date={currentAd.date}
+									location={currentAd.location}
+								/>
+							)
 						) : (
 							<p>Click on an ad to view.</p>
 						)}

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import useLogout from "../../hooks/useLogout";
-import Banner from "../../components/Banner";
 import Footer from "../../components/Footer";
 import styled from "styled-components";
 import useAuth from "../../hooks/useAuth";
@@ -26,7 +25,6 @@ const Home = () => {
 
 	return (
 		<>
-			<Banner />
 			<HomeWrapper>
 				<h1>hey, {token.username}.</h1>
 				<Link to={`/${token.username}/lists`}>

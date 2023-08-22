@@ -51,7 +51,6 @@ const TitleWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
 	background-color: #588061f2;
 
 	a {
@@ -133,13 +132,6 @@ const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
 
 	return (
 		<AdWrapper>
-			<TitleWrapper>
-				<h1>
-					<a href={url} className="title">
-						{title}
-					</a>
-				</h1>
-			</TitleWrapper>
 			<ImgWrapper src={highRes(src)}>
 				<InfoWrapper>
 					<div className="price">
@@ -150,6 +142,13 @@ const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
 				</InfoWrapper>
 				<Lightbox images={images} alt={alt} />
 			</ImgWrapper>
+			<TitleWrapper>
+				<h1>
+					<a href={url} className="title">
+						{title}
+					</a>
+				</h1>
+			</TitleWrapper>
 			{desc.length > 100 ? (
 				<DescriptionWrapper>
 					<p>

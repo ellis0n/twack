@@ -2,8 +2,6 @@ import { Outlet } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
-import Banner from "./Banner";
-import styled from "styled-components";
 
 const PersistLogin = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +41,6 @@ const PersistLogin = () => {
 				<Outlet />
 			) : isLoading ? (
 				<>
-					<Banner />
 					<h1>Loading...</h1>
 				</>
 			) : (

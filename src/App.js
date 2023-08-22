@@ -12,16 +12,17 @@ import User from "./pages/UserDetail/UserDetail";
 import Lists from "./pages/Lists/Lists";
 import About from "./pages/About/About";
 import ListDetail from "./pages/Lists/ListDetail";
+import Landing from "./pages/Landing/Landing";
 
 function App() {
 	return (
 		<Routes>
-			<Route path="/" element={<Layout />}>
-				{/* Public Routes */}
-				{/* <Route path="/" element={<Landing />} /> */}
-				<Route path="/register" element={<Register />} />
-				<Route path="/login" element={<Login />} />
+			{/* Public Routes */}
+			<Route path="/" element={<Landing />} />
+			<Route path="/register" element={<Register />} />
+			<Route path="/login" element={<Login />} />
 
+			<Route path="/" element={<Layout />}>
 				{/* Persist Login */}
 				<Route element={<PersistLogin />}>
 					{/* Private Routes */}

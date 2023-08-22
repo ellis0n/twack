@@ -1,5 +1,4 @@
 import { React, useEffect, useState } from "react";
-import Banner from "../../components/Banner";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useInput from "../../hooks/useInput";

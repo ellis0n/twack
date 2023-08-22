@@ -1,8 +1,9 @@
+// TODO: marked for delete
+
 import React, { useState, useEffect } from "react";
 import Ad from "../../components/Ad";
 import Footer from "../../components/Footer";
 import VoteButton from "../../components/Button";
-import Banner from "../../components/Banner";
 import Wrapper from "../../components/Wrapper";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -87,7 +88,6 @@ const SavedAds = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
 			<Wrapper>
 				{running ? (
 					ads.length === 0 ? (

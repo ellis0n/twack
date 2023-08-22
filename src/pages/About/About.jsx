@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Banner from "../../components/Banner";
 
 // Styled Components
 const AboutWrapper = styled.div`
@@ -14,14 +13,11 @@ const AboutWrapper = styled.div`
 // About Component
 const About = () => {
 	return (
-		<>
-			<Banner theme="header" />
-			<AboutWrapper>
-				<h1>About</h1>
-				<p>I made this as a personal project</p>
-				<p>Yadda yadda</p>
-			</AboutWrapper>
-		</>
+		<AboutWrapper>
+			<h1>About</h1>
+			<p>I made this as a personal project</p>
+			<p>Yadda yadda</p>
+		</AboutWrapper>
 	);
 };
 

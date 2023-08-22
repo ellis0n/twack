@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Banner from "../../components/Banner";
 import Footer from "../../components/Footer";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
-import Banner from "../../components/Banner";
 import styled from "styled-components";
 
 const UserCard = styled.div`
@@ -51,11 +50,9 @@ const UserDetail = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
 			{user ? (
 				<>
 					<UserCard>{user.username}</UserCard>
-					{/* <h2 className="banner.pref.location}</h2> */}
 				</>
 			) : (
 				<h1>Loading...</h1>
