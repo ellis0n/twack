@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Banner from "../../components/Banner";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -44,7 +43,6 @@ const Register = () => {
 
 	return (
 		<>
-			<Banner className="banner" />
 			<RegisterWrapper>
 				{success ? (
 					<div className="login">

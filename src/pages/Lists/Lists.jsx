@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Banner from "../../components/Banner";
 import styled from "styled-components";
 import {
 	useNavigate,
@@ -245,7 +244,6 @@ const Lists = () => {
 
 	return (
 		<>
-			<Banner theme="header" isSticky={showCreateList} />
 			<Wrapper>
 				<Header>
 					<h1>{user}'s Lists</h1>

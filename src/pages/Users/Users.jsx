@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
-import Banner from "../../components/Banner";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -69,7 +68,6 @@ const Users = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
 			<UsersWrapper>
 				<h2>Users</h2>
 				{users?.length ? (

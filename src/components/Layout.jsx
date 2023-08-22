@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
+import Banner from "./Banner";
 
 const AppWrapper = styled.div`
 	text-align: center;
@@ -11,6 +12,7 @@ const AppWrapper = styled.div`
 const Layout = () => {
 	return (
 		<AppWrapper>
+			<Banner />
 			<Outlet />
 		</AppWrapper>
 	);

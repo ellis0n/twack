@@ -1,6 +1,5 @@
 import React from "react";
 import Footer from "../../components/Footer";
-import Banner from "../../components/Banner";
 import { useNavigate, useLocation } from "react-router-dom";
 import useLogout from "../../hooks/useLogout";
 import useAuth from "../../hooks/useAuth";
@@ -48,7 +47,6 @@ const Settings = () => {
 
 	return (
 		<>
-			<Banner theme="header" />
 			<LoginWrapper>
 				<h1>Settings</h1>
 			</LoginWrapper>
