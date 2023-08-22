@@ -13,6 +13,16 @@ import Lists from "./pages/Lists/Lists";
 import About from "./pages/About/About";
 import ListDetail from "./pages/Lists/ListDetail";
 import Landing from "./pages/Landing/Landing";
+import styled from "styled-components";
+
+const ErrorWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+`;
 
 function App() {
 	return (
@@ -38,7 +48,24 @@ function App() {
 					</Route>
 				</Route>
 				{/* 404 */}
-				<Route path="*" element={<h1>404</h1>} />
+				<Route
+					path="/404"
+					element={
+						<ErrorWrapper>
+							<h1>404</h1>
+							<h1>Uh oh! Ya goofed!</h1>
+						</ErrorWrapper>
+					}
+				/>
+				<Route
+					path="*"
+					component={
+						<ErrorWrapper>
+							<h1>404</h1>
+							<h1>Uh oh! Ya goofed!</h1>
+						</ErrorWrapper>
+					}
+				/>
 			</Route>
 		</Routes>
 	);
