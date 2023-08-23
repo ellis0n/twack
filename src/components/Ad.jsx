@@ -6,45 +6,41 @@ const AdWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	border-radius: 1rem;
 	height: 100%;
 	max-height: 90%;
 	font-family: Arial, Helvetica, sans-serif;
-	border: 2px solid #282c34;
-	height: 90vh;
 	max-height: 70vh;
-	max-width: 600px;
-	margin: 2% auto;
+	max-width: 280px;
+	min-width: 180px;
+	height: auto;
+	padding: 4px;
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
 
 	a {
 		text-decoration: none;
 		color: inherit;
 	}
-
-	p {
-		height: auto;
-		padding: 0 1em;
-		/* text-align: left; */
-		font-size: calc(1em + 0.5vw);
-		line-height: 1.5em;
-		color: #282c34;
-		font-family: "Fredoka One";
-	}
 `;
 
 const ImgWrapper = styled.div`
-	background-image: url(${(props) => props.src});
-	background-size: 100%;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 100%;
 	background-color: #ffffff22;
-	height: 100%;
+	height: 0;
+	overflow: hidden;
+	padding-bottom: 100%;
+	position: relative;
 	display: flex;
-	justify-content: flex-end;
-	flex-direction: column;
-	align-items: flex-end;
+	flex-direction: column-reverse;
+
+	img {
+		overflow-clip-margin: content-box;
+		max-width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 `;
 
 const TitleWrapper = styled.div`
@@ -53,16 +49,20 @@ const TitleWrapper = styled.div`
 	justify-content: center;
 	background-color: #588061f2;
 
+	h1 {
+		margin: 0;
+	}
+
 	a {
-		font-size: 2rem;
+		font-size: 0.9rem;
 		color: #f7e5e2;
 		border-radius: 12px 12px 0 0;
 		font-family: "Fredoka One";
-		font-weight: 900;
 		margin: 0;
-		line-height: 2rem;
+		line-height: 1rem;
 		overflow: hidden;
 		text-overflow: ellipsis;
+
 		:hover {
 			color: #282c3498;
 		}
@@ -84,13 +84,11 @@ const InfoWrapper = styled.div`
 		font-family: "Fredoka One";
 		font-size: 0.8rem;
 		margin: 0;
-		padding: 0.5em;
 		text-align: left;
 		background-color: #f7e5e2;
 	}
 
 	.price {
-		font-weight: 900;
 		background-color: #588061f4;
 		color: #f7e5e2;
 		border-radius: 12px 12px 0px 0px;
@@ -109,17 +107,13 @@ const DescriptionWrapper = styled.div`
 	align-items: center;
 	opacity: 90%;
 	width: 100%;
-	height: 33%;
 	background-color: #f7e5e2;
 	overflow: hidden;
-	/* height: 20%; */
 	p {
-		font-size: rem;
+		font-size: 0.9rem;
 		color: #282c34;
 		font-family: "Fredoka One";
-		font-weight: 900;
 		margin: 0;
-		line-height: 2rem;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
@@ -131,40 +125,39 @@ const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
 	};
 
 	return (
-		<AdWrapper>
-			<ImgWrapper src={highRes(src)}>
-				<InfoWrapper>
-					<div className="price">
-						<h2>${price}</h2>
-					</div>
-					<h2 className="info">{location}</h2>
-					<h2 className="info">{date}</h2>
-				</InfoWrapper>
-				<Lightbox images={images} alt={alt} />
-			</ImgWrapper>
-			<TitleWrapper>
-				<h1>
+		<>
+			<AdWrapper>
+				<ImgWrapper>
+					<img src={src} alt={alt}></img>
+					<InfoWrapper>
+						<div className="price">
+							<h2>${price}</h2>
+						</div>
+					</InfoWrapper>
+				</ImgWrapper>
+				{/* <Lightbox images={images} alt={alt} /> */}
+				<TitleWrapper>
 					<a href={url} className="title">
 						{title}
 					</a>
-				</h1>
-			</TitleWrapper>
-			{desc.length > 100 ? (
-				<DescriptionWrapper>
-					<p>
-						{desc.slice(0, desc.length - 3)}...
-						<a href={url} className="link">
-							{" "}
-							(see on Kijiji)
-						</a>
-					</p>
-				</DescriptionWrapper>
-			) : (
-				<DescriptionWrapper>
-					<p>{desc}</p>
-				</DescriptionWrapper>
-			)}
-		</AdWrapper>
+				</TitleWrapper>
+				{desc.length > 100 ? (
+					<DescriptionWrapper>
+						<p>
+							{desc.slice(0, desc.length - 3)}...
+							<a href={url} className="link">
+								{" "}
+								(see on Kijiji)
+							</a>
+						</p>
+					</DescriptionWrapper>
+				) : (
+					<DescriptionWrapper>
+						<p>{desc}</p>
+					</DescriptionWrapper>
+				)}
+			</AdWrapper>
+		</>
 	);
 };
 
