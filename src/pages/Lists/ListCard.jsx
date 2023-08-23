@@ -90,7 +90,7 @@ const ParamWrapper = styled.div`
 	justify-content: flex-start;
 	text-align: left;
 	width: 100%;
-	height: 100%;
+	height: auto;
 	border-radius: 5px;
 	margin: 0.5rem 0rem;
 	transition: transform 100ms, background 200ms;
@@ -147,15 +147,16 @@ const ImageWrapper = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding: 0.5rem 0rem;
 	z-index: 0;
 	width: 100%;
+
 	img {
 		width: 150px;
 		height: 150px;
-		margin-left: 0.5rem;
+		margin: 0 0.5rem;
 		border-radius: 8px;
 		z-index: 0;
+		opacity: 0.9;
 
 		@media (max-width: 768px) {
 			width: 100px;
@@ -164,15 +165,16 @@ const ImageWrapper = styled.div`
 	}
 
 	.create {
+		margin: 0 0.5rem;
+		width: calc(150 - 0.5rem);
+		height: 150px;
 		display: flex;
 		justify-content: center;
 		opacity: 0.9;
-		font-size: 6rem;
 		color: #f7e5e2;
 		background-color: #588061;
 		border: 1px solid #588061;
 		border-radius: 50%;
-		padding: 1rem;
 		cursor: pointer;
 		animation: createPulse 2s infinite;
 
@@ -277,6 +279,7 @@ const ListCard = ({
 		return found.key ? found.key : "no category";
 	};
 
+	console.log(list);
 	return (
 		<Link to={createCard ? null : `${list._id}`}>
 			<ListWrapper
@@ -297,8 +300,8 @@ const ListCard = ({
 					<ImageWrapper>
 						{createCard ? (
 							<FontAwesomeIcon icon={faPlus} className="create" />
-						) : list.thumbnail ? (
-							<img src={list.thumbnail} alt="list" />
+						) : list.ads[0] && list.ads[0].images.length > 0 ? (
+							<img src={list.ads[0].images[0]} alt="list" />
 						) : (
 							<img src="https://via.placeholder.com/150" alt="list" />
 						)}
@@ -329,7 +332,6 @@ const ListCard = ({
 									/>
 								</>
 							)}
-
 							{createCard && ownedCard ? (
 								<FontAwesomeIcon
 									icon={faPlus}

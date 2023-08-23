@@ -97,14 +97,6 @@ const Container = styled.div`
 	justify-content: center;
 	width: 100%;
 
-	p {
-		font-size: 1.5em;
-		color: #588061;
-		background-color: #58806124;
-		padding: 10px;
-		box-shadow: #588061 0px 2px 5px 0px;
-	}
-
 	span {
 		color: #f7e5e2;
 		cursor: pointer;

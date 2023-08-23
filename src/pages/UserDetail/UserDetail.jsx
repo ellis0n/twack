@@ -34,8 +34,12 @@ const UserDetail = () => {
 				isMounted && setUser(response.data);
 				console.log(response.data);
 			} catch (err) {
+				console.log(err.response.status);
 				console.error(err);
-				navigate("/login", { state: { from: location }, replace: true });
+				err.response.status === 404 &&
+					navigate("/404", { state: { from: location }, replace: true });
+				err.response.status === 401 &&
+					navigate("/login", { state: { from: location }, replace: true });
 			}
 		};
 

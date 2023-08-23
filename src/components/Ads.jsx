@@ -10,8 +10,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const AdWrapper = styled.div`
-	position: relative;
+	margin-top: 120px;
 	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 `;
 
 const VoteContainer = styled.div`
