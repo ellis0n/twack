@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback, useRef, memo } from "react";
 import Lightbox from "./Lightbox";
 import styled from "styled-components";
 
@@ -15,6 +15,15 @@ const AdWrapper = styled.div`
 	height: auto;
 	padding: 4px;
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
+	margin: 10px;
+
+	/* ::before {
+		position: absolute;
+		content: "";
+		width: 100%;
+		height: 100%;
+		box-shadow: inset 10px 0 0 20px 588061f2;
+	} */
 
 	a {
 		text-decoration: none;
@@ -23,43 +32,41 @@ const AdWrapper = styled.div`
 `;
 
 const ImgWrapper = styled.div`
-	background-color: #ffffff22;
-	height: 0;
-	overflow: hidden;
-	padding-bottom: 100%;
 	position: relative;
+	/* padding-bottom: 100%; */
+	width: auto;
+	/* height: 100%; */
+	overflow: hidden;
+	background: #f7e5e263;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	aspect-ratio: 1/1;
 	display: flex;
-	flex-direction: column-reverse;
+	justify-content: center;
+	background-color: #f7e5e2;
 
 	img {
-		overflow-clip-margin: content-box;
-		max-width: 100%;
-		position: absolute;
 		top: 0;
 		left: 0;
+		height: auto;
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		overflow-clip-margin: content-box;
+		overflow: clip;
 	}
 `;
 
 const TitleWrapper = styled.div`
 	display: flex;
-	align-items: center;
 	justify-content: center;
+	//lower opacity on hover prop
 	background-color: #588061f2;
-
-	h1 {
-		margin: 0;
-	}
+	height: auto;
+	box-shadow: inset 0px -4px 23px -1px rgba(0, 0, 0, 0.192);
 
 	a {
-		font-size: 0.9rem;
 		color: #f7e5e2;
-		border-radius: 12px 12px 0 0;
-		font-family: "Fredoka One";
-		margin: 0;
-		line-height: 1rem;
+		font-family: "Inter";
 		overflow: hidden;
 		text-overflow: ellipsis;
 
@@ -69,35 +76,22 @@ const TitleWrapper = styled.div`
 	}
 `;
 
-const InfoWrapper = styled.div`
+const PriceWrapper = styled.div`
 	display: flex;
-	position: relative;
-	opacity: 95%;
-	flex-direction: column;
-	width: 33%;
-	border-radius: 12px 12px 0px 0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	justify-content: center;
+	width: 120px;
 	font-family: "Fredoka One";
-	margin-right: 0.5em;
+	background-color: #588061;
+	opacity: ${({ isHovering }) => (isHovering ? "0.1" : "1")};
+	position: absolute;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
+	border-radius: 0 0 6px 0;
 
-	.info {
-		color: #282c34;
-		font-family: "Fredoka One";
-		font-size: 0.8rem;
-		margin: 0;
-		text-align: left;
-		background-color: #f7e5e2;
-	}
-
-	.price {
-		background-color: #588061f4;
+	p {
 		color: #f7e5e2;
-		border-radius: 12px 12px 0px 0px;
-
-		h2 {
-			margin: 0;
-			font-size: 3rem;
-			text-align: center;
-		}
 	}
 `;
 
@@ -105,51 +99,74 @@ const DescriptionWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	opacity: 90%;
 	width: 100%;
 	background-color: #f7e5e2;
 	overflow: hidden;
+	min-height: 120px;
+	margin-block: 3px;
+
 	p {
-		font-size: 0.9rem;
-		color: #282c34;
-		font-family: "Fredoka One";
-		margin: 0;
+		font-family: "Inter";
+		font-size: 0.6;
+		font-weight: 500;
+		margin: 0 2px;
 		overflow: hidden;
-		text-overflow: ellipsis;
+		text-align: left;
+		margin: 0 12px;
 	}
 `;
 
 const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
-	const highRes = (str) => {
-		return str.replace(/200-jpg/g, "1200-jpg");
+	const [isHovering, setIsHovering] = useState(false);
+	const [imageArray, setImageArray] = useState([src, ...images]);
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [selectedImage, setSelectedImage] = useState(imageArray[0]);
+
+	useEffect(() => {
+		let intervalId;
+
+		if (isHovering) {
+			intervalId = setInterval(() => {
+				setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+			}, 600);
+		} else {
+			setCurrentIndex(0);
+		}
+		return () => clearInterval(intervalId);
+	}, [isHovering, images.length]);
+
+	useEffect(() => {
+		setSelectedImage(images[currentIndex]);
+	}, [currentIndex, images]);
+
+	const parseTitle = (title) => {
+		if (title.length > 25) {
+			return title.slice(0, 25) + "...";
+		} else {
+			return title;
+		}
 	};
 
 	return (
 		<>
-			<AdWrapper>
+			<AdWrapper
+				onMouseEnter={() => setIsHovering(true)}
+				onMouseLeave={() => setIsHovering(false)}
+			>
 				<ImgWrapper>
-					<img src={src} alt={alt}></img>
-					<InfoWrapper>
-						<div className="price">
-							<h2>${price}</h2>
-						</div>
-					</InfoWrapper>
+					<img src={selectedImage} alt={alt} />
+					<PriceWrapper>
+						<p>${price}</p>
+					</PriceWrapper>
 				</ImgWrapper>
-				{/* <Lightbox images={images} alt={alt} /> */}
-				<TitleWrapper>
+				<TitleWrapper isHovering={isHovering}>
 					<a href={url} className="title">
-						{title}
+						{parseTitle(title)}
 					</a>
 				</TitleWrapper>
 				{desc.length > 100 ? (
 					<DescriptionWrapper>
-						<p>
-							{desc.slice(0, desc.length - 3)}...
-							<a href={url} className="link">
-								{" "}
-								(see on Kijiji)
-							</a>
-						</p>
+						<p>{desc}</p>
 					</DescriptionWrapper>
 				) : (
 					<DescriptionWrapper>

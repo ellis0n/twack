@@ -19,14 +19,20 @@ const AdWrapper = styled.div`
 
 const VoteContainer = styled.div`
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	justify-content: space-evenly;
+	margin: 0.5rem 0rem;
 
 	button:first-child {
 		color: #588061;
+		height: 75%;
+		background-color: #588061;
 	}
 
 	button:nth-child(2) {
 		color: #300030;
+		height: 25%;
+		background-color: #5c020247;
 	}
 `;
 
@@ -78,36 +84,6 @@ const Ads = ({ listInfo, onRefresh }) => {
 
 	//todo: This needs cleanup:
 
-	const sendVote = async (v) => {
-		const { vote, ad, listId } = v;
-		try {
-			const response = await axiosPrivate.post(
-				"/vote",
-				JSON.stringify({ vote, ad, listId }),
-				{
-					headers: { "Content-Type": "application/json" },
-					withCredentials: true,
-				}
-			);
-			setVotes([...votes, vote]);
-
-			// Remove ad from state after voting
-			setAds(ads.filter((a) => a.id !== ad.id));
-
-			// If only one ad left, set state to empty
-			if (ads.length === 1) {
-				setVotes([]);
-				setRunning(false);
-			}
-
-			// Refresh list after voting
-			onRefresh();
-		} catch (err) {
-			console.error(err);
-			navigate("/login", { state: { from: stateLocation }, replace: true });
-		}
-	};
-
 	return (
 		<>
 			<AdWrapper>
@@ -122,8 +98,9 @@ const Ads = ({ listInfo, onRefresh }) => {
 					) : (
 						// IF ADS ARRAY STATE NOT EMPTY
 						ads.map((ad, index) => (
-							<div key={index}>
+							<>
 								<Ad
+									key={index}
 									id={ad.id}
 									url={ad.url}
 									title={ad.title}
@@ -135,27 +112,7 @@ const Ads = ({ listInfo, onRefresh }) => {
 									date={ad.date}
 									location={ad.location}
 								/>
-								<VoteContainer>
-									<VoteButton
-										data={{
-											listId: listInfo._id,
-											ad: ad,
-											vote: true,
-										}}
-										label="Deal"
-										handleClick={sendVote}
-									/>
-									<VoteButton
-										data={{
-											listId: listInfo._id,
-											ad: ad,
-											vote: false,
-										}}
-										label="No Deal"
-										handleClick={sendVote}
-									/>
-								</VoteContainer>
-							</div>
+							</>
 						))
 					)
 				) : (
