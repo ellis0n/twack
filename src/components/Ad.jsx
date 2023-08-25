@@ -30,13 +30,10 @@ const AdWrapper = styled.div`
 
 const ImgWrapper = styled.div`
 	position: relative;
-	/* padding-bottom: 100%; */
 	width: auto;
-	/* height: 100%; */
 	overflow: hidden;
-	background: #f7e5e263;
-	overflow-y: hidden;
-	overflow-x: hidden;
+	background: #14141434;
+
 	aspect-ratio: 1/1;
 	display: flex;
 	justify-content: center;
@@ -56,7 +53,6 @@ const ImgWrapper = styled.div`
 const TitleWrapper = styled.div`
 	display: flex;
 	justify-content: center;
-	//lower opacity on hover prop
 	background-color: #588061f2;
 	height: auto;
 	box-shadow: inset 0px -4px 23px -1px rgba(0, 0, 0, 0.192);
@@ -163,11 +159,6 @@ const Ad = ({ ad, listId, handleClick }) => {
 	const [imageArray, setImageArray] = useState([src, ...images]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [selectedImage, setSelectedImage] = useState(imageArray[0]);
-
-	const navigate = useNavigate();
-	const axiosPrivate = useAxiosPrivate();
-	const stateLocation = useLocation();
-
 	useEffect(() => {
 		let intervalId;
 
@@ -194,51 +185,49 @@ const Ad = ({ ad, listId, handleClick }) => {
 	};
 
 	return (
-		<>
-			<AdWrapper
-				onMouseEnter={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
-			>
-				<ImgWrapper>
-					<VoteContainer>
-						<VoteButton
-							icon={faAdd}
-							size={"1xs"}
-							handleClick={() => {
-								handleClick({
-									vote: true,
-									ad,
-									listId,
-								});
-							}}
-						/>
-						<VoteButton
-							icon={faMinus}
-							size={"2xs"}
-							handleClick={() => {
-								handleClick({
-									listId,
-									ad,
-									vote: false,
-								});
-							}}
-						/>
-					</VoteContainer>
-					<img src={selectedImage} alt={alt} />
-					<PriceWrapper>
-						<p>${price}</p>
-					</PriceWrapper>
-				</ImgWrapper>
-				<TitleWrapper isHovering={isHovering}>
-					<a href={url} className="title">
-						{parseTitle(title)}
-					</a>
-				</TitleWrapper>
-				<DescriptionWrapper>
-					<p>{desc}</p>
-				</DescriptionWrapper>
-			</AdWrapper>
-		</>
+		<AdWrapper
+			onMouseEnter={() => setIsHovering(true)}
+			onMouseLeave={() => setIsHovering(false)}
+		>
+			<ImgWrapper>
+				<VoteContainer>
+					<VoteButton
+						icon={faAdd}
+						size={"1xs"}
+						handleClick={() => {
+							handleClick({
+								vote: true,
+								ad,
+								listId,
+							});
+						}}
+					/>
+					<VoteButton
+						icon={faMinus}
+						size={"2xs"}
+						handleClick={() => {
+							handleClick({
+								listId,
+								ad,
+								vote: false,
+							});
+						}}
+					/>
+				</VoteContainer>
+				<img src={selectedImage} alt={alt} />
+				<PriceWrapper>
+					<p>${price}</p>
+				</PriceWrapper>
+			</ImgWrapper>
+			<TitleWrapper isHovering={isHovering}>
+				<a href={url} className="title">
+					{parseTitle(title)}
+				</a>
+			</TitleWrapper>
+			<DescriptionWrapper>
+				<p>{desc}</p>
+			</DescriptionWrapper>
+		</AdWrapper>
 	);
 };
 

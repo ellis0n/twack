@@ -29,19 +29,12 @@ const StyledBanner = styled.div`
 	display: flex;
 
 	svg {
-		display: inline-block;
+		/* display: inline-block; */
 		background-color: #f7e5e2;
 		cursor: pointer;
-		margin: 0 12px;
-		font-size: 1em;
 		color: #588061;
-		padding: 6px 6px;
-		border-radius: 48%;
-		border: 1.5px solid #588061;
 
 		:hover {
-			background-color: #588061dd;
-			color: #f7e5e2;
 			transition: all 0.2s ease-in-out;
 		}
 	}
@@ -50,21 +43,18 @@ const StyledBanner = styled.div`
 		font-size: calc(1.8rem + 1vw);
 		margin: 0;
 		animation: slideIn 0.8s ease-out forwards;
+		color: #588061;
 	}
 
 	button {
 		display: inline-block;
 		position: relative;
-		border: 2px solid #588061;
 		margin-left: auto;
-		margin-right: 20px;
+		margin-right: 40px;
 		background-color: #f7e5e2;
 		color: #588061;
-		padding: 10px 20px;
-		border-radius: 24px;
 
 		:hover {
-			background-color: #588061c3;
 			color: #f7e5e2;
 			transition: 0.3s;
 		}
@@ -86,6 +76,9 @@ const Banner = ({ isSticky }) => {
 		navigate("/login");
 	};
 
+	const toggleMenu = () => {
+		setIsMenuOpen(!isMenuOpen);
+	};
 	const toggleClose = () => {
 		setIsMenuOpen(false);
 	};
@@ -94,23 +87,17 @@ const Banner = ({ isSticky }) => {
 		<>
 			<StyledBanner isOpen={isMenuOpen} isSticky={isSticky}>
 				<BannerWrapper>
-					<FontAwesomeIcon
-						icon={faBars}
-						onClick={(e) => {
-							e.preventDefault();
-							setIsMenuOpen(!isMenuOpen);
-						}}
-					/>
 					<Link to="/">
 						<h1>twack</h1>
 					</Link>
-					<Button
+					<Button icon={faBars} size={"2xl"} handleClick={toggleMenu} />
+					{/* <Button
 						label="Logout"
 						handleClick={() => {
 							signOut();
 						}}
 						wa
-					/>
+					/> */}
 				</BannerWrapper>
 			</StyledBanner>
 
