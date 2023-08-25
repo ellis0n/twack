@@ -8,7 +8,7 @@ const useAxiosPrivate = () => {
 	const { auth } = useAuth();
 
 	useEffect(() => {
-		const requestIntercept = axiosPrivate.interceptors.request.use(
+		const requestintercept = axiosPrivate.interceptors.request.use(
 			(config) => {
 				if (!config.headers["Authorization"]) {
 					config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
@@ -18,7 +18,7 @@ const useAxiosPrivate = () => {
 			(error) => Promise.reject(error)
 		);
 
-		const responseIntercept = axiosPrivate.interceptors.response.use(
+		const responseintercept = axiosPrivate.interceptors.response.use(
 			(response) => response,
 			async (error) => {
 				const prevRequest = error?.config;
@@ -33,8 +33,8 @@ const useAxiosPrivate = () => {
 		);
 
 		return () => {
-			axiosPrivate.interceptors.request.eject(requestIntercept);
-			axiosPrivate.interceptors.response.eject(responseIntercept);
+			axiosPrivate.interceptors.request.eject(requestintercept);
+			axiosPrivate.interceptors.response.eject(responseintercept);
 		};
 	}, [auth, refresh]);
 

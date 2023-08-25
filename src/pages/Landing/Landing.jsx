@@ -11,7 +11,7 @@ const LandingWrapper = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
-	font-family: "Fredoka One", cursive;
+	font-family: "Fredoka", cursive;
 	color: white;
 	padding-top: 10rem;
 	background: none;
@@ -38,7 +38,7 @@ const OptionWrapper = styled.div`
 		border: 2px solid #e7b5acae;
 		color: rgba(0, 0, 0, 0.656);
 		border-radius: 4px;
-		font-family: "Fredoka One", cursive;
+		font-family: "Fredoka", cursive;
 		cursor: pointer;
 		text-decoration: none;
 		padding: 0.5rem 0rem;

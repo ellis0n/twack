@@ -2,38 +2,18 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Ad from "./Ad";
 import Footer from "./Footer.jsx";
-import VoteButton from "./Button";
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import styled from "styled-components";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import styled from "styled-components";
-
 const AdWrapper = styled.div`
+	position: relative;
 	margin-top: 120px;
 	margin: auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
-`;
-
-const VoteContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	margin: 0.5rem 0rem;
-
-	button:first-child {
-		color: #588061;
-		height: 75%;
-		background-color: #588061;
-	}
-
-	button:nth-child(2) {
-		color: #300030;
-		height: 25%;
-		background-color: #5c020247;
-	}
 `;
 
 const Ads = ({ listInfo, onRefresh }) => {
@@ -84,6 +64,44 @@ const Ads = ({ listInfo, onRefresh }) => {
 
 	//todo: This needs cleanup:
 
+	const sendVote = async (v) => {
+		const { vote, ad, listId } = v;
+		try {
+			const response = await axiosPrivate.post(
+				"/vote",
+				JSON.stringify({ vote, ad, listId }),
+				{
+					headers: { "Content-Type": "application/json" },
+					withCredentials: true,
+				}
+			);
+			setVotes([...votes, vote]);
+
+			// Remove ad from state after voting
+			setAds(ads.filter((a) => a.id !== ad.id));
+
+			// If only one ad left, set state to empty
+			if (ads.length === 1) {
+				setVotes([]);
+				setRunning(false);
+			}
+
+			// Refresh list after voting
+			onRefresh();
+		} catch (err) {
+			console.error(err);
+			navigate("/login", { state: { from: stateLocation }, replace: true });
+		}
+	};
+
+	const handleClick = (ad) => {
+		setAds(ads.filter((ads) => ad.id !== ads.id));
+		if (ads.length === 1) {
+			setRunning(false);
+		}
+		onRefresh();
+	};
+
 	return (
 		<>
 			<AdWrapper>
@@ -98,21 +116,12 @@ const Ads = ({ listInfo, onRefresh }) => {
 					) : (
 						// IF ADS ARRAY STATE NOT EMPTY
 						ads.map((ad, index) => (
-							<>
-								<Ad
-									key={index}
-									id={ad.id}
-									url={ad.url}
-									title={ad.title}
-									alt={ad.desc}
-									src={ad.img}
-									price={ad.price}
-									desc={ad.desc}
-									images={ad.images}
-									date={ad.date}
-									location={ad.location}
-								/>
-							</>
+							<Ad
+								key={index}
+								ad={ad}
+								listId={listInfo._id}
+								handleClick={sendVote}
+							/>
 						))
 					)
 				) : (

@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef, memo } from "react";
 import Lightbox from "./Lightbox";
 import styled from "styled-components";
+import VoteButton from "./Button";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { faMinus, faAdd } from "@fortawesome/free-solid-svg-icons";
 
 const AdWrapper = styled.div`
 	display: flex;
@@ -16,14 +21,6 @@ const AdWrapper = styled.div`
 	padding: 4px;
 	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
 	margin: 10px;
-
-	/* ::before {
-		position: absolute;
-		content: "";
-		width: 100%;
-		height: 100%;
-		box-shadow: inset 10px 0 0 20px 588061f2;
-	} */
 
 	a {
 		text-decoration: none;
@@ -66,7 +63,8 @@ const TitleWrapper = styled.div`
 
 	a {
 		color: #f7e5e2;
-		font-family: "Inter";
+		font-family: "Fredoka";
+		font-width: 300;
 		overflow: hidden;
 		text-overflow: ellipsis;
 
@@ -83,7 +81,7 @@ const PriceWrapper = styled.div`
 	left: 0;
 	justify-content: center;
 	width: 120px;
-	font-family: "Fredoka One";
+	font-family: "Fredoka";
 	background-color: #588061;
 	opacity: ${({ isHovering }) => (isHovering ? "0.1" : "1")};
 	position: absolute;
@@ -99,14 +97,14 @@ const DescriptionWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
+	min-width: 280px;
 	background-color: #f7e5e2;
 	overflow: hidden;
 	min-height: 120px;
 	margin-block: 3px;
 
 	p {
-		font-family: "Inter";
+		font-family: "Fre";
 		font-size: 0.6;
 		font-weight: 500;
 		margin: 0 2px;
@@ -116,11 +114,59 @@ const DescriptionWrapper = styled.div`
 	}
 `;
 
-const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
+const VoteContainer = styled.div`
+	align-content: center;
+	position: absolute;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	top: 4px;
+	width: 25%;
+	right: 0px;
+	z-index: 0;
+	margin-right: 4px;
+
+	svg {
+		padding-left: 0;
+	}
+	button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 100px;
+		border-radius: 50%;
+		color: #f7e5e2;
+		opacity: 0.4;
+
+		&:hover {
+			opacity: 1;
+			box-shadow: 0 0 px 0 rgba(0, 0, 0, 0.4);
+		}
+
+		&:first-child {
+			height: 36px;
+			width: 36px;
+			background-color: #588061;
+		}
+
+		&:nth-child(2) {
+			height: 24px;
+			width: 24px;
+			background-color: #4b4141da;
+		}
+	}
+`;
+
+const Ad = ({ ad, listId, handleClick }) => {
+	const { src, id, url, title, alt, price, desc, images, date, location } = ad;
 	const [isHovering, setIsHovering] = useState(false);
 	const [imageArray, setImageArray] = useState([src, ...images]);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [selectedImage, setSelectedImage] = useState(imageArray[0]);
+
+	const navigate = useNavigate();
+	const axiosPrivate = useAxiosPrivate();
+	const stateLocation = useLocation();
 
 	useEffect(() => {
 		let intervalId;
@@ -154,6 +200,30 @@ const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
 				onMouseLeave={() => setIsHovering(false)}
 			>
 				<ImgWrapper>
+					<VoteContainer>
+						<VoteButton
+							icon={faAdd}
+							size={"1xs"}
+							handleClick={() => {
+								handleClick({
+									vote: true,
+									ad,
+									listId,
+								});
+							}}
+						/>
+						<VoteButton
+							icon={faMinus}
+							size={"2xs"}
+							handleClick={() => {
+								handleClick({
+									listId,
+									ad,
+									vote: false,
+								});
+							}}
+						/>
+					</VoteContainer>
 					<img src={selectedImage} alt={alt} />
 					<PriceWrapper>
 						<p>${price}</p>
@@ -164,15 +234,9 @@ const Ad = ({ url, title, alt, src, price, desc, images, date, location }) => {
 						{parseTitle(title)}
 					</a>
 				</TitleWrapper>
-				{desc.length > 100 ? (
-					<DescriptionWrapper>
-						<p>{desc}</p>
-					</DescriptionWrapper>
-				) : (
-					<DescriptionWrapper>
-						<p>{desc}</p>
-					</DescriptionWrapper>
-				)}
+				<DescriptionWrapper>
+					<p>{desc}</p>
+				</DescriptionWrapper>
 			</AdWrapper>
 		</>
 	);

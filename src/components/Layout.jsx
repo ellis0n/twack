@@ -5,7 +5,7 @@ import Banner from "./Banner";
 
 const AppWrapper = styled.div`
 	text-align: center;
-	font-family: "Fredoka One", cursive;
+	font-family: "Fredoka", cursive;
 	background-color: #e7b5ac;
 `;
 
