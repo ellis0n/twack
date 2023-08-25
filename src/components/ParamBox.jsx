@@ -14,7 +14,7 @@ const StyledParamBox = styled.div`
 	background-color: rgba(255, 255, 255, 0.204);
 	border-radius: 12px;
 	padding: 20px;
-	font-family: "Fredoka One";
+	font-family: "Fredoka";
 `;
 
 const ParamBox = ({ handleClick }) => {

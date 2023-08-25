@@ -16,7 +16,7 @@ const LoginWrapper = styled.div`
 	justify-content: center;
 
 	h1 {
-		font-family: "Fredoka One", cursive;
+		font-family: "Fredoka", cursive;
 		font-size: calc(6rem + 2vw);
 		color: #588061;
 		margin: 0;

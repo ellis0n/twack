@@ -237,16 +237,11 @@ const ListDetail = () => {
 											Click to close
 										</div>
 										<Ad
-											id={currentAd.id}
-											url={currentAd.url}
-											title={currentAd.title}
-											alt={currentAd.desc}
-											src={currentAd.img}
-											price={currentAd.price}
-											desc={currentAd.desc}
-											images={currentAd.images}
-											date={currentAd.date}
-											location={currentAd.location}
+											ad={currentAd}
+											listId={id}
+											handleClick={() => {
+												return null;
+											}}
 										/>
 									</>
 								)

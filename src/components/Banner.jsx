@@ -23,7 +23,7 @@ const StyledBanner = styled.div`
 	position: fixed;
 	top: 0;
 	color: #588061;
-	font-family: "Fredoka One", cursive;
+	font-family: "Fredoka", cursive;
 	align-items: center;
 	z-index: 1000;
 	display: flex;
