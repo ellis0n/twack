@@ -3,8 +3,6 @@ import styled from "styled-components";
 
 // Styled Components
 const AboutWrapper = styled.div`
-	margin-top: 120px;
-
 	h1 {
 		color: #588061f6;
 	}

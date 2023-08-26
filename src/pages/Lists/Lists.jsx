@@ -17,9 +17,7 @@ import jwtDecode from "jwt-decode";
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	margin: 2% 6%;
-	margin-top: 60px;
+	/* align-items: center; */
 	h1 {
 		/* margin: 1rem 0rem; */
 		color: #588061;
@@ -31,15 +29,14 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
 	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
+	/* flex-direction: row; */
+	/* justify-content: space-evenly; */
 	align-items: center;
-	width: 75%;
-	padding: 1rem 0rem;
-	margin: 1rem 1rem;
+	/* padding: 1rem 0rem; */
+	/* margin: 1rem 1rem; */
 	background-color: #58806124;
-	border-radius: 5px;
-	border: 2px solid #588061;
+	/* border-radius: 5px; */
+	/* border: 2px solid #588061; */
 
 	button {
 		background-color: #f7e5e2;
@@ -61,25 +58,6 @@ const Header = styled.div`
 		font-size: 3rem;
 		font-weight: 200;
 		color: #f7e5e2;
-	}
-
-	@media (max-width: 768px) {
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		padding: 0.5rem 0rem;
-		margin: 1rem 0rem 1rem 0rem;
-
-		button {
-			width: 75%;
-			height: 2rem;
-			font-size: 1rem;
-		}
-
-		h1 {
-			font-size: 2rem;
-		}
 	}
 `;
 
@@ -115,8 +93,8 @@ const ListsWrapper = styled.div`
 	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 	align-items: center;
 	justify-items: center;
-	max-width: 1200px;
-	width: 100%;
+	/* max-width: 1200px; */
+	/* width: 100%; */
 	height: 100%;
 `;
 
@@ -244,46 +222,45 @@ const Lists = () => {
 
 	return (
 		<>
-			<Wrapper>
-				<Header>
-					<h1>{user}'s Lists</h1>
-				</Header>
-
-				{showCreateList ? (
-					<OverLayNewList isOpen={showCreateList}>
-						<NewList
-							onClick={() => {
-								setShowCreateList(!showCreateList);
-							}}
-							onSubmit={submitNewList}
-						/>
-					</OverLayNewList>
+			{/* <Wrapper> */}
+			<Header>
+				<h1>{user}'s Lists</h1>
+			</Header>
+			{showCreateList ? (
+				<OverLayNewList isOpen={showCreateList}>
+					<NewList
+						onClick={() => {
+							setShowCreateList(!showCreateList);
+						}}
+						onSubmit={submitNewList}
+					/>
+				</OverLayNewList>
+			) : null}
+			<ListsWrapper>
+				{lists.map((list, i) => (
+					<ListCard
+						key={i}
+						currentUser={currentUser}
+						list={list}
+						createCard={false}
+						deleteList={deleteList}
+						updateList={updateList}
+						followList={followList}
+						ownedCard={currentUser === user ? true : false}
+					/>
+				))}
+				{currentUser === user ? (
+					<ListCard
+						currentUser={currentUser}
+						list={sampleList}
+						createCard={true}
+						deleteList={() => null}
+						updateList={() => null}
+						handleNewList={() => setShowCreateList(!showCreateList)}
+					/>
 				) : null}
-				<ListsWrapper>
-					{lists.map((list, i) => (
-						<ListCard
-							key={i}
-							currentUser={currentUser}
-							list={list}
-							createCard={false}
-							deleteList={deleteList}
-							updateList={updateList}
-							followList={followList}
-							ownedCard={currentUser === user ? true : false}
-						/>
-					))}
-					{currentUser === user ? (
-						<ListCard
-							currentUser={currentUser}
-							list={sampleList}
-							createCard={true}
-							deleteList={() => null}
-							updateList={() => null}
-							handleNewList={() => setShowCreateList(!showCreateList)}
-						/>
-					) : null}
-				</ListsWrapper>
-			</Wrapper>
+			</ListsWrapper>
+			{/* </Wrapper> */}
 		</>
 	);
 };

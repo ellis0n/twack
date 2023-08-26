@@ -8,19 +8,23 @@ const AppWrapper = styled.div`
 	font-family: "Fredoka", cursive;
 	background-color: #e7b5ac;
 	display: grid;
-	grid-template-areas:
-		"banner banner banner banner"
-		"sidebar content content settingbar";
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
 
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
 	transition: all 0.1s ease-in-out;
 
-	@media (max-width: 768px) {
-		grid-template-columns: 1fr;
-		grid-template-rows: 0.1fr 1fr 0.1fr;
-	}
+	/* @media (max-width: 768px) {
+		grid-template-areas:
+			"banner"
+			"content"
+			"settingbar";
+	} */
 
 	* {
 		box-sizing: border-box;
@@ -81,52 +85,59 @@ const AppWrapper = styled.div`
 `;
 
 const Sidebar = styled.div`
-	grid-area: sidebar;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	align-items: center;
-	height: 100vh;
-	background: #588061;
-	transition: all 0.1s ease-in-out;
-	z-index: 1;
+	grid-area: 2 / 1 / 6 / 2;
+
+	/* display: flex; */
+	/* flex-direction: column; */
+	/* justify-content: flex-start; */
+	/* align-items: center; */
+	/* height: 100vh; */
+	/* background: #e7b5ac; */
+	/* transition: all 0.1s ease-in-out; */
+	/* z-index: 1; */
+	/* box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.75); */
 
 	@media (max-width: 768px) {
-		/* display: none; */
-		/* grid-area: unset; */
+		display: none;
 	}
 `;
 
 const BannerWrapper = styled.div`
-	position: fixed;
-	grid-area: banner;
-	z-index: 2;
+	/* position: fixed; */
+	/* z-index: 2; */
+	grid-area: 1 / 1 / 2 / 6;
 `;
 
 const ContentWrapper = styled.div`
-	grid-area: content;
-	/* display: flex; */
-	/* flex-direction: column; */
-	/* justify-content: flex; */
-	/* align-items: center; */
-	height: 100vh;
-	/* width: 100%; */
+	grid-area: 2 / 2 / 3 / 4;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex;
+	height: calc(100vh - 3rem);
+	width: 100%;
 	transition: all 0.1s ease-in-out;
 	z-index: 0;
-	margin-top: 3rem;
+
+	/* align-items: center; */
 `;
 
 const SettingBar = styled.div`
-	grid-area: settingbar;
+	grid-area: 2 / 4 / 3 / 5;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	height: 100vh;
-	background: #588061;
+	height: calc() (100vh - 3rem);
 	transition: all 0.1s ease-in-out;
 	z-index: 0;
-	height: calc() (100vh - 3rem);
+	width: 100%;
+	background-color: red !important;
+
+	@media (max-width: 768px) {
+		display: none;
+		position: fixed;
+		z-index: 2;
+	}
 `;
 
 const Layout = () => {
@@ -135,7 +146,7 @@ const Layout = () => {
 			<BannerWrapper>
 				<Banner />
 			</BannerWrapper>
-			<Sidebar />
+			<ListDetail />
 			<ContentWrapper>
 				<Outlet />
 			</ContentWrapper>
