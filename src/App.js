@@ -13,6 +13,7 @@ import Lists from "./pages/Lists/Lists";
 import About from "./pages/About/About";
 import ListDetail from "./pages/Lists/ListDetail";
 import Landing from "./pages/Landing/Landing";
+import PublicLayout from "./components/Layouts/PublicLayout";
 import styled from "styled-components";
 
 const ErrorWrapper = styled.div`
@@ -28,14 +29,16 @@ function App() {
 	return (
 		<Routes>
 			{/* Public Routes */}
-			<Route path="/" element={<Landing />} />
-			<Route path="/register" element={<Register />} />
-			<Route path="/login" element={<Login />} />
+			<Route path="/" element={<PublicLayout />}>
+				<Route path="/" element={<Landing />} />
+				<Route path="/register" element={<Register />} />
+				<Route path="/login" element={<Login />} />
+			</Route>
 
+			{/* Private Routes */}
 			<Route path="/" element={<Layout />}>
 				{/* Persist Login */}
 				<Route element={<PersistLogin />}>
-					{/* Private Routes */}
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<Home />} />
 						<Route path="/home" element={<Home />} />
@@ -47,6 +50,7 @@ function App() {
 						<Route path="/:user/lists/:listId" element={<ListDetail />} />
 					</Route>
 				</Route>
+
 				{/* 404 */}
 				<Route
 					path="/404"

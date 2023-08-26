@@ -104,9 +104,9 @@ const DescriptionWrapper = styled.div`
 	margin-block: 3px;
 
 	p {
-		font-family: "Fre";
+		font-family: "Fredoka";
 		font-size: 0.6;
-		font-weight: 500;
+		font-weight: 400;
 		margin: 0 2px;
 		overflow: hidden;
 		text-align: left;
@@ -140,7 +140,8 @@ const VoteContainer = styled.div`
 
 		&:hover {
 			opacity: 1;
-			box-shadow: 0 0 px 0 rgba(0, 0, 0, 0.4);
+			box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+			transition: transform 300ms, opacity 800ms;
 		}
 
 		&:first-child {
