@@ -16,12 +16,20 @@ const LoginWrapper = styled.div`
 	justify-content: center;
 
 	h1 {
-		font-family: "Fredoka", cursive;
 		font-size: calc(6rem + 2vw);
 		color: #588061;
 		margin: 0;
 		padding: 0;
+		font-weight: 800;
 	}
+
+	input {
+		font-family: "Fredoka", cursive;
+	}
+`;
+
+const LoginButton = styled.button`
+	width: 8rem;
 `;
 
 const Login = () => {

@@ -7,8 +7,28 @@ body {
 	background-color: #e7b5ac;
 	font-weight: 800;
 }
+button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
 
-.App-header {
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+fieldset {
+	border: 0;
+}
+
+/* .App-header {
 	background-color: #282c34;
 	min-height: 100vh;
 	display: flex;
@@ -79,16 +99,6 @@ body {
 	padding: 1em;
 }
 
-button {
-	background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
-
 .true {
 	width: 100%;
 	height: auto;
@@ -146,7 +156,7 @@ fieldset {
 	background: #588061;
 	transition: transform 900ms, background 1550ms;
 } */
-
+/* 
 .login-form {
 	margin: 5%;
 	display: flex;
@@ -231,4 +241,4 @@ ul {
 
 .users-list li {
 	margin: 0.4em;
-}
+} */

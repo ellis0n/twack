@@ -16,14 +16,14 @@ const AdWrapper = styled.div`
 	justify-content: center;
 `;
 
-const Ads = ({ listInfo, onRefresh }) => {
+const Ads = ({ listInfo, onRefresh, optimisticUpdate }) => {
 	const navigate = useNavigate();
 	const axiosPrivate = useAxiosPrivate();
 	const stateLocation = useLocation();
 	const { auth } = useAuth();
 
 	const [ads, setAds] = useState([]);
-	const [votes, setVotes] = useState([]);
+	const [disabled, setDisabled] = useState(false);
 
 	const [running, setRunning] = useState(false);
 
@@ -37,7 +37,6 @@ const Ads = ({ listInfo, onRefresh }) => {
 				category: listInfo.category,
 				listId: listInfo._id,
 			};
-			console.log(params);
 			try {
 				const response = await axiosPrivate.post(
 					"/scrape",
@@ -62,11 +61,12 @@ const Ads = ({ listInfo, onRefresh }) => {
 		};
 	}, []);
 
-	//todo: This needs cleanup:
-
-	const sendVote = async (v) => {
+	const handleClick = async (v) => {
 		const { vote, ad, listId } = v;
+
 		try {
+			setDisabled(true);
+
 			const response = await axiosPrivate.post(
 				"/vote",
 				JSON.stringify({ vote, ad, listId }),
@@ -75,31 +75,24 @@ const Ads = ({ listInfo, onRefresh }) => {
 					withCredentials: true,
 				}
 			);
-			setVotes([...votes, vote]);
 
 			// Remove ad from state after voting
 			setAds(ads.filter((a) => a.id !== ad.id));
+			optimisticUpdate(ad, vote);
+			// onRefresh();
 
 			// If only one ad left, set state to empty
 			if (ads.length === 1) {
-				setVotes([]);
 				setRunning(false);
+				onRefresh();
+				// On refresh might not be necessary
 			}
-
-			// Refresh list after voting
-			onRefresh();
 		} catch (err) {
 			console.error(err);
 			navigate("/login", { state: { from: stateLocation }, replace: true });
+		} finally {
+			setDisabled(false);
 		}
-	};
-
-	const handleClick = (ad) => {
-		setAds(ads.filter((ads) => ad.id !== ads.id));
-		if (ads.length === 1) {
-			setRunning(false);
-		}
-		onRefresh();
 	};
 
 	return (
@@ -120,7 +113,8 @@ const Ads = ({ listInfo, onRefresh }) => {
 								key={index}
 								ad={ad}
 								listId={listInfo._id}
-								handleClick={sendVote}
+								handleClick={handleClick}
+								disabled={disabled}
 							/>
 						))
 					)
