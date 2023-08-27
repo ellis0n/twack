@@ -37,7 +37,6 @@ function App() {
 
 			{/* Private Routes */}
 			<Route path="/" element={<Layout />}>
-				{/* Persist Login */}
 				<Route element={<PersistLogin />}>
 					<Route element={<RequireAuth />}>
 						<Route path="/" element={<Home />} />

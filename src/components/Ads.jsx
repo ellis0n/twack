@@ -16,7 +16,7 @@ const AdWrapper = styled.div`
 	justify-content: center;
 `;
 
-const Ads = ({ listInfo, onRefresh }) => {
+const Ads = ({ listInfo, onRefresh, optimisticUpdate }) => {
 	const navigate = useNavigate();
 	const axiosPrivate = useAxiosPrivate();
 	const stateLocation = useLocation();
@@ -37,7 +37,6 @@ const Ads = ({ listInfo, onRefresh }) => {
 				category: listInfo.category,
 				listId: listInfo._id,
 			};
-			console.log(params);
 			try {
 				const response = await axiosPrivate.post(
 					"/scrape",
@@ -79,12 +78,13 @@ const Ads = ({ listInfo, onRefresh }) => {
 
 			// Remove ad from state after voting
 			setAds(ads.filter((a) => a.id !== ad.id));
-			onRefresh();
+			optimisticUpdate(ad, vote);
+			// onRefresh();
 
 			// If only one ad left, set state to empty
 			if (ads.length === 1) {
-				onRefresh();
 				setRunning(false);
+				onRefresh();
 				// On refresh might not be necessary
 			}
 		} catch (err) {

@@ -11,7 +11,9 @@ import Ads from "../../components/Ads";
 import Ad from "../../components/Ad";
 
 const Wrapper = styled.div`
-	margin-top: 60px;
+	position: relative;
+	top: 60px;
+
 	display: flex;
 	flex-direction: row;
 
@@ -27,7 +29,6 @@ const Wrapper = styled.div`
 `;
 
 const AdListWrapper = styled.div`
-	margin-top: 20px;
 	border: 1px solid #588061;
 	border-radius: 0px 5px;
 	display: flex;
@@ -35,9 +36,8 @@ const AdListWrapper = styled.div`
 	align-items: flex-start;
 	background-color: #f7e5e2e4;
 	text-align: left;
-	width: 33%;
-	height: 100%;
-	min-height: 100vh;
+	width: 25%;
+	height: auto;
 
 	h2 {
 		width: 100%;
@@ -46,7 +46,6 @@ const AdListWrapper = styled.div`
 		border-bottom: 1px solid #588061;
 		text-align: right;
 		color: #588061;
-		background-color: #58806124;
 	}
 
 	p {
@@ -91,6 +90,7 @@ const InfoBox = styled.div`
 `;
 
 const Container = styled.div`
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -127,6 +127,13 @@ const AdLine = styled.div`
 	}
 `;
 
+const AdListContent = styled.div`
+	flex: 1;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+`;
+
 const ListDetail = () => {
 	const axiosPrivate = useAxiosPrivate();
 	const user = useParams().user;
@@ -143,13 +150,14 @@ const ListDetail = () => {
 	const [refreshList, setRefreshList] = useState(false);
 	const [viewSavedAd, setViewSavedAd] = useState(false);
 	const [currentAd, setCurrentAd] = useState(null);
+	const [prevScrollPosition, setPrevScrollPosition] = useState(0);
 
 	useEffect(() => {
 		let isMounted = true;
 		const controller = new AbortController();
+		setPrevScrollPosition(window.scrollY);
 
 		const getUserList = async () => {
-			window.scrollTo(0, 0);
 			try {
 				const response = await axiosPrivate.get(`/users/${user}/lists/${id}`, {
 					signal: controller.signal,
@@ -166,6 +174,7 @@ const ListDetail = () => {
 		return () => {
 			isMounted = false;
 			controller.abort();
+			window.scrollTo(0, prevScrollPosition);
 		};
 	}, [refreshList]);
 
@@ -218,22 +227,24 @@ const ListDetail = () => {
 						</InfoBox>
 					)}
 
-					{list.ads &&
-						list.ads.map((ad) => {
-							return (
-								<AdLine
-									key={ad.id}
-									onClick={() => {
-										setShowAd(true);
-										setCurrentAd(ad);
-										setViewSavedAd(true);
-									}}
-								>
-									<p>{ad.title}</p>
-									<p>${ad.price}</p>
-								</AdLine>
-							);
-						})}
+					<AdListContent>
+						{list.ads &&
+							list.ads.map((ad) => {
+								return (
+									<AdLine
+										key={ad.id}
+										onClick={() => {
+											setShowAd(true);
+											setCurrentAd(ad);
+											setViewSavedAd(true);
+										}}
+									>
+										<p>{ad.title}</p>
+										<p>${ad.price}</p>
+									</AdLine>
+								);
+							})}
+					</AdListContent>
 				</AdListWrapper>
 
 				{currentUser === user && (
