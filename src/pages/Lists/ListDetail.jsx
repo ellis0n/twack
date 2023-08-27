@@ -169,6 +169,27 @@ const ListDetail = () => {
 		};
 	}, [refreshList]);
 
+	const optimisticUpdate = (ad, followCheck) => {
+		// Update list in state without making a new request. If followCheck is true, add ad to list. If false, remove ad from list. If null, do nothing.
+		if (followCheck === true) {
+			setList((prevList) => {
+				return {
+					...prevList,
+					ads: [...prevList.ads, ad],
+				};
+			});
+		} else if (followCheck === false) {
+			setList((prevList) => {
+				return {
+					...prevList,
+					ads: prevList.ads.filter((a) => a.id !== ad.id),
+				};
+			});
+		} else {
+			return;
+		}
+	};
+
 	return (
 		<>
 			<Wrapper>
@@ -224,6 +245,7 @@ const ListDetail = () => {
 								<Ads
 									listInfo={list}
 									onRefresh={() => setRefreshList(!refreshList)}
+									optimisticUpdate={optimisticUpdate}
 								/>
 							) : (
 								currentAd && (

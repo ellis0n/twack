@@ -158,7 +158,7 @@ const VoteContainer = styled.div`
 	}
 `;
 
-const Ad = ({ ad, listId, handleClick }) => {
+const Ad = ({ ad, listId, handleClick, disabled }) => {
 	const { src, id, url, title, alt, price, desc, images, date, location } = ad;
 	const [isHovering, setIsHovering] = useState(false);
 	const [imageArray, setImageArray] = useState([src, ...images]);
@@ -204,8 +204,9 @@ const Ad = ({ ad, listId, handleClick }) => {
 					<VoteContainer>
 						<VoteButton
 							icon={faAdd}
-							size={"1xs"}
+							size={"xs"}
 							handleClick={() => {
+								if (disabled) return;
 								handleClick({
 									vote: true,
 									ad,
@@ -217,6 +218,7 @@ const Ad = ({ ad, listId, handleClick }) => {
 							icon={faMinus}
 							size={"2xs"}
 							handleClick={() => {
+								if (disabled) return;
 								handleClick({
 									listId,
 									ad,
