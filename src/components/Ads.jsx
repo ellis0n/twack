@@ -16,7 +16,7 @@ const AdWrapper = styled.div`
 	justify-content: center;
 `;
 
-const Ads = ({ listInfo, onRefresh, optimisticUpdate }) => {
+const Ads = ({ listInfo, onRefresh }) => {
 	const navigate = useNavigate();
 	const axiosPrivate = useAxiosPrivate();
 	const stateLocation = useLocation();
@@ -79,8 +79,7 @@ const Ads = ({ listInfo, onRefresh, optimisticUpdate }) => {
 
 			// Remove ad from state after voting
 			setAds(ads.filter((a) => a.id !== ad.id));
-			// Update list in parent component state
-			optimisticUpdate(ad, vote);
+			onRefresh();
 
 			// If only one ad left, set state to empty
 			if (ads.length === 1) {
