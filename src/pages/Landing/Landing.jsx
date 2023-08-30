@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import LoginForm from "../../components/LoginForm";
+import Button from "../../components/Button";
+import { faBackward } from "@fortawesome/free-solid-svg-icons";
+import Register from "../Register/Register";
 
 const LandingWrapper = styled.div`
-	height: 20vh;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
-	font-family: "Fredoka", cursive;
 	color: white;
-	padding-top: 10rem;
 	background: none;
 
 	h1 {
@@ -53,9 +54,31 @@ const OptionWrapper = styled.div`
 	}
 `;
 
+const BackButton = styled.div`
+	display: flex;
+	position: absolute;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	color: #588061;
+	font-family: "Fredoka";
+	font-size: 2rem;
+
+	button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 1rem;
+	}
+`;
+
 const Landing = () => {
 	const { auth } = useAuth();
 	const navigate = useNavigate();
+
+	const [showLogin, setShowLogin] = useState(false);
+	const [showRegister, setShowRegister] = useState(false);
 
 	useEffect(() => {
 		if (auth.user) {
@@ -67,17 +90,29 @@ const Landing = () => {
 		<>
 			<LandingWrapper>
 				<h1>twack</h1>
-				<p>witty slogan</p>
-				<OptionWrapper>
-					<Link to="/login">
-						<button>Log In</button>
-					</Link>
-
-					<Link to="/register">
-						{" "}
-						<button> Register</button>
-					</Link>
-				</OptionWrapper>
+				{showLogin ? (
+					<>
+						<BackButton>
+							<Button
+								label={"TEST"}
+								icon={faBackward}
+								size={"md"}
+								handleClick={() => {
+									setShowRegister(false);
+									setShowLogin(false);
+								}}
+							></Button>
+						</BackButton>
+						<LoginForm />
+					</>
+				) : showRegister ? (
+					<Register />
+				) : (
+					<OptionWrapper>
+						<button onClick={() => setShowLogin(true)}>Log In</button>
+						<button onClick={() => setShowRegister(true)}>Register</button>
+					</OptionWrapper>
+				)}
 				<Footer />
 			</LandingWrapper>
 		</>
