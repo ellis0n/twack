@@ -7,6 +7,9 @@ import axios from "../../api/axios";
 import Footer from "../../components/Footer";
 import styled from "styled-components";
 
+import LoginForm from "../../components/LoginForm";
+import { API_AUTH } from "../../helper/endpoints";
+
 const LOGIN_URL = "/auth";
 
 const LoginWrapper = styled.div`
@@ -60,7 +63,7 @@ const Login = () => {
 
 		try {
 			const response = await axios.post(
-				LOGIN_URL,
+				API_AUTH,
 				JSON.stringify({ user, pwd }),
 				{
 					headers: { "Content-Type": "application/json" },
@@ -95,52 +98,7 @@ const Login = () => {
 					</div>
 				) : null}
 
-				<div className="login-form">
-					<form>
-						<label htmlFor="username">
-							<div className="input-value">Username:</div>
-							<input
-								type="text"
-								id="username"
-								autoComplete="off"
-								{...userAttribute}
-								className="text-input"
-								required
-							/>
-						</label>
-
-						<label htmlFor="password">
-							<div className="input-value">Password:</div>
-							<input
-								type="password"
-								value={pwd}
-								onChange={(e) => setPwd(e.target.value)}
-								className="text-input"
-								required
-							/>
-						</label>
-
-						<button className="login-btn" onClick={handleClick}>
-							Sign In
-						</button>
-
-						<div className="persist-btn">
-							<input
-								type="checkbox"
-								id="persist"
-								onChange={toggleCheck}
-								checked={check}
-							/>
-							<label htmlFor="persist">Stay logged in.</label>
-						</div>
-						<Link to="/register" style={{ textDecoration: "none" }}>
-							{" "}
-							<div className="landing-btn reg">
-								<p> Register</p>
-							</div>
-						</Link>
-					</form>
-				</div>
+				<LoginForm />
 			</div>
 			<Footer />
 		</LoginWrapper>

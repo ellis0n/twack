@@ -14,6 +14,7 @@ const ButtonWrapper = styled.button`
 `;
 
 const Button = (props) => {
+	console.log(props);
 	const onClick = async (e) => {
 		e.preventDefault();
 
@@ -22,7 +23,12 @@ const Button = (props) => {
 
 	return (
 		<ButtonWrapper type="button" onClick={onClick}>
-			{props.label ? (
+			{props.label && props.icon ? (
+				<>
+					<FontAwesomeIcon icon={props.icon} size={props.size} />
+					<span>{props.label}</span>
+				</>
+			) : props.label ? (
 				props.label
 			) : (
 				<FontAwesomeIcon icon={props.icon} size={props.size} />
